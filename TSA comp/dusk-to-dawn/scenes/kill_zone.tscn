@@ -1,8 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://wplu6hkltxtg"]
+[gd_scene load_steps=3 format=3 uid="uid://wplu6hkltxtg"]
 
 [ext_resource type="Script" uid="uid://kyqs51cregg2" path="res://scenes/kill_zone.gd" id="1_kebdr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kebdr"]
 
 [node name="kill_zone" type="Area2D"]
 script = ExtResource("1_kebdr")
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_kebdr")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,9 +1,10 @@
-[gd_scene load_steps=39 format=3 uid="uid://damyxouc062qa"]
+[gd_scene load_steps=41 format=3 uid="uid://damyxouc062qa"]
 
 [ext_resource type="Texture2D" uid="uid://devpixmps3yet" path="res://sprites/Hana Caraka - Base Character [sample]/idle (1).png" id="2_gd6mk"]
 [ext_resource type="Texture2D" uid="uid://kms33bi03rub" path="res://sprites/Player V3 idol RIGHT.png" id="2_u4ydx"]
 [ext_resource type="Texture2D" uid="uid://c0w7yqr0qgr3s" path="res://sprites/Hana Caraka - Base Character [sample]/jump.png" id="3_gd6mk"]
 [ext_resource type="Texture2D" uid="uid://d3wluu4dndepe" path="res://sprites/Hana Caraka - Base Character [sample]/run.png" id="4_6a63v"]
+[ext_resource type="Texture2D" uid="uid://qehdsf5jp33q" path="res://sprites/Player V3 climb2.png" id="4_gd6mk"]
 [ext_resource type="Texture2D" uid="uid://cyoar287ccqeq" path="res://sprites/Player V3 walk.png" id="5_gd6mk"]
 [ext_resource type="Texture2D" uid="uid://cidr1neb857m4" path="res://sprites/New Piskel (1).png" id="8_6a63v"]
 
@@ -11,8 +12,12 @@
 script/source = "extends CharacterBody2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var camera_2d: Camera2D = $\"../Camera2D\"
-
 @onready var kill_zone: Area2D = $\"../kill_zone\"
+
+
+@onready var ledge_hang: RayCast2D = $\"climbing rays/ledge hang\"
+@onready var climbing_cast_2d: RayCast2D = $\"climbing rays/RayCast2D\"
+
 
 
 
@@ -66,7 +71,7 @@ var respawn_point = 0
 
 func _ready() -> void:
 	respawn_point = self.global_position
-	kill_zone.death.connect(self._on_kill_zone_body_entered)
+	kill_zone.death.connect(self._on_death)
 	checkpoint.respawn.connect(self._on_checkpoint_body_entered)
 	
 	
@@ -78,70 +83,73 @@ func _physics_process(delta: float) -> void:
 	
 	
 		
-	if dead:
-		#animated_sprite_2d.play(\"death\")
-		_on_death(dead)
-	else:
-	#handles what happends if the charecter is running
-		if Input.is_action_pressed(\"run\"):
-			#if current_stamina > min_stamina:
-			current_stamina -= stamina_lose_rate*delta
-			if current_stamina > min_stamina:
-				SPEED = run_speed
-				running = true
-				Jump_velo = RUNNING_JUMP
-			else:
-				SPEED = walk_SPEED
-				running = false
-				Jump_velo = JUMP_VELOCITY
+	
+	
+#handles what happends if the charecter is running
+	if Input.is_action_pressed(\"run\"):
+		#if current_stamina > min_stamina:
+		current_stamina -= stamina_lose_rate*delta
+		if current_stamina > min_stamina:
+			SPEED = run_speed
+			running = true
+			Jump_velo = RUNNING_JUMP
 		else:
-			#if current_stamina <= min_stamina:
 			SPEED = walk_SPEED
 			running = false
 			Jump_velo = JUMP_VELOCITY
+	else:
+		#if current_stamina <= min_stamina:
+		SPEED = walk_SPEED
+		running = false
+		Jump_velo = JUMP_VELOCITY
+	
+		current_stamina += stamina_regen_rate * delta
 		
-			current_stamina += stamina_regen_rate * delta
+	
+	
+	current_stamina = clamp(current_stamina, 0, max_stamina)
+	# Add the gravity.
+	#
+	#handles coyote time
+	if not is_on_floor(): 
+		if jump_availabel:
+			get_tree().create_timer(coyote_time).timeout.connect(coyote_timeout)
 			
 		
-		
-		current_stamina = clamp(current_stamina, 0, max_stamina)
-		# Add the gravity.
-		#
-		#handles coyote time
-		if not is_on_floor(): 
-			if jump_availabel:
-				get_tree().create_timer(coyote_time).timeout.connect(coyote_timeout)
-				
-			
-			velocity += get_gravity() * delta
-		else:
-			jump_availabel = true
-			dash_available = true
-		# Handle jump.
-		if Input.is_action_just_pressed(\"jump\") and jump_availabel and is_on_floor():
+		velocity += get_gravity() * delta
+	else:
+		jump_availabel = true
+		dash_available = true
+	# Handle jump.
+	if Input.is_action_just_pressed(\"jump\") and jump_availabel and is_on_floor():
+		jump()
+	elif Input.is_action_just_pressed(\"jump\"):
+		#handles jump buffering so if the player inputs a jump to early to re_jump they can still jump making it feel better to play
+		jump_buffer = true
+		get_tree().create_timer(jump_buffer_timer).timeout.connect(_on_jump_buufer_of_doom_timeout)
+		if jump_availabel and jump_buffer:
 			jump()
-		elif Input.is_action_just_pressed(\"jump\"):
-			#handles jump buffering so if the player inputs a jump to early to re_jump they can still jump making it feel better to play
-			jump_buffer = true
-			get_tree().create_timer(jump_buffer_timer).timeout.connect(_on_jump_buufer_of_doom_timeout)
-			if jump_availabel and jump_buffer:
-				jump()
-		# Get the input direction and handle the movement/deceleration.
-		# As good practice, you should replace UI actions with custom gameplay actions.
-		var direction := Input.get_axis(\"left\", \"right\")
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var direction := Input.get_axis(\"left\", \"right\")
+	
+	
+	#flips the sprite to face the direction it is moving
+	if direction < 0:
+		animated_sprite_2d.flip_h = true
+	elif direction > 0:
+		animated_sprite_2d.flip_h = false
+	
+	if Input.is_action_just_pressed(\"dash\") and not is_dashing and dash_available:
 		
+		pre_dash()
+	
+	
 		
-		#flips the sprite to face the direction it is moving
-		if direction < 0:
-			animated_sprite_2d.flip_h = true
-		elif direction > 0:
-			animated_sprite_2d.flip_h = false
-		
-		if Input.is_action_just_pressed(\"dash\") and not is_dashing and dash_available:
-			
-			pre_dash()
-			
-		if direction:
+	
+	
+	if direction:
+		if not dead:
 			if not is_dashing:
 				if running:
 					velocity.x = direction * SPEED
@@ -151,16 +159,16 @@ func _physics_process(delta: float) -> void:
 					animated_sprite_2d.play(\"walking\")
 			else:
 				pass
-		else:
-			velocity.x = move_toward(velocity.x, 0, SPEED)
-			animated_sprite_2d.play(\"idle\")
-			
-		if is_dashing and ghost_timer.is_stopped():
-			create_ghost()
-			ghost_timer.start() # Reset the timer
-			
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+		animated_sprite_2d.play(\"idle\")
+		
+	if is_dashing and ghost_timer.is_stopped():
+		create_ghost()
+		ghost_timer.start() # Reset the timer
+		
 
-		move_and_slide()
+	move_and_slide()
 
 
 func when_player_leave_screen() -> void:
@@ -176,6 +184,10 @@ func jump() -> void:
 	animated_sprite_2d.play(\"jumping(temp)\")
 	jump_availabel = false
 	cur_hearts -= 1
+	if ledge_hang.is_colliding():
+		print(\"lege hang\")
+		animated_sprite_2d.play(\"ledge hang\")
+		velocity.y = 0 
 
 func _on_jump_buufer_of_doom_timeout() -> void:
 	jump_buffer = false
@@ -189,10 +201,10 @@ func _on_checkpoint_body_entered(_checkpoint_position) :
 		
 		
 func _on_death(_thingy) -> void:
-	
+	print(\"you ded\")
 	dead= true
 	set_collision_mask_value(1, false) # Example: disable collision with layer 1
-
+	velocity.y = -300
 	await get_tree().create_timer(1.0).timeout
 	respawn()
 	
@@ -277,15 +289,11 @@ func create_ghost():
 			true # Set to true if you want the ghost behind the player
 		)
 		new_ghost.global_position = global_position
-
-
-func _on_kill_zone_body_entered(_body: Node2D) -> void:
-	_on_death(dead)
 "
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i2avw"]
-radius = 7.1127963
-height = 47.793156
+radius = 6.3224854
+height = 41.27591
 
 [sub_resource type="Animation" id="Animation_beeat"]
 resource_name = "idle"
@@ -342,6 +350,10 @@ region = Rect2(320, 0, 80, 80)
 [sub_resource type="AtlasTexture" id="AtlasTexture_35jvu"]
 atlas = ExtResource("3_gd6mk")
 region = Rect2(400, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_px3b6"]
+atlas = ExtResource("4_gd6mk")
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5dx4j"]
 atlas = ExtResource("4_6a63v")
@@ -405,6 +417,11 @@ region = Rect2(0, 64, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_41qoe"]
 animations = [{
+"frames": [],
+"loop": true,
+"name": &"climbing",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_6a63v")
@@ -455,6 +472,14 @@ animations = [{
 "loop": true,
 "name": &"jumping(temp)",
 "speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_px3b6")
+}],
+"loop": true,
+"name": &"ledge hang",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -538,8 +563,7 @@ unique_name_in_owner = true
 texture_filter = 1
 scale = Vector2(2.035, 2.035)
 sprite_frames = SubResource("SpriteFrames_41qoe")
-animation = &"walking"
-frame_progress = 0.45001626
+animation = &"ledge hang"
 
 [node name="dash timer" type="Timer" parent="."]
 wait_time = 0.25
@@ -550,6 +574,17 @@ ignore_time_scale = true
 wait_time = 0.1
 one_shot = true
 autostart = true
+
+[node name="climbing rays" type="Node2D" parent="."]
+
+[node name="ledge hang" type="RayCast2D" parent="climbing rays"]
+scale = Vector2(0.83092594, 1.7379802)
+target_position = Vector2(25, 0)
+
+[node name="climbing" type="RayCast2D" parent="climbing rays"]
+position = Vector2(0, 16)
+scale = Vector2(1.045, 1.76)
+target_position = Vector2(21, 0)
 
 [node name="dashing arrow" type="Node2D" parent="."]
 visible = false

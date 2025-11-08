@@ -1,4 +1,5 @@
 extends Node2D
+@onready var lil_guy: CharacterBody2D = $"../Lil guy"
 
 
 signal death(is_dead)
@@ -16,6 +17,15 @@ func _process(delta: float) -> void:
 	
 
 
-func _on_area_2d_area_entered(area: Area2D) -> void:
+
 	
-	emit_signal("death", is_dtead)
+
+func _on_body_entered(body: Node2D) -> void:
+	if body == lil_guy:
+		if not is_dtead:
+			is_dtead = true
+			emit_signal("death", is_dtead)
+			print("you dead")
+		else:
+			await get_tree().create_timer(0.5).timeout
+			is_dtead = false
