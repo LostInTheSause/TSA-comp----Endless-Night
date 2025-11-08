@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvvm2ydy7xq0r"]
+
+[ext_resource type="Script" uid="uid://dau764wblp82a" path="res://scriptd/dashing_ghost.gd" id="1_fj0s1"]
+[ext_resource type="Texture2D" uid="uid://be2ksqf8eboqx" path="res://sprites/dash.png" id="2_yeqjf"]
+
+[node name="dashing ghost" type="Node2D"]
+script = ExtResource("1_fj0s1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_yeqjf")
