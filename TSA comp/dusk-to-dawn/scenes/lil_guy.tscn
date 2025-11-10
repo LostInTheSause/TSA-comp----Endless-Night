@@ -15,9 +15,9 @@ script/source = "extends CharacterBody2D
 @onready var kill_zone: Area2D = $\"../kill_zone\"
 
 
-@onready var ledge_hanged: RayCast2D = $\"climbing rays/ledge hang\"
-@onready var climbing_cast_2d: RayCast2D = $\"climbing rays/RayCast2D\"
+@onready var ledge_hang_1: RayCast2D = $\"climbing rays/ledge hang1\"
 @onready var ledge_hang_2: RayCast2D = $\"climbing rays/ledge hang2\"
+@onready var climbing_1: RayCast2D = $\"climbing rays/climbing1\"
 @onready var climbing_2: RayCast2D = $\"climbing rays/climbing2\"
 
 
@@ -84,12 +84,31 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	
-	if ledge_hanged.is_colliding() or ledge_hang_2.is_colliding() and prev_y > self.position.y:
+	var direction := Input.get_axis(\"left\", \"right\")
+	
+	if ledge_hang_2.is_colliding() and prev_y > self.position.y:
 		velocity.y = 0 
 		animated_sprite_2d.play(\"ledge hang\")
 		is_hanging = true
+		ledge_hang_1.collide_with_bodies = false
 		if Input.is_action_just_pressed(\"jump\"):
-			velocity.y = -200 * delta
+			velocity.x = 400
+			velocity.y = -350
+	elif ledge_hang_1.is_colliding() and prev_y > self.position.y:
+		velocity.y = 0 
+		animated_sprite_2d.play(\"ledge hang\")
+		is_hanging = true
+		ledge_hang_2.collide_with_bodies = false
+		if Input.is_action_just_pressed(\"jump\"):
+			velocity.x = -400
+			velocity.y = -350
+			
+	else:
+		is_hanging = false
+		ledge_hang_1.collide_with_bodies = true
+		ledge_hang_2.collide_with_bodies = true
+	
+		
 	
 		
 	
@@ -140,7 +159,7 @@ func _physics_process(delta: float) -> void:
 			jump()
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis(\"left\", \"right\")
+	
 	
 	
 	#flips the sprite to face the direction it is moving
@@ -158,19 +177,22 @@ func _physics_process(delta: float) -> void:
 	
 	
 	if direction:
-		if not dead:
-			if not is_dashing:
-				if running:
-					velocity.x = direction * SPEED
-					animated_sprite_2d.play(\"runniing\")
+		if not is_hanging:
+			if not dead:
+				if not is_dashing:
+					if running:
+						velocity.x = direction * SPEED
+						animated_sprite_2d.play(\"runniing\")
+					else:
+						velocity.x = direction * SPEED
+						animated_sprite_2d.play(\"walking\")
 				else:
-					velocity.x = direction * SPEED
-					animated_sprite_2d.play(\"walking\")
-			else:
-				pass
+					pass
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		animated_sprite_2d.play(\"idle\")
+		
+		if not is_hanging:
+			velocity.x = move_toward(velocity.x, 0, SPEED)
+			animated_sprite_2d.play(\"idle\")
 		
 	if is_dashing and ghost_timer.is_stopped():
 		create_ghost()
@@ -486,7 +508,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"ledge hang",
-"speed": 5.0
+"speed": 1.0
 }, {
 "frames": [{
 "duration": 1.0,
