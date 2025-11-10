@@ -15,8 +15,10 @@ script/source = "extends CharacterBody2D
 @onready var kill_zone: Area2D = $\"../kill_zone\"
 
 
-@onready var ledge_hang: RayCast2D = $\"climbing rays/ledge hang\"
+@onready var ledge_hanged: RayCast2D = $\"climbing rays/ledge hang\"
 @onready var climbing_cast_2d: RayCast2D = $\"climbing rays/RayCast2D\"
+@onready var ledge_hang_2: RayCast2D = $\"climbing rays/ledge hang2\"
+@onready var climbing_2: RayCast2D = $\"climbing rays/climbing2\"
 
 
 
@@ -43,7 +45,8 @@ var dash_available = true
 var Jump_velo = -400.0
 const JUMP_VELOCITY = -400.0
 const RUNNING_JUMP = -450
-
+var prev_y = 0
+var is_hanging = false
 
 
 var jump_buffer = false
@@ -73,6 +76,7 @@ func _ready() -> void:
 	respawn_point = self.global_position
 	kill_zone.death.connect(self._on_death)
 	checkpoint.respawn.connect(self._on_checkpoint_body_entered)
+	prev_y = self.position.y
 	
 	
 
@@ -80,7 +84,12 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	
-	
+	if ledge_hanged.is_colliding() or ledge_hang_2.is_colliding() and prev_y > self.position.y:
+		velocity.y = 0 
+		animated_sprite_2d.play(\"ledge hang\")
+		is_hanging = true
+		if Input.is_action_just_pressed(\"jump\"):
+			velocity.y = -200 * delta
 	
 		
 	
@@ -180,14 +189,12 @@ func coyote_timeout():
 	jump_availabel = false
 
 func jump() -> void:
+	
 	velocity.y = Jump_velo
 	animated_sprite_2d.play(\"jumping(temp)\")
 	jump_availabel = false
 	cur_hearts -= 1
-	if ledge_hang.is_colliding():
-		print(\"lege hang\")
-		animated_sprite_2d.play(\"ledge hang\")
-		velocity.y = 0 
+	
 
 func _on_jump_buufer_of_doom_timeout() -> void:
 	jump_buffer = false
@@ -577,14 +584,25 @@ autostart = true
 
 [node name="climbing rays" type="Node2D" parent="."]
 
-[node name="ledge hang" type="RayCast2D" parent="climbing rays"]
+[node name="ledge hang1" type="RayCast2D" parent="climbing rays"]
 scale = Vector2(0.83092594, 1.7379802)
-target_position = Vector2(25, 0)
+target_position = Vector2(20.459103, 0)
 
-[node name="climbing" type="RayCast2D" parent="climbing rays"]
+[node name="ledge hang2" type="RayCast2D" parent="climbing rays"]
+rotation = 3.1415927
+scale = Vector2(0.83092594, 1.7379802)
+target_position = Vector2(20.459103, 0)
+
+[node name="climbing1" type="RayCast2D" parent="climbing rays"]
 position = Vector2(0, 16)
 scale = Vector2(1.045, 1.76)
-target_position = Vector2(21, 0)
+target_position = Vector2(17.224882, -0.568182)
+
+[node name="climbing2" type="RayCast2D" parent="climbing rays"]
+position = Vector2(0, 16)
+rotation = 3.1415927
+scale = Vector2(1.045, 1.76)
+target_position = Vector2(17.224882, -0.568182)
 
 [node name="dashing arrow" type="Node2D" parent="."]
 visible = false
