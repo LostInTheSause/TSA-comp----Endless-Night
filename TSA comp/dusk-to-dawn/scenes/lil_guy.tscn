@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://damyxouc062qa"]
+[gd_scene load_steps=42 format=3 uid="uid://damyxouc062qa"]
 
 [ext_resource type="Texture2D" uid="uid://devpixmps3yet" path="res://sprites/Hana Caraka - Base Character [sample]/idle (1).png" id="2_gd6mk"]
 [ext_resource type="Texture2D" uid="uid://kms33bi03rub" path="res://sprites/Player V3 idol RIGHT.png" id="2_u4ydx"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://d3wluu4dndepe" path="res://sprites/Hana Caraka - Base Character [sample]/run.png" id="4_6a63v"]
 [ext_resource type="Texture2D" uid="uid://qehdsf5jp33q" path="res://sprites/Player V3 climb2.png" id="4_gd6mk"]
 [ext_resource type="Texture2D" uid="uid://cyoar287ccqeq" path="res://sprites/Player V3 walk.png" id="5_gd6mk"]
+[ext_resource type="PackedScene" uid="uid://ddwedofbtef40" path="res://speaking.tscn" id="8_5ejhy"]
 [ext_resource type="Texture2D" uid="uid://cidr1neb857m4" path="res://sprites/New Piskel (1).png" id="8_6a63v"]
 
 [sub_resource type="GDScript" id="GDScript_6a63v"]
@@ -90,7 +91,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y = 0 
 		animated_sprite_2d.play(\"ledge hang\")
 		is_hanging = true
-		ledge_hang_1.collide_with_bodies = false
+		ledge_hang_1.enabled = false
 		if Input.is_action_just_pressed(\"jump\"):
 			velocity.x = 400
 			velocity.y = -350
@@ -98,15 +99,15 @@ func _physics_process(delta: float) -> void:
 		velocity.y = 0 
 		animated_sprite_2d.play(\"ledge hang\")
 		is_hanging = true
-		ledge_hang_2.collide_with_bodies = false
+		ledge_hang_2.enabled = false
 		if Input.is_action_just_pressed(\"jump\"):
 			velocity.x = -400
 			velocity.y = -350
 			
 	else:
 		is_hanging = false
-		ledge_hang_1.collide_with_bodies = true
-		ledge_hang_2.collide_with_bodies = true
+		ledge_hang_1.enabled = true
+		ledge_hang_2.enabled = true
 	
 		
 	
@@ -633,6 +634,8 @@ visible = false
 texture_filter = 1
 position = Vector2(29, 0)
 texture = ExtResource("8_6a63v")
+
+[node name="speaking" parent="." instance=ExtResource("8_5ejhy")]
 
 [connection signal="screen_exited" from="move cam when player leave" to="." method="when_player_leave_screen"]
 [connection signal="timeout" from="dash timer" to="." method="_on_dash_timer_timeout"]
