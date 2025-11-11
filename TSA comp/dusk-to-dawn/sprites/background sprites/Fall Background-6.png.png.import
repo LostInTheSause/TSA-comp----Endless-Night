@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbiheiwo61xln"
-path="res://.godot/imported/death.png-da58b38fd0c286d4a98b1ca4eea8ce33.ctex"
+uid="uid://ceps3bd2bhwvi"
+path="res://.godot/imported/Fall Background-6.png.png-940de13752732f6930059d9bfbeb6acf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/Hana Caraka - Base Character [sample]/death.png"
-dest_files=["res://.godot/imported/death.png-da58b38fd0c286d4a98b1ca4eea8ce33.ctex"]
+source_file="res://sprites/background sprites/Fall Background-6.png.png"
+dest_files=["res://.godot/imported/Fall Background-6.png.png-940de13752732f6930059d9bfbeb6acf.ctex"]
 
 [params]
 

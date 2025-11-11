@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cw3up66jltd8v"
-path="res://.godot/imported/red-riding-hood_1.png-7f9f001448a2d8f9c5049f81b1ecb56f.ctex"
+uid="uid://boks80c2ui2iq"
+path="res://.godot/imported/Fall Background-2.png.png-69b85b47c0355ec337b6dc7b53b4961d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://red-riding-hood_1.png"
-dest_files=["res://.godot/imported/red-riding-hood_1.png-7f9f001448a2d8f9c5049f81b1ecb56f.ctex"]
+source_file="res://sprites/background sprites/Fall Background-2.png.png"
+dest_files=["res://.godot/imported/Fall Background-2.png.png-69b85b47c0355ec337b6dc7b53b4961d.ctex"]
 
 [params]
 

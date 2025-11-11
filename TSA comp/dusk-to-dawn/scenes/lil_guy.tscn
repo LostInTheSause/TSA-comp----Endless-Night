@@ -1,12 +1,8 @@
-[gd_scene load_steps=42 format=3 uid="uid://damyxouc062qa"]
+[gd_scene load_steps=41 format=3 uid="uid://damyxouc062qa"]
 
-[ext_resource type="Texture2D" uid="uid://devpixmps3yet" path="res://sprites/Hana Caraka - Base Character [sample]/idle (1).png" id="2_gd6mk"]
-[ext_resource type="Texture2D" uid="uid://kms33bi03rub" path="res://sprites/Player V3 idol RIGHT.png" id="2_u4ydx"]
-[ext_resource type="Texture2D" uid="uid://c0w7yqr0qgr3s" path="res://sprites/Hana Caraka - Base Character [sample]/jump.png" id="3_gd6mk"]
-[ext_resource type="Texture2D" uid="uid://d3wluu4dndepe" path="res://sprites/Hana Caraka - Base Character [sample]/run.png" id="4_6a63v"]
-[ext_resource type="Texture2D" uid="uid://qehdsf5jp33q" path="res://sprites/Player V3 climb2.png" id="4_gd6mk"]
-[ext_resource type="Texture2D" uid="uid://cyoar287ccqeq" path="res://sprites/Player V3 walk.png" id="5_gd6mk"]
-[ext_resource type="PackedScene" uid="uid://ddwedofbtef40" path="res://speaking.tscn" id="8_5ejhy"]
+[ext_resource type="Texture2D" uid="uid://kms33bi03rub" path="res://sprites/player animations/Player V3 idol RIGHT.png" id="2_u4ydx"]
+[ext_resource type="Texture2D" uid="uid://qehdsf5jp33q" path="res://sprites/player animations/Player V3 climb2.png" id="4_gd6mk"]
+[ext_resource type="Texture2D" uid="uid://cyoar287ccqeq" path="res://sprites/player animations/Player V3 walk.png" id="5_gd6mk"]
 [ext_resource type="Texture2D" uid="uid://cidr1neb857m4" path="res://sprites/New Piskel (1).png" id="8_6a63v"]
 
 [sub_resource type="GDScript" id="GDScript_6a63v"]
@@ -91,12 +87,14 @@ func _physics_process(delta: float) -> void:
 		velocity.y = 0 
 		animated_sprite_2d.play(\"ledge hang\")
 		is_hanging = true
+		animated_sprite_2d.flip_h = true
 		ledge_hang_1.enabled = false
 		if Input.is_action_just_pressed(\"jump\"):
 			velocity.x = 400
 			velocity.y = -350
 	elif ledge_hang_1.is_colliding() and prev_y > self.position.y:
 		velocity.y = 0 
+		animated_sprite_2d.flip_h = false
 		animated_sprite_2d.play(\"ledge hang\")
 		is_hanging = true
 		ledge_hang_2.enabled = false
@@ -204,8 +202,9 @@ func _physics_process(delta: float) -> void:
 
 
 func when_player_leave_screen() -> void:
-	if not self.position.y > camera_2d.limit_bottom:
-		camera_2d.position = self.position
+	pass
+	#if not self.position.y > camera_2d.limit_bottom:
+	#	camera_2d.position = self.position
 	
 
 func coyote_timeout():
@@ -225,18 +224,23 @@ func _on_jump_buufer_of_doom_timeout() -> void:
 
 
 func _on_checkpoint_body_entered(_checkpoint_position) :
-
-	respawn_point = self.global_position
-	print(respawn_point)
+	if not dead:
+		respawn_point = self.global_position
+		print(respawn_point)
 		
 		
 func _on_death(_thingy) -> void:
 	print(\"you ded\")
-	dead= true
+	velocity.x = 0
 	set_collision_mask_value(1, false) # Example: disable collision with layer 1
-	velocity.y = -300
+	
+	if not dead:
+		velocity.y = -300
+	dead = true
 	await get_tree().create_timer(1.0).timeout
-	respawn()
+	if dead:
+		respawn()
+		dead = false
 	
 	
 func respawn() -> void:
@@ -246,7 +250,7 @@ func respawn() -> void:
 	
 	animated_sprite_2d.play(\"idle\")
 	set_collision_mask_value(1, true) # Re-enable collision
-	camera_2d.position = self.position
+	#camera_2d.position = self.position
 	current_stamina = 100
 
 
@@ -333,20 +337,23 @@ _data = {
 &"idle": SubResource("Animation_beeat")
 }
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yxn1k"]
+load_path = "res://.godot/imported/idle (1).png-fb9abd4c852c48fe55a82d8c5caa53dc.ctex"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_6a63v"]
-atlas = ExtResource("2_gd6mk")
+atlas = SubResource("CompressedTexture2D_yxn1k")
 region = Rect2(0, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5ejhy"]
-atlas = ExtResource("2_gd6mk")
+atlas = SubResource("CompressedTexture2D_yxn1k")
 region = Rect2(0, 80, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_41qoe"]
-atlas = ExtResource("2_gd6mk")
+atlas = SubResource("CompressedTexture2D_yxn1k")
 region = Rect2(80, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r14gh"]
-atlas = ExtResource("2_gd6mk")
+atlas = SubResource("CompressedTexture2D_yxn1k")
 region = Rect2(160, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pxxx8"]
@@ -357,64 +364,70 @@ region = Rect2(0, 0, 32, 32)
 atlas = ExtResource("2_u4ydx")
 region = Rect2(0, 32, 32, 32)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_swya4"]
+load_path = "res://.godot/imported/jump.png-d52a69b48f38b81ec59cfc804101338f.ctex"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_q2svl"]
-atlas = ExtResource("3_gd6mk")
+atlas = SubResource("CompressedTexture2D_swya4")
 region = Rect2(0, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pxodq"]
-atlas = ExtResource("3_gd6mk")
+atlas = SubResource("CompressedTexture2D_swya4")
 region = Rect2(80, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ad1md"]
-atlas = ExtResource("3_gd6mk")
+atlas = SubResource("CompressedTexture2D_swya4")
 region = Rect2(160, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nioxj"]
-atlas = ExtResource("3_gd6mk")
+atlas = SubResource("CompressedTexture2D_swya4")
 region = Rect2(240, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ks3px"]
-atlas = ExtResource("3_gd6mk")
+atlas = SubResource("CompressedTexture2D_swya4")
 region = Rect2(320, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_35jvu"]
-atlas = ExtResource("3_gd6mk")
+atlas = SubResource("CompressedTexture2D_swya4")
 region = Rect2(400, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_px3b6"]
 atlas = ExtResource("4_gd6mk")
 region = Rect2(0, 0, 32, 32)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_u4ydx"]
+load_path = "res://.godot/imported/run.png-bf4e51d993010fdb0b56ea63878ce5cf.ctex"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_5dx4j"]
-atlas = ExtResource("4_6a63v")
+atlas = SubResource("CompressedTexture2D_u4ydx")
 region = Rect2(0, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eh4q1"]
-atlas = ExtResource("4_6a63v")
+atlas = SubResource("CompressedTexture2D_u4ydx")
 region = Rect2(80, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gbc7u"]
-atlas = ExtResource("4_6a63v")
+atlas = SubResource("CompressedTexture2D_u4ydx")
 region = Rect2(160, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ghr2u"]
-atlas = ExtResource("4_6a63v")
+atlas = SubResource("CompressedTexture2D_u4ydx")
 region = Rect2(240, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lo1kp"]
-atlas = ExtResource("4_6a63v")
+atlas = SubResource("CompressedTexture2D_u4ydx")
 region = Rect2(320, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nxiwv"]
-atlas = ExtResource("4_6a63v")
+atlas = SubResource("CompressedTexture2D_u4ydx")
 region = Rect2(400, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_051px"]
-atlas = ExtResource("4_6a63v")
+atlas = SubResource("CompressedTexture2D_u4ydx")
 region = Rect2(480, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xhhqg"]
-atlas = ExtResource("4_6a63v")
+atlas = SubResource("CompressedTexture2D_u4ydx")
 region = Rect2(560, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xigon"]
@@ -634,8 +647,6 @@ visible = false
 texture_filter = 1
 position = Vector2(29, 0)
 texture = ExtResource("8_6a63v")
-
-[node name="speaking" parent="." instance=ExtResource("8_5ejhy")]
 
 [connection signal="screen_exited" from="move cam when player leave" to="." method="when_player_leave_screen"]
 [connection signal="timeout" from="dash timer" to="." method="_on_dash_timer_timeout"]

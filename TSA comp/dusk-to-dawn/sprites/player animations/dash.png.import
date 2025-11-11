@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://yg2pqsmhencf"
-path="res://.godot/imported/tileset uno.png-b95bec47cf38585040688f37eab0c266.ctex"
+uid="uid://be2ksqf8eboqx"
+path="res://.godot/imported/dash.png-95055e8b958f7f693dbbaeaff31ae8f1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/tileset uno.png"
-dest_files=["res://.godot/imported/tileset uno.png-b95bec47cf38585040688f37eab0c266.ctex"]
+source_file="res://sprites/player animations/dash.png"
+dest_files=["res://.godot/imported/dash.png-95055e8b958f7f693dbbaeaff31ae8f1.ctex"]
 
 [params]
 

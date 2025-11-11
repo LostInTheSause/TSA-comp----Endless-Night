@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvc55fduphkfm"
-path="res://.godot/imported/craves .png-710b4a9965770314e2135b2486c543be.ctex"
+uid="uid://qehdsf5jp33q"
+path="res://.godot/imported/Player V3 climb2.png-d3f17f391971bbbd10dac7767c5341c1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/craves .png"
-dest_files=["res://.godot/imported/craves .png-710b4a9965770314e2135b2486c543be.ctex"]
+source_file="res://sprites/player animations/Player V3 climb2.png"
+dest_files=["res://.godot/imported/Player V3 climb2.png-d3f17f391971bbbd10dac7767c5341c1.ctex"]
 
 [params]
 

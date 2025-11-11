@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dqu4ipqnix76s"
-path="res://.godot/imported/hurt.png-81c585f0b0b8174524404e99daf6ba6b.ctex"
+uid="uid://fo0x3j3lutl6"
+path="res://.godot/imported/Fall Background-3.png.png-8875e912b489ca8f3e02182d79124491.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/Hana Caraka - Base Character [sample]/hurt.png"
-dest_files=["res://.godot/imported/hurt.png-81c585f0b0b8174524404e99daf6ba6b.ctex"]
+source_file="res://sprites/background sprites/Fall Background-3.png.png"
+dest_files=["res://.godot/imported/Fall Background-3.png.png-8875e912b489ca8f3e02182d79124491.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kms33bi03rub"
-path="res://.godot/imported/Player V3 idol RIGHT.png-0ef750942a0b899e788dfb34fe5ed5f0.ctex"
+uid="uid://cb4al7qw1xk7h"
+path="res://.godot/imported/Fall Background-4.png.png-57415a66f39d15b66fa76813c9c49480.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/Player V3 idol RIGHT.png"
-dest_files=["res://.godot/imported/Player V3 idol RIGHT.png-0ef750942a0b899e788dfb34fe5ed5f0.ctex"]
+source_file="res://sprites/background sprites/Fall Background-4.png.png"
+dest_files=["res://.godot/imported/Fall Background-4.png.png-57415a66f39d15b66fa76813c9c49480.ctex"]
 
 [params]
 
