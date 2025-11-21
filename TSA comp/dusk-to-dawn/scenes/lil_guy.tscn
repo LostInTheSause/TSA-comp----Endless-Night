@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://damyxouc062qa"]
+[gd_scene load_steps=39 format=3 uid="uid://damyxouc062qa"]
 
 [ext_resource type="Texture2D" uid="uid://kms33bi03rub" path="res://sprites/player animations/Player V3 idol RIGHT.png" id="2_u4ydx"]
 [ext_resource type="Texture2D" uid="uid://qehdsf5jp33q" path="res://sprites/player animations/Player V3 climb2.png" id="4_gd6mk"]
@@ -9,7 +9,7 @@
 script/source = "extends CharacterBody2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var camera_2d: Camera2D = $\"../Camera2D\"
-@onready var kill_zone: Area2D = $\"../kill_zone\"
+
 
 
 @onready var ledge_hang_1: RayCast2D = $\"climbing rays/ledge hang1\"
@@ -17,10 +17,12 @@ script/source = "extends CharacterBody2D
 @onready var climbing_1: RayCast2D = $\"climbing rays/climbing1\"
 @onready var climbing_2: RayCast2D = $\"climbing rays/climbing2\"
 
+@onready var checkpoint: Area2D = $\"../checkpoints/checkpoint\"
+@onready var kill_zone: Area2D = $\"../death areas/kill_zone\"
 
 
 
-@onready var checkpoint: Area2D = $\"../checkpoint\"
+
 @onready var dash_timer: Timer = $\"dash timer\"
 @onready var ghost_timer: Timer = $ghost_timer
 @onready var dashing_arrow: Node2D = $\"dashing arrow\"
@@ -395,40 +397,33 @@ region = Rect2(400, 0, 80, 80)
 atlas = ExtResource("4_gd6mk")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_u4ydx"]
-load_path = "res://.godot/imported/run.png-bf4e51d993010fdb0b56ea63878ce5cf.ctex"
+[sub_resource type="AtlasTexture" id="AtlasTexture_yxn1k"]
+atlas = ExtResource("5_gd6mk")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_swya4"]
+atlas = ExtResource("5_gd6mk")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u4ydx"]
+atlas = ExtResource("5_gd6mk")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gd6mk"]
+atlas = ExtResource("5_gd6mk")
+region = Rect2(0, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5dx4j"]
-atlas = SubResource("CompressedTexture2D_u4ydx")
-region = Rect2(0, 0, 80, 80)
+atlas = ExtResource("5_gd6mk")
+region = Rect2(32, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eh4q1"]
-atlas = SubResource("CompressedTexture2D_u4ydx")
-region = Rect2(80, 0, 80, 80)
+atlas = ExtResource("5_gd6mk")
+region = Rect2(64, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gbc7u"]
-atlas = SubResource("CompressedTexture2D_u4ydx")
-region = Rect2(160, 0, 80, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ghr2u"]
-atlas = SubResource("CompressedTexture2D_u4ydx")
-region = Rect2(240, 0, 80, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lo1kp"]
-atlas = SubResource("CompressedTexture2D_u4ydx")
-region = Rect2(320, 0, 80, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_nxiwv"]
-atlas = SubResource("CompressedTexture2D_u4ydx")
-region = Rect2(400, 0, 80, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_051px"]
-atlas = SubResource("CompressedTexture2D_u4ydx")
-region = Rect2(480, 0, 80, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xhhqg"]
-atlas = SubResource("CompressedTexture2D_u4ydx")
-region = Rect2(560, 0, 80, 80)
+atlas = ExtResource("5_gd6mk")
+region = Rect2(0, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xigon"]
 atlas = ExtResource("5_gd6mk")
@@ -526,6 +521,18 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_yxn1k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_swya4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u4ydx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gd6mk")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_5dx4j")
 }, {
 "duration": 1.0,
@@ -533,21 +540,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gbc7u")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ghr2u")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lo1kp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nxiwv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_051px")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xhhqg")
 }],
 "loop": true,
 "name": &"runniing",
@@ -606,7 +598,7 @@ unique_name_in_owner = true
 texture_filter = 1
 scale = Vector2(2.035, 2.035)
 sprite_frames = SubResource("SpriteFrames_41qoe")
-animation = &"ledge hang"
+animation = &"runniing"
 
 [node name="dash timer" type="Timer" parent="."]
 wait_time = 0.25

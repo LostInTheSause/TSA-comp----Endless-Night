@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://wplu6hkltxtg"]
 
-[ext_resource type="Script" uid="uid://kyqs51cregg2" path="res://scenes/kill_zone.gd" id="1_kebdr"]
+[ext_resource type="Script" uid="uid://kyqs51cregg2" path="res://scriptd/kill_zone.gd" id="1_kebdr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kebdr"]
 

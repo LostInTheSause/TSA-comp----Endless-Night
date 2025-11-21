@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://ddwedofbtef40"]
+[gd_scene load_steps=5 format=3 uid="uid://ddwedofbtef40"]
 
 [ext_resource type="Script" uid="uid://drp4bfn4gljys" path="res://scriptd/speaking.gd" id="1_yka5h"]
 [ext_resource type="FontFile" uid="uid://bgbbokdp8pl8g" path="res://everything else/Baskic8.otf" id="2_ex73r"]
@@ -8,20 +8,28 @@
 font = ExtResource("2_ex73r")
 font_size = 56
 
-[sub_resource type="LabelSettings" id="LabelSettings_msvkh"]
-font = ExtResource("2_ex73r")
-font_size = 51
-
 [node name="speaking" type="Control"]
 layout_mode = 3
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -480.0
+offset_left = 23.0
+offset_top = 26.0
+offset_right = -937.0
+offset_bottom = 26.0
 grow_horizontal = 2
 grow_vertical = 0
+scale = Vector2(0.44, 0.35)
+size_flags_stretch_ratio = 2.76
 script = ExtResource("1_yka5h")
+seen_before = null
+NPCs_name = null
+inital_text = null
+speaks_more_then_once = null
+all_text = null
+scared = null
+typing_speed = null
 
 [node name="background" type="ColorRect" parent="."]
 z_index = -6
@@ -50,18 +58,32 @@ offset_left = 22.0
 offset_top = 61.0
 offset_right = 62.0
 offset_bottom = 101.0
-scale = Vector2(4.509841, 4.3280997)
+scale = Vector2(4.15, 3.983)
 texture = ExtResource("3_nqak2")
 
-[node name="what they have to say" type="Label" parent="background"]
-z_index = 2
+[node name="background for face" type="ColorRect" parent="background/face"]
+z_index = -1
 layout_mode = 0
-offset_left = 238.0
-offset_top = 85.0
-offset_right = 278.0
-offset_bottom = 138.0
-text = "hi"
-label_settings = SubResource("LabelSettings_msvkh")
+offset_left = -1.4457831
+offset_top = -1.255333
+offset_right = 38.55422
+offset_bottom = 38.744667
+
+[node name="what they have to say" type="RichTextLabel" parent="background"]
+z_index = 2
+texture_filter = 1
+layout_mode = 0
+offset_left = 232.0
+offset_top = 71.0
+offset_right = 928.155
+offset_bottom = 198.955
+theme_override_fonts/normal_font = ExtResource("2_ex73r")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[shake]hi[/shake]"
+autowrap_trim_flags = 0
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="border text1" type="ColorRect" parent="background"]
 layout_mode = 0
@@ -74,17 +96,9 @@ color = Color(0, 0, 0, 1)
 
 [node name="ColorRect" type="ColorRect" parent="background/border text1"]
 layout_mode = 0
-offset_left = 0.7088332
-offset_top = 2.6315794
-offset_right = 40.70883
-offset_bottom = 42.63158
+offset_left = 0.695
+offset_top = 2.628
+offset_right = 40.695
+offset_bottom = 42.628
 scale = Vector2(0.965, 0.845)
 color = Color(0.42352942, 0.42352942, 0.42352942, 1)
-
-[node name="background for face" type="ColorRect" parent="background"]
-layout_mode = 0
-offset_left = 2.0
-offset_top = 55.0
-offset_right = 42.0
-offset_bottom = 95.0
-scale = Vector2(4.94, 4.165)

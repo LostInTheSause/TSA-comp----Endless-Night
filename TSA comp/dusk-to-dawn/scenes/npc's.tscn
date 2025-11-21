@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://b8j5axx36dyqx"]
+
+[ext_resource type="FontFile" uid="uid://bgbbokdp8pl8g" path="res://everything else/Baskic8.otf" id="1_a851j"]
+[ext_resource type="Script" uid="uid://kd7hywdug7ci" path="res://scriptd/npc's.gd" id="1_dbfaw"]
+[ext_resource type="PackedScene" uid="uid://ddwedofbtef40" path="res://scenes/speaking.tscn" id="2_dbmpf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dbfaw"]
+radius = 128.17786
+
+[node name="npc\'s" type="Node2D"]
+script = ExtResource("1_dbfaw")
+
+[node name="Npc charecter Body" type="CharacterBody2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Npc charecter Body"]
+
+[node name="prespeak_Label" type="RichTextLabel" parent="Npc charecter Body/AnimatedSprite2D"]
+texture_filter = 1
+offset_left = -60.0
+offset_top = -62.0
+offset_right = 64.000015
+offset_bottom = -39.0
+theme_override_fonts/normal_font = ExtResource("1_a851j")
+bbcode_enabled = true
+text = "[pulse]Press E to speak[/pulse]"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Area2D" type="Area2D" parent="Npc charecter Body"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Npc charecter Body/Area2D"]
+position = Vector2(0, 8.25)
+shape = SubResource("CircleShape2D_dbfaw")
+
+[node name="speaking" parent="." instance=ExtResource("2_dbmpf")]
+offset_left = -210.00002
+offset_top = 76.00001
+offset_right = -210.00002
+offset_bottom = 76.00001
+metadata/_edit_use_anchors_ = true
+
+[connection signal="body_entered" from="Npc charecter Body/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Npc charecter Body/Area2D" to="." method="_on_area_2d_body_exited"]
+
+[editable path="speaking"]
