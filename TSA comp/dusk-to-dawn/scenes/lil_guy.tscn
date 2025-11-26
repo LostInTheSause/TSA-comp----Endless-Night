@@ -35,10 +35,13 @@ var SPEED = 0
 const run_speed = 220
 @export var walk_SPEED = 100
 
-const dash_velo = 500
-var dash_time = 0.2
+const dash_amt := 500
+const dash_time := 0.2
+
 var is_dashing = false
 var dash_available = true
+var dash_dir: Vector2 = Vector2.RIGHT
+var dashen_time:float = 0.0 
 @export var ghost_scene: PackedScene
 
 var Jump_velo = -400.0
@@ -76,7 +79,7 @@ func _ready() -> void:
 	kill_zone.death.connect(self._on_death)
 	checkpoint.respawn.connect(self._on_checkpoint_body_entered)
 	prev_y = self.position.y
-	
+	self.add_to_group(\"Player\")
 	
 
 
@@ -144,8 +147,9 @@ func _physics_process(delta: float) -> void:
 		if jump_availabel:
 			get_tree().create_timer(coyote_time).timeout.connect(coyote_timeout)
 			
+		if !is_dashing:
 		
-		velocity += get_gravity() * delta
+			velocity += get_gravity() * delta
 	else:
 		jump_availabel = true
 		dash_available = true
@@ -169,11 +173,13 @@ func _physics_process(delta: float) -> void:
 	elif direction > 0:
 		animated_sprite_2d.flip_h = false
 	
-	if Input.is_action_just_pressed(\"dash\") and not is_dashing and dash_available:
+
 		
-		pre_dash()
+	dash_logic(delta)
 	
-	
+	if is_on_floor():
+		if !is_dashing and !dash_available:
+			dash_available = true
 		
 	
 	
@@ -256,75 +262,50 @@ func respawn() -> void:
 	current_stamina = 100
 
 
+func dash_logic(delta: float) -> void:
+	var input_dir: Vector2 = Vector2(
+		Input.get_axis(\"left\", \"right\"),
+		Input.get_axis(\"jump\", \"ui_down\")
+	).normalized()
+	
+	if input_dir.x != 0:
+		dash_dir.x = input_dir.x
+	
+	if dash_available and Input.is_action_just_pressed(\"dash\"):
+		var final_dash_dir: Vector2 = input_dir
+		if input_dir.y != 0 and input_dir.x == 0:
+			final_dash_dir.x = 0
+		
+		final_dash_dir.y =  input_dir.y
+		
+		dash_available =false
+		is_dashing = true
+		dashen_time = dash_time
+		
+		create_ghost()
+		while is_dashing:
+			velocity = final_dash_dir * dash_amt
+		
+	
+	if is_dashing:
+		dashen_time -= delta
+		if dashen_time <= 0.0:
+			is_dashing = false
 
 
-func doing_the_dash(x):
-	
-	velocity.y = 0
-	
-	velocity.x += (x)
-	dash_timer.start()
-	is_dashing = true
-	create_ghost()
-
-func _on_dash_timer_timeout() -> void:
-	
-	
-	stop_dash()
-
-func pre_dash() -> void:
-	dashing_arrow.rotation_degrees = 0.0
-	dashing_arrow.look_at(get_global_mouse_position())
-	
-	var angle_of_movement = dashing_arrow.rotation
-	angle_of_movement = sqrt(angle_of_movement**2)	
-	var bottom_unit = 0.0
-	var angle = 0
-	
-	var vertical_movement =  0
-	for i in range(360,0,160):
-		if bottom_unit < angle_of_movement < i:
-			angle_of_movement = angle
-			
-		else:
-			bottom_unit = i
-			angle += 45
-	
-	dashing_arrow.rotation = angle
-	
-	horizontal_movment = deg_to_rad(self.get_position_delta().x + dash_velo*(cos(angle_of_movement)))*50
-	
-	
-	
-	vertical_movement = deg_to_rad(self.position.y + dash_velo*(sin(angle_of_movement)))*60
-	
-	
-	doing_the_dash(horizontal_movment)
-	dash_available = false
-
-
-
-
-func stop_dash():
-	is_dashing = false
-		# Reset velocity to normal speed in the current direction
-	var direction = Input.get_axis(\"left\", \"right\")
-	velocity.x = direction * SPEED
-		# This is important to prevent sliding when the dash ends
-	if direction == 0:
-		velocity.x = 0
 	
 func create_ghost():
-	if ghost_scene:
-		var new_ghost = ghost_scene.instantiate()
-		get_parent().add_child(new_ghost)
-		new_ghost.set_properties(
-			animated_sprite_2d.frame,    # The current animation frame
-			animated_sprite_2d.scale,
-			animated_sprite_2d.self_modulate,
-			true # Set to true if you want the ghost behind the player
-		)
-		new_ghost.global_position = global_position
+	if !dash_available:
+		if ghost_scene:
+			var new_ghost = ghost_scene.instantiate()
+			get_parent().add_child(new_ghost)
+			new_ghost.set_properties(
+				animated_sprite_2d.frame,    # The current animation frame
+				animated_sprite_2d.scale,
+				animated_sprite_2d.self_modulate,
+				true # Set to true if you want the ghost behind the player
+			)
+			new_ghost.global_position = global_position
 "
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i2avw"]

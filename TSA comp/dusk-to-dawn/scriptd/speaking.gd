@@ -66,4 +66,4 @@ func typing_text(speed: float, is_scared: bool, delta: float) -> void:
 		
 		
 func aditional_text(speed: float, is_scared: bool, delta: float) -> void:
-	for i
+	pass

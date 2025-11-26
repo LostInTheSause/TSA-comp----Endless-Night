@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dani6j2n6nwad"]
+[gd_scene load_steps=15 format=3 uid="uid://dani6j2n6nwad"]
 
 [ext_resource type="PackedScene" uid="uid://damyxouc062qa" path="res://scenes/lil_guy.tscn" id="1_g51ju"]
 [ext_resource type="PackedScene" uid="uid://dvvm2ydy7xq0r" path="res://scenes/dashing_ghost.tscn" id="2_li3v2"]
@@ -395,6 +395,8 @@ terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 sources/0 = SubResource("TileSetAtlasSource_j7wrs")
 
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_li3v2"]
+
 [node name="world" type="Node2D"]
 
 [node name="Lil guy" parent="." instance=ExtResource("1_g51ju")]
@@ -425,7 +427,7 @@ scale = Vector2(0.27, 0.27)
 
 [node name="Parallax2D" type="Parallax2D" parent="background"]
 scale = Vector2(0.94, 0.94)
-scroll_scale = Vector2(2.075, -1)
+scroll_scale = Vector2(2.075, 0)
 scroll_offset = Vector2(-44.444443, 588.88885)
 repeat_size = Vector2(1898.97, 0)
 repeat_times = 8
@@ -500,6 +502,10 @@ position = Vector2(185, 93)
 position = Vector2(-57, 257)
 scale = Vector2(37.595, 1)
 
+[node name="CollisionShape2D" parent="death areas/kill_zone" index="0"]
+position = Vector2(0.664982, 5)
+shape = SubResource("WorldBoundaryShape2D_li3v2")
+
 [node name="kill_zone2" parent="death areas" instance=ExtResource("10_wsiti")]
 position = Vector2(191, -29)
 
@@ -512,3 +518,5 @@ position = Vector2(-268, 20)
 [connection signal="death" from="death areas/kill_zone" to="Lil guy" method="_on_death"]
 [connection signal="body_entered" from="death areas/kill_zone2" to="Lil guy" method="_on_death"]
 [connection signal="death" from="death areas/kill_zone2" to="Lil guy" method="_on_death"]
+
+[editable path="death areas/kill_zone"]
