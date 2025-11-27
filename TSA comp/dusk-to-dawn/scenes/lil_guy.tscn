@@ -1,5 +1,6 @@
-[gd_scene load_steps=39 format=3 uid="uid://damyxouc062qa"]
+[gd_scene load_steps=40 format=3 uid="uid://damyxouc062qa"]
 
+[ext_resource type="Texture2D" uid="uid://ble8it5h5gxu2" path="res://sprites/player animations/Player V3 jump.png" id="2_swya4"]
 [ext_resource type="Texture2D" uid="uid://kms33bi03rub" path="res://sprites/player animations/Player V3 idol RIGHT.png" id="2_u4ydx"]
 [ext_resource type="Texture2D" uid="uid://qehdsf5jp33q" path="res://sprites/player animations/Player V3 climb2.png" id="4_gd6mk"]
 [ext_resource type="Texture2D" uid="uid://cyoar287ccqeq" path="res://sprites/player animations/Player V3 walk.png" id="5_gd6mk"]
@@ -35,8 +36,8 @@ var SPEED = 0
 const run_speed = 220
 @export var walk_SPEED = 100
 
-const dash_amt := 500
-const dash_time := 0.2
+const dash_amt := 400
+const dash_time := 0.15
 
 var is_dashing = false
 var dash_available = true
@@ -45,6 +46,7 @@ var dashen_time:float = 0.0
 @export var ghost_scene: PackedScene
 
 var Jump_velo = -400.0
+var jumping:bool = false
 const JUMP_VELOCITY = -400.0
 const RUNNING_JUMP = -450
 var prev_y = 0
@@ -65,6 +67,10 @@ const min_stamina = 0
 var stamina_lose_rate = 50
 var current_stamina = 100
 var stamina_regen_rate = 20
+
+
+const player_bounce_direction: Vector2 = Vector2.UP
+const bounce_amt: float = 300.0
 
 #varables for the players death
 
@@ -144,6 +150,7 @@ func _physics_process(delta: float) -> void:
 	#
 	#handles coyote time
 	if not is_on_floor(): 
+		jumping = true
 		if jump_availabel:
 			get_tree().create_timer(coyote_time).timeout.connect(coyote_timeout)
 			
@@ -152,6 +159,7 @@ func _physics_process(delta: float) -> void:
 			velocity += get_gravity() * delta
 	else:
 		jump_availabel = true
+		jumping = false
 		dash_available = true
 	# Handle jump.
 	if Input.is_action_just_pressed(\"jump\") and jump_availabel and is_on_floor():
@@ -173,13 +181,13 @@ func _physics_process(delta: float) -> void:
 	elif direction > 0:
 		animated_sprite_2d.flip_h = false
 	
-
-		
-	dash_logic(delta)
-	
 	if is_on_floor():
 		if !is_dashing and !dash_available:
 			dash_available = true
+		
+	dash_logic(delta)
+	
+	
 		
 	
 	
@@ -198,8 +206,10 @@ func _physics_process(delta: float) -> void:
 	else:
 		
 		if not is_hanging:
+			if !jumping:
+				
+				animated_sprite_2d.play(\"idle\")
 			velocity.x = move_toward(velocity.x, 0, SPEED)
-			animated_sprite_2d.play(\"idle\")
 		
 	if is_dashing and ghost_timer.is_stopped():
 		create_ghost()
@@ -219,7 +229,7 @@ func coyote_timeout():
 	jump_availabel = false
 
 func jump() -> void:
-	
+	jumping = true
 	velocity.y = Jump_velo
 	animated_sprite_2d.play(\"jumping(temp)\")
 	jump_availabel = false
@@ -265,8 +275,8 @@ func respawn() -> void:
 func dash_logic(delta: float) -> void:
 	var input_dir: Vector2 = Vector2(
 		Input.get_axis(\"left\", \"right\"),
-		Input.get_axis(\"jump\", \"ui_down\")
-	).normalized()
+		Input.get_axis(\"jump\",\"ui_text_backspace_all_to_left.macos\")
+	)
 	
 	if input_dir.x != 0:
 		dash_dir.x = input_dir.x
@@ -283,8 +293,9 @@ func dash_logic(delta: float) -> void:
 		dashen_time = dash_time
 		
 		create_ghost()
-		while is_dashing:
-			velocity = final_dash_dir * dash_amt
+		
+		velocity = final_dash_dir * dash_amt
+	
 		
 	
 	if is_dashing:
@@ -306,6 +317,14 @@ func create_ghost():
 				true # Set to true if you want the ghost behind the player
 			)
 			new_ghost.global_position = global_position
+			
+			
+			
+func Mushroom_bounce_logic(body: Node2D) -> void:
+	if body.is_in_group(\"player\"):
+		var downward_velo: float = self.velocity.y
+		var bounce_velo: float = downward_velo*bounce_amt
+		velocity = player_bounce_direction * -bounce_amt
 "
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i2avw"]
@@ -347,32 +366,33 @@ region = Rect2(0, 0, 32, 32)
 atlas = ExtResource("2_u4ydx")
 region = Rect2(0, 32, 32, 32)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_swya4"]
-load_path = "res://.godot/imported/jump.png-d52a69b48f38b81ec59cfc804101338f.ctex"
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_q2svl"]
-atlas = SubResource("CompressedTexture2D_swya4")
-region = Rect2(0, 0, 80, 80)
+atlas = ExtResource("2_swya4")
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pxodq"]
-atlas = SubResource("CompressedTexture2D_swya4")
-region = Rect2(80, 0, 80, 80)
+atlas = ExtResource("2_swya4")
+region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ad1md"]
-atlas = SubResource("CompressedTexture2D_swya4")
-region = Rect2(160, 0, 80, 80)
+atlas = ExtResource("2_swya4")
+region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nioxj"]
-atlas = SubResource("CompressedTexture2D_swya4")
-region = Rect2(240, 0, 80, 80)
+atlas = ExtResource("2_swya4")
+region = Rect2(0, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ks3px"]
-atlas = SubResource("CompressedTexture2D_swya4")
-region = Rect2(320, 0, 80, 80)
+atlas = ExtResource("2_swya4")
+region = Rect2(32, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_35jvu"]
-atlas = SubResource("CompressedTexture2D_swya4")
-region = Rect2(400, 0, 80, 80)
+atlas = ExtResource("2_swya4")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ghr2u"]
+atlas = ExtResource("2_swya4")
+region = Rect2(0, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_px3b6"]
 atlas = ExtResource("4_gd6mk")
@@ -487,10 +507,13 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_35jvu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ghr2u")
 }],
 "loop": true,
 "name": &"jumping(temp)",
-"speed": 7.0
+"speed": 9.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -579,7 +602,8 @@ unique_name_in_owner = true
 texture_filter = 1
 scale = Vector2(2.035, 2.035)
 sprite_frames = SubResource("SpriteFrames_41qoe")
-animation = &"runniing"
+animation = &"jumping(temp)"
+frame_progress = 0.17162693
 
 [node name="dash timer" type="Timer" parent="."]
 wait_time = 0.25

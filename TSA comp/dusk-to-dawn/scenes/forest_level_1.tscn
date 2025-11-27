@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dani6j2n6nwad"]
+[gd_scene load_steps=16 format=3 uid="uid://dani6j2n6nwad"]
 
 [ext_resource type="PackedScene" uid="uid://damyxouc062qa" path="res://scenes/lil_guy.tscn" id="1_g51ju"]
 [ext_resource type="PackedScene" uid="uid://dvvm2ydy7xq0r" path="res://scenes/dashing_ghost.tscn" id="2_li3v2"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://r77nw52c0581" path="res://sprites/background sprites/Fall Background-5.png.png" id="6_6xay0"]
 [ext_resource type="Texture2D" uid="uid://boks80c2ui2iq" path="res://sprites/background sprites/Fall Background-2.png.png" id="7_fpgwt"]
 [ext_resource type="Texture2D" uid="uid://ceps3bd2bhwvi" path="res://sprites/background sprites/Fall Background-6.png.png" id="8_n6o5y"]
+[ext_resource type="PackedScene" uid="uid://bpp3ktkr4itwi" path="res://scenes/bouncy_mushroom.tscn" id="9_7hfs4"]
 [ext_resource type="PackedScene" uid="uid://ubby0fyhcpyd" path="res://scenes/checkpoint.tscn" id="9_dy6wm"]
 [ext_resource type="PackedScene" uid="uid://wplu6hkltxtg" path="res://scenes/kill_zone.tscn" id="10_wsiti"]
 [ext_resource type="PackedScene" uid="uid://b8j5axx36dyqx" path="res://scenes/npc's.tscn" id="11_li3v2"]
@@ -410,7 +411,7 @@ zoom = Vector2(2.303, 2.232)
 limit_left = -10000053
 limit_top = -115
 limit_right = 9999947
-limit_bottom = 238
+limit_bottom = 176
 position_smoothing_enabled = true
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -426,6 +427,8 @@ position = Vector2(-5.0000005, -64)
 scale = Vector2(0.27, 0.27)
 
 [node name="Parallax2D" type="Parallax2D" parent="background"]
+modulate = Color(0.6789437, 0.6789437, 0.6789436, 1)
+texture_filter = 1
 scale = Vector2(0.94, 0.94)
 scroll_scale = Vector2(2.075, 0)
 scroll_offset = Vector2(-44.444443, 588.88885)
@@ -441,8 +444,9 @@ scale = Vector2(1, 1.235)
 texture = ExtResource("4_0cl46")
 
 [node name="Parallax2D2" type="Parallax2D" parent="background"]
+modulate = Color(0.6955032, 0.6955031, 0.6955031, 1)
 scroll_scale = Vector2(1.31, 0)
-scroll_offset = Vector2(-207.40747, 137.03703)
+scroll_offset = Vector2(-225.92592, 148.14815)
 repeat_size = Vector2(1898.97, 0)
 repeat_times = 8
 
@@ -453,8 +457,9 @@ position = Vector2(17.814816, 372.2963)
 texture = ExtResource("5_g4cfp")
 
 [node name="Parallax2D3" type="Parallax2D" parent="background"]
+texture_filter = 1
 scroll_scale = Vector2(0.645, 0)
-scroll_offset = Vector2(1666.6666, 170.37036)
+scroll_offset = Vector2(-118.5185, 240.74072)
 repeat_size = Vector2(1898.97, 0)
 repeat_times = 8
 
@@ -479,7 +484,7 @@ texture = ExtResource("7_fpgwt")
 
 [node name="ParallaxLayer" type="Parallax2D" parent="background"]
 scroll_scale = Vector2(0, 0)
-scroll_offset = Vector2(-129.62962, 525.9259)
+scroll_offset = Vector2(-159.25925, 518.5185)
 repeat_size = Vector2(1898.97, 0)
 repeat_times = 8
 
@@ -512,11 +517,18 @@ position = Vector2(191, -29)
 [node name="npc\'s" parent="." instance=ExtResource("11_li3v2")]
 position = Vector2(-268, 20)
 
+[node name="bouncy mushroom" parent="." instance=ExtResource("9_7hfs4")]
+texture_filter = 1
+position = Vector2(300.99997, 164)
+scale = Vector2(2.215, 2.215)
+
 [connection signal="body_entered" from="checkpoints/checkpoint2" to="Lil guy" method="_on_checkpoint_body_entered"]
 [connection signal="body_entered" from="checkpoints/checkpoint" to="Lil guy" method="_on_checkpoint_body_entered"]
 [connection signal="body_entered" from="death areas/kill_zone" to="Lil guy" method="_on_death"]
 [connection signal="death" from="death areas/kill_zone" to="Lil guy" method="_on_death"]
 [connection signal="body_entered" from="death areas/kill_zone2" to="Lil guy" method="_on_death"]
 [connection signal="death" from="death areas/kill_zone2" to="Lil guy" method="_on_death"]
+[connection signal="body_entered" from="bouncy mushroom" to="Lil guy" method="Mushroom_bounce_logic"]
 
 [editable path="death areas/kill_zone"]
+[editable path="bouncy mushroom"]
