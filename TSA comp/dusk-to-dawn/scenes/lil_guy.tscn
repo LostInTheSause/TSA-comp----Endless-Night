@@ -69,8 +69,8 @@ var current_stamina = 100
 var stamina_regen_rate = 20
 
 
-const player_bounce_direction: Vector2 = Vector2.UP
-const bounce_amt: float = 300.0
+
+const Mushroom_jump_amt: float = 600.0
 
 #varables for the players death
 
@@ -320,11 +320,6 @@ func create_ghost():
 			
 			
 			
-func Mushroom_bounce_logic(body: Node2D) -> void:
-	if body.is_in_group(\"player\"):
-		var downward_velo: float = self.velocity.y
-		var bounce_velo: float = downward_velo*bounce_amt
-		velocity = player_bounce_direction * -bounce_amt
 "
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i2avw"]
@@ -603,7 +598,7 @@ texture_filter = 1
 scale = Vector2(2.035, 2.035)
 sprite_frames = SubResource("SpriteFrames_41qoe")
 animation = &"jumping(temp)"
-frame_progress = 0.17162693
+frame_progress = 0.6179333
 
 [node name="dash timer" type="Timer" parent="."]
 wait_time = 0.25

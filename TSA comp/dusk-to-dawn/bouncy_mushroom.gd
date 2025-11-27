@@ -17,17 +17,10 @@ func _process(delta: float) -> void:
 	pass
 	
 
-
-
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		animated_sprite_2d.play("bounce_animation")
 	
-
-
-
-
-
 
 func _on_body_exited(body: Node2D) -> void:
 	if body.is_in_group("Player"):
@@ -36,3 +29,8 @@ func _on_body_exited(body: Node2D) -> void:
 		animated_sprite_2d.stop()
 			
 		
+
+
+func _on_bounce_player_body_entered(body: Node2D) -> void:
+	if body.get("Mushroom_jump_amt"):
+		body.velocity.y = -body.Mushroom_jump_amt
