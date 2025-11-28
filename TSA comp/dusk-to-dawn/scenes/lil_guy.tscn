@@ -1,10 +1,9 @@
-[gd_scene load_steps=40 format=3 uid="uid://damyxouc062qa"]
+[gd_scene load_steps=49 format=3 uid="uid://damyxouc062qa"]
 
 [ext_resource type="Texture2D" uid="uid://ble8it5h5gxu2" path="res://sprites/player animations/Player V3 jump.png" id="2_swya4"]
 [ext_resource type="Texture2D" uid="uid://kms33bi03rub" path="res://sprites/player animations/Player V3 idol RIGHT.png" id="2_u4ydx"]
 [ext_resource type="Texture2D" uid="uid://qehdsf5jp33q" path="res://sprites/player animations/Player V3 climb2.png" id="4_gd6mk"]
 [ext_resource type="Texture2D" uid="uid://cyoar287ccqeq" path="res://sprites/player animations/Player V3 walk.png" id="5_gd6mk"]
-[ext_resource type="Texture2D" uid="uid://cidr1neb857m4" path="res://sprites/New Piskel (1).png" id="8_6a63v"]
 
 [sub_resource type="GDScript" id="GDScript_6a63v"]
 script/source = "extends CharacterBody2D
@@ -12,21 +11,16 @@ script/source = "extends CharacterBody2D
 @onready var camera_2d: Camera2D = $\"../Camera2D\"
 
 
-
-@onready var ledge_hang_1: RayCast2D = $\"climbing rays/ledge hang1\"
-@onready var ledge_hang_2: RayCast2D = $\"climbing rays/ledge hang2\"
-@onready var climbing_1: RayCast2D = $\"climbing rays/climbing1\"
-@onready var climbing_2: RayCast2D = $\"climbing rays/climbing2\"
-
 @onready var checkpoint: Area2D = $\"../checkpoints/checkpoint\"
 @onready var kill_zone: Area2D = $\"../death areas/kill_zone\"
 
 
-
-
 @onready var dash_timer: Timer = $\"dash timer\"
 @onready var ghost_timer: Timer = $ghost_timer
-@onready var dashing_arrow: Node2D = $\"dashing arrow\"
+
+@onready var if_on_floor_ray: RayCast2D = $if_on_floor_ray
+@onready var if_wall_ray: RayCast2D = $\"if wall_ray\"
+
 
 
 
@@ -50,8 +44,9 @@ var jumping:bool = false
 const JUMP_VELOCITY = -400.0
 const RUNNING_JUMP = -450
 var prev_y = 0
-var is_hanging = false
 
+var is_hanging = false
+var hanging_direction = 0
 
 var jump_buffer = false
 @export var jump_buffer_timer = 0.4
@@ -59,16 +54,7 @@ var jump_buffer = false
 @export var coyote_time = 0.3
 var jump_availabel = true
 
-
 var running = false
-
-const max_stamina = 100
-const min_stamina = 0
-var stamina_lose_rate = 50
-var current_stamina = 100
-var stamina_regen_rate = 20
-
-
 
 const Mushroom_jump_amt: float = 600.0
 
@@ -94,59 +80,43 @@ func _physics_process(delta: float) -> void:
 	
 	var direction := Input.get_axis(\"left\", \"right\")
 	
-	if ledge_hang_2.is_colliding() and prev_y > self.position.y:
-		velocity.y = 0 
-		animated_sprite_2d.play(\"ledge hang\")
+	if direction >  0:
+		if_wall_ray.target_position.x = 11
+		hanging_direction = 1
+	elif direction < 0:
+		if_wall_ray.target_position.x = -11
+		hanging_direction = -1
+	
+	
+	
+	if !if_on_floor_ray.is_colliding() and if_wall_ray.is_colliding():
 		is_hanging = true
-		animated_sprite_2d.flip_h = true
-		ledge_hang_1.enabled = false
-		if Input.is_action_just_pressed(\"jump\"):
-			velocity.x = 400
-			velocity.y = -350
-	elif ledge_hang_1.is_colliding() and prev_y > self.position.y:
-		velocity.y = 0 
-		animated_sprite_2d.flip_h = false
 		animated_sprite_2d.play(\"ledge hang\")
-		is_hanging = true
-		ledge_hang_2.enabled = false
 		if Input.is_action_just_pressed(\"jump\"):
-			velocity.x = -400
-			velocity.y = -350
-			
+			jump()
+			velocity.x = -(200 * hanging_direction)
+			animated_sprite_2d.play(\"jumping(temp)\")
 	else:
 		is_hanging = false
-		ledge_hang_1.enabled = true
-		ledge_hang_2.enabled = true
-	
-		
-	
-		
 	
 	
 #handles what happends if the charecter is running
 	if Input.is_action_pressed(\"run\"):
 		#if current_stamina > min_stamina:
-		current_stamina -= stamina_lose_rate*delta
-		if current_stamina > min_stamina:
-			SPEED = run_speed
-			running = true
-			Jump_velo = RUNNING_JUMP
-		else:
-			SPEED = walk_SPEED
-			running = false
-			Jump_velo = JUMP_VELOCITY
+	
+		SPEED = run_speed
+		running = true
+		Jump_velo = RUNNING_JUMP
+		
 	else:
 		#if current_stamina <= min_stamina:
 		SPEED = walk_SPEED
 		running = false
 		Jump_velo = JUMP_VELOCITY
 	
-		current_stamina += stamina_regen_rate * delta
-		
 	
 	
-	current_stamina = clamp(current_stamina, 0, max_stamina)
-	# Add the gravity.
+
 	#
 	#handles coyote time
 	if not is_on_floor(): 
@@ -162,8 +132,10 @@ func _physics_process(delta: float) -> void:
 		jumping = false
 		dash_available = true
 	# Handle jump.
-	if Input.is_action_just_pressed(\"jump\") and jump_availabel and is_on_floor():
-		jump()
+	if Input.is_action_just_pressed(\"jump\"):
+		if is_on_floor() and jump_availabel: 
+			jump()
+		
 	elif Input.is_action_just_pressed(\"jump\"):
 		#handles jump buffering so if the player inputs a jump to early to re_jump they can still jump making it feel better to play
 		jump_buffer = true
@@ -174,12 +146,12 @@ func _physics_process(delta: float) -> void:
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	
 	
-	
-	#flips the sprite to face the direction it is moving
-	if direction < 0:
-		animated_sprite_2d.flip_h = true
-	elif direction > 0:
-		animated_sprite_2d.flip_h = false
+	if !is_hanging:
+		#flips the sprite to face the direction it is moving
+		if direction < 0:
+			animated_sprite_2d.flip_h = true
+		elif direction > 0:
+			animated_sprite_2d.flip_h = false
 	
 	if is_on_floor():
 		if !is_dashing and !dash_available:
@@ -214,7 +186,8 @@ func _physics_process(delta: float) -> void:
 	if is_dashing and ghost_timer.is_stopped():
 		create_ghost()
 		ghost_timer.start() # Reset the timer
-		
+	
+	
 
 	move_and_slide()
 
@@ -269,7 +242,7 @@ func respawn() -> void:
 	animated_sprite_2d.play(\"idle\")
 	set_collision_mask_value(1, true) # Re-enable collision
 	#camera_2d.position = self.position
-	current_stamina = 100
+
 
 
 func dash_logic(delta: float) -> void:
@@ -318,8 +291,10 @@ func create_ghost():
 			)
 			new_ghost.global_position = global_position
 			
-			
-			
+	
+
+	
+	
 "
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i2avw"]
@@ -333,6 +308,38 @@ resource_name = "idle"
 _data = {
 &"idle": SubResource("Animation_beeat")
 }
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lo1kp"]
+atlas = ExtResource("4_gd6mk")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nxiwv"]
+atlas = ExtResource("4_gd6mk")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_051px"]
+atlas = ExtResource("4_gd6mk")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xhhqg"]
+atlas = ExtResource("4_gd6mk")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cp0a7"]
+atlas = ExtResource("4_gd6mk")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tdgqx"]
+atlas = ExtResource("4_gd6mk")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y6dtl"]
+atlas = ExtResource("4_gd6mk")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ej33s"]
+atlas = ExtResource("4_gd6mk")
+region = Rect2(32, 64, 32, 32)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yxn1k"]
 load_path = "res://.godot/imported/idle (1).png-fb9abd4c852c48fe55a82d8c5caa53dc.ctex"
@@ -352,6 +359,10 @@ region = Rect2(80, 0, 80, 80)
 [sub_resource type="AtlasTexture" id="AtlasTexture_r14gh"]
 atlas = SubResource("CompressedTexture2D_yxn1k")
 region = Rect2(160, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wpydh"]
+atlas = ExtResource("2_swya4")
+region = Rect2(0, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pxxx8"]
 atlas = ExtResource("2_u4ydx")
@@ -451,7 +462,31 @@ region = Rect2(0, 64, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_41qoe"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lo1kp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxiwv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_051px")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xhhqg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cp0a7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tdgqx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y6dtl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ej33s")
+}],
 "loop": true,
 "name": &"climbing",
 "speed": 5.0
@@ -472,6 +507,14 @@ animations = [{
 "loop": true,
 "name": &"death",
 "speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wpydh")
+}],
+"loop": true,
+"name": &"falling",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -571,6 +614,9 @@ animations = [{
 "speed": 6.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yxn1k"]
+size = Vector2(22, 0)
+
 [node name="Lil guy" type="CharacterBody2D"]
 top_level = true
 script = SubResource("GDScript_6a63v")
@@ -597,8 +643,7 @@ unique_name_in_owner = true
 texture_filter = 1
 scale = Vector2(2.035, 2.035)
 sprite_frames = SubResource("SpriteFrames_41qoe")
-animation = &"jumping(temp)"
-frame_progress = 0.6179333
+animation = &"idle"
 
 [node name="dash timer" type="Timer" parent="."]
 wait_time = 0.25
@@ -610,35 +655,18 @@ wait_time = 0.1
 one_shot = true
 autostart = true
 
-[node name="climbing rays" type="Node2D" parent="."]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(0, -12)
+shape = SubResource("RectangleShape2D_yxn1k")
 
-[node name="ledge hang1" type="RayCast2D" parent="climbing rays"]
-scale = Vector2(0.83092594, 1.7379802)
-target_position = Vector2(20.459103, 0)
+[node name="if_on_floor_ray" type="RayCast2D" parent="."]
+target_position = Vector2(0, 31)
+hit_from_inside = true
 
-[node name="ledge hang2" type="RayCast2D" parent="climbing rays"]
-rotation = 3.1415927
-scale = Vector2(0.83092594, 1.7379802)
-target_position = Vector2(20.459103, 0)
-
-[node name="climbing1" type="RayCast2D" parent="climbing rays"]
-position = Vector2(0, 16)
-scale = Vector2(1.045, 1.76)
-target_position = Vector2(17.224882, -0.568182)
-
-[node name="climbing2" type="RayCast2D" parent="climbing rays"]
-position = Vector2(0, 16)
-rotation = 3.1415927
-scale = Vector2(1.045, 1.76)
-target_position = Vector2(17.224882, -0.568182)
-
-[node name="dashing arrow" type="Node2D" parent="."]
-visible = false
-
-[node name="Sprite2D" type="Sprite2D" parent="dashing arrow"]
-texture_filter = 1
-position = Vector2(29, 0)
-texture = ExtResource("8_6a63v")
+[node name="if wall_ray" type="RayCast2D" parent="."]
+position = Vector2(0, -3)
+target_position = Vector2(11, 0)
+hit_from_inside = true
 
 [connection signal="screen_exited" from="move cam when player leave" to="." method="when_player_leave_screen"]
 [connection signal="timeout" from="dash timer" to="." method="_on_dash_timer_timeout"]
