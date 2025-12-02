@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://bpp3ktkr4itwi"]
 
 [ext_resource type="Texture2D" uid="uid://cu6trg8gusuao" path="res://sprites/objects/Mushroom Sprite Animation.png" id="1_askc8"]
-[ext_resource type="Script" uid="uid://bk5k30o7att5y" path="res://bouncy_mushroom.gd" id="1_bbpet"]
+[ext_resource type="Script" uid="uid://bk5k30o7att5y" path="res://scriptd/bouncy_mushroom.gd" id="1_bbpet"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bbpet"]
 size = Vector2(32, 69)

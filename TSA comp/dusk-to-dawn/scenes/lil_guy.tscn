@@ -66,6 +66,8 @@ var cur_hearts = 5
 var respawn_point = 0
 
 
+var is_talking = false
+
 func _ready() -> void:
 	respawn_point = self.global_position
 	kill_zone.death.connect(self._on_death)
@@ -79,6 +81,11 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	
 	var direction := Input.get_axis(\"left\", \"right\")
+	
+	if is_talking:
+		animated_sprite_2d.play(\"idle\")
+		return
+	
 	
 	if direction >  0:
 		if_wall_ray.target_position.x = 11
@@ -619,9 +626,10 @@ size = Vector2(22, 0)
 
 [node name="Lil guy" type="CharacterBody2D"]
 top_level = true
+wall_min_slide_angle = 1.5097098
 script = SubResource("GDScript_6a63v")
 jump_buffer_timer = 0.57
-coyote_time = 0.165
+coyote_time = 0.235
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1.0000019, 5.9999995)
