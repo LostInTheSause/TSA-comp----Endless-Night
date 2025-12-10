@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://n3rbghsmd0bs"]
+
+[ext_resource type="Texture2D" uid="uid://dkng5unxekddr" path="res://sprites/objects/Still Spikes (1).png" id="1_xbcdo"]
+[ext_resource type="PackedScene" uid="uid://wplu6hkltxtg" path="res://scenes/kill_zone.tscn" id="2_bflj7"]
+
+[node name="Spikes" type="Node2D"]
+z_index = 4096
+texture_filter = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_xbcdo")
+
+[node name="kill_zone" parent="." instance=ExtResource("2_bflj7")]
+position = Vector2(-8, 8)
+
+[node name="CollisionShape2D" parent="kill_zone" index="0"]
+position = Vector2(8, 1.75)
+
+[editable path="kill_zone"]

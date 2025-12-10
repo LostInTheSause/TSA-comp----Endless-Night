@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ubby0fyhcpyd"]
 
 [ext_resource type="Script" uid="uid://o34k2rhahco2" path="res://scriptd/checkpoint.gd" id="1_ywqth"]
-[ext_resource type="Texture2D" uid="uid://bjwwv4jquc0w4" path="res://sprites/objects/New Piskel (1).png" id="2_vsimk"]
+[ext_resource type="Texture2D" uid="uid://llpaqmu2ns5i" path="res://sprites/objects/new_checkpoint.png" id="2_ywqth"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yyywg"]
 size = Vector2(42, 49)
@@ -16,7 +16,8 @@ shape = SubResource("RectangleShape2D_yyywg")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -1
 texture_filter = 1
-position = Vector2(-1, 0)
-texture = ExtResource("2_vsimk")
+position = Vector2(-1, -8.999999)
+scale = Vector2(1.6, 1.6)
+texture = ExtResource("2_ywqth")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

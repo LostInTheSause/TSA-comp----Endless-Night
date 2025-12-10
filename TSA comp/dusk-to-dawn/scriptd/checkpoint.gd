@@ -13,9 +13,9 @@ var checkpoint_position = 0
 func _ready() -> void:
 	checkpoint_position = self.global_position
 	#lil_guy.is_dead.connect(on_death)
-
-# Called every frame. 'delta' is the elapsed time since the previous fra
-
-func _on_area_2d_area_entered(_area: Area2D) -> void:
-	emit_signal("respawn", checkpoint_position)
 	
+
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Player"):
+		body._on_checkpoint_body_entered(checkpoint_activated)

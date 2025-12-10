@@ -96,7 +96,7 @@ func _physics_process(delta: float) -> void:
 	
 	
 	
-	if !if_on_floor_ray.is_colliding() and if_wall_ray.is_colliding():
+	if !if_on_floor_ray.is_colliding() and if_wall_ray.is_colliding() and !dead:
 		is_hanging = true
 		animated_sprite_2d.play(\"ledge hang\")
 		if Input.is_action_just_pressed(\"jump\"):

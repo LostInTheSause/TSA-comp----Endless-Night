@@ -1,26 +1,53 @@
-[gd_scene load_steps=5 format=3 uid="uid://b8j5axx36dyqx"]
+[gd_scene load_steps=8 format=3 uid="uid://b8j5axx36dyqx"]
 
 [ext_resource type="FontFile" uid="uid://bgbbokdp8pl8g" path="res://everything else/Baskic8.otf" id="1_a851j"]
 [ext_resource type="Script" uid="uid://kd7hywdug7ci" path="res://scriptd/npc's.gd" id="1_dbfaw"]
-[ext_resource type="PackedScene" uid="uid://ddwedofbtef40" path="res://scenes/speaking.tscn" id="2_dbmpf"]
+[ext_resource type="Texture2D" uid="uid://bgeafldrkvyjn" path="res://sprites/npc art and animation/Grandma Knitting.png" id="2_dbfaw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8q7at"]
+atlas = ExtResource("2_dbfaw")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rekyh"]
+atlas = ExtResource("2_dbfaw")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1l8t7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8q7at")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rekyh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dbfaw"]
 radius = 85.00037
 
-[node name="npc\'s" type="Node2D"]
+[node name="grandma NPc" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_dbfaw")
 
 [node name="Npc charecter Body" type="CharacterBody2D" parent="."]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Npc charecter Body"]
+scale = Vector2(2.075, 2.075)
+sprite_frames = SubResource("SpriteFrames_1l8t7")
+autoplay = "default"
+frame_progress = 0.22185731
 
 [node name="prespeak_Label" type="RichTextLabel" parent="Npc charecter Body/AnimatedSprite2D"]
 texture_filter = 1
-offset_left = -60.0
-offset_top = -62.0
-offset_right = 64.000015
-offset_bottom = -39.0
+offset_left = -25.590363
+offset_top = -26.443375
+offset_right = 98.40965
+offset_bottom = -3.4433746
+scale = Vector2(0.395, 0.395)
 theme_override_fonts/normal_font = ExtResource("1_a851j")
 bbcode_enabled = true
 text = "[pulse]Press E to speak[/pulse]"
@@ -35,11 +62,5 @@ metadata/_edit_use_anchors_ = true
 position = Vector2(0, 8.25)
 shape = SubResource("CircleShape2D_dbfaw")
 
-[node name="speaking" parent="." instance=ExtResource("2_dbmpf")]
-visible = false
-metadata/_edit_use_anchors_ = true
-
 [connection signal="body_entered" from="Npc charecter Body/Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Npc charecter Body/Area2D" to="." method="_on_area_2d_body_exited"]
-
-[editable path="speaking"]

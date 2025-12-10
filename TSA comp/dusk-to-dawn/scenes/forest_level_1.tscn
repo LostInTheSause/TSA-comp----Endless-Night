@@ -1,17 +1,19 @@
-[gd_scene load_steps=16 format=4 uid="uid://dani6j2n6nwad"]
+[gd_scene load_steps=18 format=4 uid="uid://dani6j2n6nwad"]
 
 [ext_resource type="PackedScene" uid="uid://damyxouc062qa" path="res://scenes/lil_guy.tscn" id="1_g51ju"]
 [ext_resource type="PackedScene" uid="uid://dvvm2ydy7xq0r" path="res://scenes/dashing_ghost.tscn" id="2_li3v2"]
 [ext_resource type="Texture2D" uid="uid://wac3x4sprdcm" path="res://sprites/tileset_frthistime/tileset_tileset_frthistime.png" id="3_7hfs4"]
-[ext_resource type="Texture2D" uid="uid://fo0x3j3lutl6" path="res://sprites/background sprites/Fall Background-3.png.png" id="4_0cl46"]
+[ext_resource type="Texture2D" uid="uid://c7nh4etjo482n" path="res://sprites/background sprites/Fall Background EXTENDED-4.png.png" id="4_g4cfp"]
 [ext_resource type="Texture2D" uid="uid://cb4al7qw1xk7h" path="res://sprites/background sprites/Fall Background-4.png.png" id="5_g4cfp"]
 [ext_resource type="Texture2D" uid="uid://r77nw52c0581" path="res://sprites/background sprites/Fall Background-5.png.png" id="6_6xay0"]
 [ext_resource type="Texture2D" uid="uid://boks80c2ui2iq" path="res://sprites/background sprites/Fall Background-2.png.png" id="7_fpgwt"]
-[ext_resource type="Texture2D" uid="uid://ceps3bd2bhwvi" path="res://sprites/background sprites/Fall Background-6.png.png" id="8_n6o5y"]
+[ext_resource type="Texture2D" uid="uid://bwp7580e0r747" path="res://sprites/background sprites/Fall Background EXTENDED-6.png.png" id="8_6xay0"]
 [ext_resource type="PackedScene" uid="uid://bpp3ktkr4itwi" path="res://scenes/bouncy_mushroom.tscn" id="9_7hfs4"]
 [ext_resource type="PackedScene" uid="uid://ubby0fyhcpyd" path="res://scenes/checkpoint.tscn" id="9_dy6wm"]
 [ext_resource type="PackedScene" uid="uid://wplu6hkltxtg" path="res://scenes/kill_zone.tscn" id="10_wsiti"]
 [ext_resource type="PackedScene" uid="uid://b8j5axx36dyqx" path="res://scenes/npc's.tscn" id="11_li3v2"]
+[ext_resource type="PackedScene" uid="uid://n3rbghsmd0bs" path="res://scenes/spikes.tscn" id="13_0cl46"]
+[ext_resource type="PackedScene" uid="uid://d2wy2yc8f5v67" path="res://scenes/moving_spikes.tscn" id="14_g4cfp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j7wrs"]
 texture = ExtResource("3_7hfs4")
@@ -409,7 +411,7 @@ ghost_scene = ExtResource("2_li3v2")
 position = Vector2(1, 2)
 zoom = Vector2(2.303, 2.232)
 limit_left = -10000053
-limit_top = -115
+limit_top = -335
 limit_right = 9999947
 limit_bottom = 176
 position_smoothing_enabled = true
@@ -444,9 +446,9 @@ repeat_times = 8
 self_modulate = Color(0.55982995, 0.43206686, 0.3483399, 1)
 z_index = -1
 texture_filter = 1
-position = Vector2(9.814816, 149.22224)
-scale = Vector2(1, 1.235)
-texture = ExtResource("4_0cl46")
+position = Vector2(-23.64066, -539.7951)
+scale = Vector2(18.895, 18.895)
+texture = ExtResource("4_g4cfp")
 
 [node name="Parallax2D2" type="Parallax2D" parent="background"]
 modulate = Color(0.6955032, 0.6955031, 0.6955031, 1)
@@ -494,9 +496,11 @@ repeat_size = Vector2(1898.97, 0)
 repeat_times = 8
 
 [node name="Sprite2D" type="Sprite2D" parent="background/ParallaxLayer"]
-modulate = Color(0.12225223, 0.12225223, 0.12225223, 1)
+modulate = Color(0.36282945, 0.36282945, 0.36282945, 1)
 z_index = -4
-texture = ExtResource("8_n6o5y")
+position = Vector2(-81.481476, -477.77777)
+scale = Vector2(16.09, 16.09)
+texture = ExtResource("8_6xay0")
 
 [node name="checkpoints" type="Node" parent="."]
 
@@ -518,6 +522,15 @@ shape = SubResource("WorldBoundaryShape2D_li3v2")
 
 [node name="kill_zone2" parent="death areas" instance=ExtResource("10_wsiti")]
 position = Vector2(191, -29)
+
+[node name="Spikes" parent="death areas" instance=ExtResource("13_0cl46")]
+position = Vector2(64, 144)
+
+[node name="Spikes2" parent="death areas" instance=ExtResource("13_0cl46")]
+position = Vector2(100, 144)
+
+[node name="moving_spikes" parent="death areas" instance=ExtResource("14_g4cfp")]
+position = Vector2(89, 47)
 
 [node name="npc\'s" parent="." instance=ExtResource("11_li3v2")]
 position = Vector2(-268, 20)

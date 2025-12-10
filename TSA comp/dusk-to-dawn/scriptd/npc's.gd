@@ -28,6 +28,7 @@ func _process(delta: float) -> void:
 				lil_guy.is_talking = true
 				Dialogic.start("opening_imeline")
 				
+				Dialogic.timeline_ended.connect(done_talking)
 				
 
 
@@ -35,7 +36,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		can_talk = true
 		prespeak_label.show()
-		body.is_talking = true
+		#body.is_talking = true
 			
 			
 			
@@ -45,3 +46,6 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body == lil_guy:
 		prespeak_label.hide()
 		can_talk = false
+
+func done_talking() -> void:
+	lil_guy.is_talking = false
