@@ -70,8 +70,8 @@ var is_talking = false
 
 func _ready() -> void:
 	respawn_point = self.global_position
-	kill_zone.death.connect(self._on_death)
-	checkpoint.respawn.connect(self._on_checkpoint_body_entered)
+	
+	
 	prev_y = self.position.y
 	self.add_to_group(\"Player\")
 	
@@ -140,7 +140,7 @@ func _physics_process(delta: float) -> void:
 		dash_available = true
 	# Handle jump.
 	if Input.is_action_just_pressed(\"jump\"):
-		if is_on_floor() and jump_availabel: 
+		if is_on_floor() or jump_availabel: 
 			jump()
 		
 	elif Input.is_action_just_pressed(\"jump\"):
@@ -231,6 +231,7 @@ func _on_death(_thingy) -> void:
 	print(\"you ded\")
 	velocity.x = 0
 	set_collision_mask_value(1, false) # Example: disable collision with layer 1
+	self.z_index = -1
 	
 	if not dead:
 		velocity.y = -300
@@ -245,7 +246,7 @@ func respawn() -> void:
 	dead = false
 	#respawn_point.y += 20
 	self.position = respawn_point
-	
+	self.z_index = 0
 	animated_sprite_2d.play(\"idle\")
 	set_collision_mask_value(1, true) # Re-enable collision
 	#camera_2d.position = self.position
@@ -274,7 +275,8 @@ func dash_logic(delta: float) -> void:
 		
 		create_ghost()
 		
-		velocity = final_dash_dir * dash_amt
+		velocity.x = final_dash_dir.x * dash_amt/1.2
+		velocity.y = final_dash_dir.y * dash_amt/1.5
 	
 		
 	

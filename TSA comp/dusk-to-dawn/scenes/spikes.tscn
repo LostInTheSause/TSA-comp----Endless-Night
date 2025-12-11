@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://wplu6hkltxtg" path="res://scenes/kill_zone.tscn" id="2_bflj7"]
 
 [node name="Spikes" type="Node2D"]
-z_index = 4096
 texture_filter = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://tsux35fq77df"]
+
+[ext_resource type="PackedScene" uid="uid://n3rbghsmd0bs" path="res://scenes/spikes.tscn" id="1_1dvl4"]
+[ext_resource type="Script" uid="uid://bgig2tq8oprsg" path="res://scriptd/spike_pit.gd" id="2_ngjmc"]
+
+[node name="Spike_pit" instance=ExtResource("1_1dvl4")]
+script = ExtResource("2_ngjmc")
+
+[editable path="kill_zone"]
