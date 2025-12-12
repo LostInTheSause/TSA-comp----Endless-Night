@@ -21,7 +21,7 @@ script/source = "extends CharacterBody2D
 @onready var if_on_floor_ray: RayCast2D = $if_on_floor_ray
 @onready var if_wall_ray: RayCast2D = $\"if wall_ray\"
 
-
+@export var can_dash = true
 
 
 var horizontal_movment = 0
@@ -122,7 +122,8 @@ func _physics_process(delta: float) -> void:
 		Jump_velo = JUMP_VELOCITY
 	
 	
-	
+	if is_dashing:
+		create_ghost(direction)
 
 	#
 	#handles coyote time
@@ -191,7 +192,7 @@ func _physics_process(delta: float) -> void:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 		
 	if is_dashing and ghost_timer.is_stopped():
-		create_ghost()
+		
 		ghost_timer.start() # Reset the timer
 	
 	
@@ -262,7 +263,7 @@ func dash_logic(delta: float) -> void:
 	if input_dir.x != 0:
 		dash_dir.x = input_dir.x
 	
-	if dash_available and Input.is_action_just_pressed(\"dash\"):
+	if dash_available and Input.is_action_just_pressed(\"dash\") and can_dash:
 		var final_dash_dir: Vector2 = input_dir
 		if input_dir.y != 0 and input_dir.x == 0:
 			final_dash_dir.x = 0
@@ -273,7 +274,7 @@ func dash_logic(delta: float) -> void:
 		is_dashing = true
 		dashen_time = dash_time
 		
-		create_ghost()
+		
 		
 		velocity.x = final_dash_dir.x * dash_amt/1.2
 		velocity.y = final_dash_dir.y * dash_amt/1.5
@@ -287,16 +288,21 @@ func dash_logic(delta: float) -> void:
 
 
 	
-func create_ghost():
+func create_ghost(direction) -> void:
 	if !dash_available:
 		if ghost_scene:
 			var new_ghost = ghost_scene.instantiate()
 			get_parent().add_child(new_ghost)
+			if direction < 0:
+				new_ghost.get_child(0).flip_h = true
+			elif direction > 0:
+				new_ghost.get_child(0).flip_h = false
 			new_ghost.set_properties(
 				animated_sprite_2d.frame,    # The current animation frame
 				animated_sprite_2d.scale,
 				animated_sprite_2d.self_modulate,
-				true # Set to true if you want the ghost behind the player
+				true
+				 # Set to true if you want the ghost behind the player
 			)
 			new_ghost.global_position = global_position
 			

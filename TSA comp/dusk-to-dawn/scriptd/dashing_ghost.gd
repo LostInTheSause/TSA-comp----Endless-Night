@@ -16,6 +16,6 @@ func set_properties( player_frame, player_scale, player_modulate, show_behind=fa
 
 func fade_out():
 	# Fade the ghost out by animating its alpha (self_modulate)
-	tween.tween_property(sprite, "self_modulate:a", 0.0, 0.45) # 0.45 is the fade duration
+	tween.tween_property(sprite, "self_modulate:a", 0.0, 0.15) # 0.45 is the fade duration
 	tween.tween_callback(queue_free)
 	
