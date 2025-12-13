@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://bg1n544f7hdek"]
+
+[ext_resource type="Script" uid="uid://ldvb1ql3kmuq" path="res://level_transitions.gd" id="1_3doif"]
+
+[node name="Level_transitions" type="CanvasLayer"]
+process_mode = 3
+layer = 0
+script = ExtResource("1_3doif")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(0, 0, 0, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

@@ -19,7 +19,7 @@ func _ready() -> void:
 	Dialogic.start("opening_imeline")
 	Dialogic.signal_event.connect(on_dialogic_signal)
 	audio_stream_player_2d.playing = true
-	button.modulate = Color(1,1,1,0)
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -30,8 +30,7 @@ func _process(delta: float) -> void:
 			pan_up = false
 			button_in = true
 	if button_in:
-		button.modulate = Color(1,1,1,int(button_amt*delta))
-		button_amt += 0.1
+		button.visible = true
 
 
 func  on_dialogic_signal(argument: String) -> void:
@@ -46,3 +45,8 @@ func  on_dialogic_signal(argument: String) -> void:
 		
 func star_shooting_done() -> void:
 	node_2d.visible = false
+
+
+func _on_button_pressed() -> void:
+	
+	LevelTransitions.change_scene_to("uid://bg1n544f7hdek")
