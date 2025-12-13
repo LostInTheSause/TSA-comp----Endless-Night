@@ -1,9 +1,9 @@
 Watson: Man, It really is pretty tonight
 Watson: I never get to come out here as often as i want to
-Watson: I missed looking uo at these stars.
+Watson: I missed looking up at these stars.
 [signal arg="make_star_shoot"]
 [wait time="1.0"]
 Watson: OH! a shooting star
-[wait time="1.5"]
+[wait time="1.0"]
 Watson: Y'know, I wish for this night to never end.
 [signal arg="Show_title"]

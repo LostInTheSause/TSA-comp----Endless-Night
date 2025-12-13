@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://bc8ohnaqvtvpt"]
+[gd_scene load_steps=43 format=3 uid="uid://bc8ohnaqvtvpt"]
 
 [ext_resource type="Texture2D" uid="uid://bwp7580e0r747" path="res://sprites/background sprites/Fall Background EXTENDED-6.png.png" id="1_3cuo6"]
 [ext_resource type="Script" uid="uid://cw6tpvebw0hlh" path="res://scenes/opening_scene.gd" id="1_k6lw7"]
@@ -9,6 +9,10 @@
 [ext_resource type="Texture2D" uid="uid://8itr22vuygt0" path="res://sprites/cutscene/Player On Log (cutscene).png" id="6_akv2y"]
 [ext_resource type="Texture2D" uid="uid://cqxqktxxertef" path="res://sprites/cutscene/ENDLESS NIGHT LOGO.png" id="7_3ixmc"]
 [ext_resource type="Texture2D" uid="uid://bruqndmp1mxsv" path="res://sprites/cutscene/Shooting Star.png" id="9_7igwe"]
+[ext_resource type="Texture2D" uid="uid://dbd7owvc144c7" path="res://sprites/cutscene/New Piskel (5).png" id="9_akv2y"]
+[ext_resource type="AudioStream" uid="uid://g28hvttwf0sq" path="res://everything else/Endless Night Intro DEMO (1).mp3" id="10_0iuqt"]
+[ext_resource type="Texture2D" uid="uid://b5iba57sb4rjm" path="res://sprites/cutscene/New Piskel (6).png" id="10_3ixmc"]
+[ext_resource type="FontFile" uid="uid://cbhl7de5qjlqo" path="res://everything else/Oleaguid/Oleaguid.ttf" id="13_3ixmc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y5rry"]
 atlas = ExtResource("5_wpum6")
@@ -197,7 +201,7 @@ tracks/0/path = NodePath("Node2D:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.21, 0.84, 1),
+"times": PackedFloat32Array(0, 0.26666668, 0.84, 1),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0.23921569), Color(1, 1, 1, 1), Color(1, 1, 1, 0.38704395), Color(1, 1, 1, 0.23137255)]
@@ -248,6 +252,8 @@ _data = {
 &"flying_star": SubResource("Animation_y5rry")
 }
 
+[sub_resource type="Theme" id="Theme_y5rry"]
+
 [node name="Opening scene" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_k6lw7")
@@ -286,7 +292,7 @@ position = Vector2(-228.57143, 114.28571)
 scale = Vector2(13.02, 13.02)
 sprite_frames = SubResource("SpriteFrames_82m7v")
 autoplay = "default"
-frame_progress = 0.144399
+frame_progress = 0.68984354
 flip_h = true
 
 [node name="back trees2" type="Sprite2D" parent="Node2D"]
@@ -330,9 +336,8 @@ scale = Vector2(1.585, 1.585)
 texture = ExtResource("1_3cuo6")
 
 [node name="title" type="Sprite2D" parent="Node2D"]
-visible = false
 z_index = 1405
-position = Vector2(-7, -187)
+position = Vector2(-8, -229)
 scale = Vector2(1.405, 1.405)
 texture = ExtResource("7_3ixmc")
 
@@ -344,32 +349,82 @@ region_enabled = true
 region_rect = Rect2(0, 968.5346, 1920, 119.46539)
 
 [node name="sky_extension" type="Sprite2D" parent="Node2D"]
-position = Vector2(-95, -219)
+position = Vector2(-96, -277)
 scale = Vector2(1.655, 1.655)
 texture = ExtResource("1_3cuo6")
 region_enabled = true
 region_rect = Rect2(0, 0, 120, 22.230762)
 
 [node name="sky_extension2" type="Sprite2D" parent="Node2D"]
-position = Vector2(93, -217.99998)
+position = Vector2(93, -278)
 scale = Vector2(1.65, 1.65)
 texture = ExtResource("1_3cuo6")
 region_enabled = true
 region_rect = Rect2(0, 0, 120, 22.230762)
 
 [node name="sky_extension3" type="Sprite2D" parent="Node2D"]
-position = Vector2(91, -185)
+position = Vector2(93.00001, -245)
 scale = Vector2(1.65, 1.65)
 texture = ExtResource("1_3cuo6")
 region_enabled = true
 region_rect = Rect2(0, 0, 120, 22.230762)
 
 [node name="sky_extension4" type="Sprite2D" parent="Node2D"]
-position = Vector2(-93, -185)
+position = Vector2(-97, -244)
 scale = Vector2(1.65, 1.65)
 texture = ExtResource("1_3cuo6")
 region_enabled = true
 region_rect = Rect2(0, 0, 120, 22.230762)
+
+[node name="sky_extension5" type="Sprite2D" parent="Node2D"]
+position = Vector2(-95, -212)
+scale = Vector2(1.65, 1.65)
+texture = ExtResource("1_3cuo6")
+region_enabled = true
+region_rect = Rect2(0, 0, 120, 22.230762)
+
+[node name="sky_extension6" type="Sprite2D" parent="Node2D"]
+position = Vector2(-94, -180)
+scale = Vector2(1.65, 1.65)
+texture = ExtResource("1_3cuo6")
+region_enabled = true
+region_rect = Rect2(0, 0, 120, 22.230762)
+
+[node name="sky_extension7" type="Sprite2D" parent="Node2D"]
+position = Vector2(87, -185)
+scale = Vector2(1.65, 1.65)
+texture = ExtResource("1_3cuo6")
+region_enabled = true
+region_rect = Rect2(0, 0, 120, 22.230762)
+
+[node name="sky_extension8" type="Sprite2D" parent="Node2D"]
+position = Vector2(92, -213.00002)
+scale = Vector2(1.65, 1.65)
+texture = ExtResource("1_3cuo6")
+region_enabled = true
+region_rect = Rect2(0, 0, 120, 22.230762)
+
+[node name="NewPiskel(5)" type="Sprite2D" parent="Node2D"]
+position = Vector2(122, -165)
+scale = Vector2(2.375, 2.03125)
+texture = ExtResource("9_akv2y")
+
+[node name="NewPiskel(6)2" type="Sprite2D" parent="Node2D"]
+position = Vector2(102, -241.00003)
+scale = Vector2(2.625, 2.84375)
+texture = ExtResource("10_3ixmc")
+flip_v = true
+
+[node name="NewPiskel(5)2" type="Sprite2D" parent="Node2D"]
+position = Vector2(-97, -227)
+scale = Vector2(2.25, 1.96875)
+texture = ExtResource("9_akv2y")
+flip_h = true
+
+[node name="NewPiskel(6)" type="Sprite2D" parent="Node2D"]
+position = Vector2(-139, -145.00002)
+scale = Vector2(2.4375, 2.5)
+texture = ExtResource("10_3ixmc")
 
 [node name="Node2D" type="Node2D" parent="Node2D"]
 visible = false
@@ -390,5 +445,17 @@ libraries = {
 }
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(-2, -43)
+position = Vector2(-4, -206)
 zoom = Vector2(2.56, 2.56)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_0iuqt")
+
+[node name="Button" type="Button" parent="."]
+offset_left = -52.0
+offset_top = -205.0
+offset_right = 50.0
+offset_bottom = -182.0
+theme = SubResource("Theme_y5rry")
+theme_override_fonts/font = ExtResource("13_3ixmc")
+text = "Begin the night"
