@@ -36,11 +36,11 @@ layout/style_directory={
 layout/style_list=["res://Dialogue_style.tres"]
 layout/default_style="res://Dialogue_style.tres"
 extensions_folder="res://addons/dialogic_additions"
-text/letter_speed=0.01
-text/initial_text_reveal_skippable=true
+text/letter_speed=0.02
+text/initial_text_reveal_skippable=false
 text/text_reveal_skip_delay=0.1
 text/advance_delay=0.1
-text/autoadvance_per_character_delay=0.1
+text/autoadvance_per_character_delay=0
 text/autoadvance_ignored_characters_enabled=true
 animations/join_default_length=0.5
 animations/join_default_wait=true
@@ -70,6 +70,10 @@ audio/channel_defaults={
 }
 variables={}
 glossary/default_case_sensitive=true
+text/autoadvance_enabled=true
+text/input_action="dialogic_default_action"
+text/autoadvance_fixed_delay=1.5
+text/autoadvance_per_word_delay=0
 
 [display]
 

@@ -400,7 +400,7 @@ sources/0 = SubResource("TileSetAtlasSource_j7wrs")
 [node name="world" type="Node2D"]
 
 [node name="Lil guy" parent="." instance=ExtResource("1_g51ju")]
-position = Vector2(-1991, -6)
+position = Vector2(-593, -180)
 can_dash = false
 walk_SPEED = 125
 ghost_scene = ExtResource("2_li3v2")
@@ -439,7 +439,11 @@ tile_set = SubResource("TileSet_fws66")
 position = Vector2(33, -113)
 
 [node name="checkpoint" parent="TileMap/checkpoints" instance=ExtResource("9_dy6wm")]
+z_index = 1
 position = Vector2(1264, -50)
+
+[node name="checkpoint2" parent="TileMap/checkpoints" instance=ExtResource("9_dy6wm")]
+position = Vector2(2033, -101)
 
 [node name="Death areas" type="Node2D" parent="TileMap"]
 position = Vector2(33, -113)
@@ -469,6 +473,10 @@ position = Vector2(1483, -84)
 
 [node name="moving_spikes2" parent="TileMap/Death areas" instance=ExtResource("14_g4cfp")]
 position = Vector2(1818, -116)
+
+[node name="Spike_pit4" parent="TileMap/Death areas" instance=ExtResource("10_g51ju")]
+position = Vector2(2321, 128)
+how_many_spikes_in_pit = 4
 
 [node name="other" type="Node2D" parent="TileMap"]
 position = Vector2(33, -113)

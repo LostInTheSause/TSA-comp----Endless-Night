@@ -1,3 +1,9 @@
-Watson: I wish this night would never end
-Watson: uh oh
-"gramdma jenkins": Oh what have you done now dear
+Watson: Man, It really is pretty tonight
+Watson: I never get to come out here as often as i want to
+Watson: I missed looking uo at these stars.
+[signal arg="make_star_shoot"]
+[wait time="1.0"]
+Watson: OH! a shooting star
+[wait time="1.5"]
+Watson: Y'know, I wish for this night to never end.
+[signal arg="Show_title"]
