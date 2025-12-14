@@ -1,10 +1,10 @@
-Watson: So  much for morning hike - Wheres the sun at?
-Watson: At least the stars are nice
+Watson: So much for morning hike - Where's the sun at?
+Watson: At least the stars are nice...
 [wait time="1.0"]
 [signal arg="realization"]
 Watson: My wish...
 Watson: Did it come true?
-[wait time="1.5"]
 [signal arg="look_around"]
-Watson: Oh gosh, i have to fix this. Maybe theres a solution out there
+[wait time="1.5"]
+Watson: Oh gosh, I have to fix this. Maybe there's a solution out there...
 [signal arg="start_gameplay"]

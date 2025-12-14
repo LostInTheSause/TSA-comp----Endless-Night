@@ -10,7 +10,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if animated_sprite_2d.frame >= 2 and animated_sprite_2d.frame <= 10:
+	if animated_sprite_2d.frame >= 3 and animated_sprite_2d.frame <= 9:
 		kill_zone.monitoring = false
 	else:
 		kill_zone.monitoring = true

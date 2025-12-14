@@ -1,10 +1,11 @@
-[gd_scene load_steps=57 format=3 uid="uid://damyxouc062qa"]
+[gd_scene load_steps=58 format=3 uid="uid://damyxouc062qa"]
 
 [ext_resource type="Texture2D" uid="uid://ble8it5h5gxu2" path="res://sprites/player animations/Player V3 jump.png" id="2_swya4"]
 [ext_resource type="Texture2D" uid="uid://kms33bi03rub" path="res://sprites/player animations/Player V3 idol RIGHT.png" id="2_u4ydx"]
 [ext_resource type="Texture2D" uid="uid://qehdsf5jp33q" path="res://sprites/player animations/Player V3 climb2.png" id="4_gd6mk"]
 [ext_resource type="Texture2D" uid="uid://cyoar287ccqeq" path="res://sprites/player animations/Player V3 walk.png" id="5_gd6mk"]
 [ext_resource type="Texture2D" uid="uid://cumjs5daqfkid" path="res://sprites/player animations/dust1 (1).png" id="5_swya4"]
+[ext_resource type="Texture2D" uid="uid://c8e4k72cacluu" path="res://sprites/background sprites/New Piskel (7).png" id="6_u4ydx"]
 
 [sub_resource type="GDScript" id="GDScript_6a63v"]
 script/source = "extends CharacterBody2D
@@ -802,15 +803,22 @@ frame = 4
 frame_progress = 1.0
 
 [node name="GPUParticles2D" type="CPUParticles2D" parent="."]
+texture_filter = 1
+position = Vector2(5, -119)
 amount = 15
+texture = ExtResource("6_u4ydx")
+lifetime = 3.0
+speed_scale = 0.5
+randomness = 1.0
 draw_order = 1
 emission_shape = 3
-emission_rect_extents = Vector2(400, 321.75)
-direction = Vector2(4.53, -22.1)
-gravity = Vector2(-330.091, 578.12)
+emission_rect_extents = Vector2(200, 20)
+direction = Vector2(4.53, 3.23)
+gravity = Vector2(-330.091, 375.705)
+angle_min = -222.7
+angle_max = 178.2
 scale_amount_min = 0.0
-scale_amount_max = 3.0
-color = Color(0.3309577, 0.14904994, 0.1994605, 1)
+color = Color(0.6378432, 0.6378432, 0.63784313, 1)
 
 [connection signal="screen_exited" from="move cam when player leave" to="." method="when_player_leave_screen"]
 [connection signal="timeout" from="dash timer" to="." method="_on_dash_timer_timeout"]

@@ -18,6 +18,9 @@ extends Node2D
 @onready var player_v_3_idol_right: Sprite2D = $Node2D/floor/PlayerV3IdolRight
 
 
+const looped_soundtrack = preload("res://everything else/INTRO LOOP.mp3")
+
+var first_audio_time = true
 
 var starting_pos = Vector2(0.0, -43.0)
 var pan_up = false
@@ -95,3 +98,10 @@ func _on_button_pressed() -> void:
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	clouds_move = false
+
+
+func _on_audio_stream_player_2d_finished() -> void:
+	if first_audio_time:
+		audio_stream_player_2d.stream = looped_soundtrack
+		first_audio_time = false
+	

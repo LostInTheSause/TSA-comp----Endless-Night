@@ -247,6 +247,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_y5rry"]
 resource_name = "flying_star"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -254,10 +255,10 @@ tracks/0/path = NodePath("Node2D:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.26666668, 0.84, 1),
+"times": PackedFloat32Array(0, 0.26666668, 1.3, 1.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0.23921569), Color(1, 1, 1, 1), Color(1, 1, 1, 0.38704395), Color(1, 1, 1, 0.23137255)]
+"values": [Color(1, 1, 1, 0.23921569), Color(1, 1, 1, 1), Color(1, 1, 1, 0.57254905), Color(1, 1, 1, 0.23137255)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -266,7 +267,7 @@ tracks/1/path = NodePath("Node2D:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 1.9333333),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [-0.4886922, 0.4223697]
@@ -282,7 +283,7 @@ tracks/0/path = NodePath("floor/PlayerV3IdolRight:flip_h")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.73, 1.47),
+"times": PackedFloat32Array(0, 0.73, 1.4666667),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
@@ -517,4 +518,5 @@ theme_override_fonts/font = ExtResource("13_3ixmc")
 text = "Begin the night"
 
 [connection signal="screen_exited" from="Node2D/cloud4/VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="finished" from="AudioStreamPlayer2D" to="." method="_on_audio_stream_player_2d_finished"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
