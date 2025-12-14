@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4cmxl1dbce8m"]
+
+[ext_resource type="PackedScene" uid="uid://bc8ohnaqvtvpt" path="res://scenes/opening_scene.tscn" id="1_ysetm"]
+[ext_resource type="Texture2D" uid="uid://kms33bi03rub" path="res://sprites/player animations/Player V3 idol RIGHT.png" id="2_pagux"]
+
+[node name="opening_scene2" type="Node2D"]
+texture_filter = 1
+
+[node name="Opening scene" parent="." instance=ExtResource("1_ysetm")]
+position = Vector2(-2, -4)
+script = null
+
+[node name="PlayerV3IdolRight" type="Sprite2D" parent="."]
+position = Vector2(248, -53)
+texture = ExtResource("2_pagux")
+region_enabled = true
+region_rect = Rect2(6.4236374, 3.5990486, 18.498474, 30.032818)
+
+[editable path="Opening scene"]

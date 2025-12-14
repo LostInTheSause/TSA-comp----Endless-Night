@@ -1,9 +1,10 @@
-[gd_scene load_steps=51 format=3 uid="uid://damyxouc062qa"]
+[gd_scene load_steps=56 format=3 uid="uid://damyxouc062qa"]
 
 [ext_resource type="Texture2D" uid="uid://ble8it5h5gxu2" path="res://sprites/player animations/Player V3 jump.png" id="2_swya4"]
 [ext_resource type="Texture2D" uid="uid://kms33bi03rub" path="res://sprites/player animations/Player V3 idol RIGHT.png" id="2_u4ydx"]
 [ext_resource type="Texture2D" uid="uid://qehdsf5jp33q" path="res://sprites/player animations/Player V3 climb2.png" id="4_gd6mk"]
 [ext_resource type="Texture2D" uid="uid://cyoar287ccqeq" path="res://sprites/player animations/Player V3 walk.png" id="5_gd6mk"]
+[ext_resource type="Texture2D" uid="uid://cumjs5daqfkid" path="res://sprites/player animations/dust1 (1).png" id="5_swya4"]
 
 [sub_resource type="GDScript" id="GDScript_6a63v"]
 script/source = "extends CharacterBody2D
@@ -13,7 +14,8 @@ script/source = "extends CharacterBody2D
 
 @onready var checkpoint: Area2D = $\"../checkpoints/checkpoint\"
 @onready var kill_zone: Area2D = $\"../death areas/kill_zone\"
-@onready var gpu_particles_2d: CPUParticles2D = $GPUParticles2D
+
+@onready var dust: AnimatedSprite2D = $dust
 
 
 @onready var dash_timer: Timer = $\"dash timer\"
@@ -21,6 +23,8 @@ script/source = "extends CharacterBody2D
 
 @onready var if_on_floor_ray: RayCast2D = $if_on_floor_ray
 @onready var if_wall_ray: RayCast2D = $\"if wall_ray\"
+
+@onready var collision_shape_2d_2: CollisionShape2D = $CollisionShape2D2
 
 @export var can_dash = true
 
@@ -67,6 +71,10 @@ var cur_hearts = 5
 var respawn_point = 0
 
 
+var time_falling = 0
+var time_needed_for_dust = 1.0
+var show_dust = false
+
 var is_talking = false
 
 func _ready() -> void:
@@ -95,8 +103,8 @@ func _physics_process(delta: float) -> void:
 		if_wall_ray.target_position.x = -11
 		hanging_direction = -1
 	
-	if jumping and if_on_floor_ray.is_colliding():
-		gpu_particles_2d.emitting = true
+	
+		
 	
 	if !if_on_floor_ray.is_colliding() and if_wall_ray.is_colliding() and !dead:
 		is_hanging = true
@@ -107,6 +115,7 @@ func _physics_process(delta: float) -> void:
 			animated_sprite_2d.play(\"jumping(temp)\")
 	else:
 		is_hanging = false
+		collision_shape_2d_2.disabled = false
 	
 	
 #handles what happends if the charecter is running
@@ -126,21 +135,35 @@ func _physics_process(delta: float) -> void:
 	
 	if is_dashing:
 		create_ghost(direction)
+		
+	if !jumping:
+		time_needed_for_dust = 0.5
+	
+	if !is_on_floor():
+		time_falling += 1 * delta
+		if time_falling >= time_needed_for_dust:
+			show_dust = true
 
-	#
+	if jumping and if_on_floor_ray.is_colliding() and show_dust:
+		dust.play(\"default\")
+		show_dust = false
+		time_falling = 0.0
+	
 	#handles coyote time
 	if not is_on_floor(): 
-		jumping = true
+		
 		if jump_availabel:
 			get_tree().create_timer(coyote_time).timeout.connect(coyote_timeout)
 			
 		if !is_dashing:
 		
 			velocity += get_gravity() * delta
+		
 	else:
 		jump_availabel = true
 		jumping = false
 		dash_available = true
+		time_falling = 0
 	# Handle jump.
 	if Input.is_action_just_pressed(\"jump\"):
 		if is_on_floor() or jump_availabel: 
@@ -215,6 +238,7 @@ func jump() -> void:
 	jumping = true
 	velocity.y = Jump_velo
 	animated_sprite_2d.play(\"jumping(temp)\")
+	time_needed_for_dust = 1
 	jump_availabel = false
 	cur_hearts -= 1
 	
@@ -265,7 +289,7 @@ func dash_logic(delta: float) -> void:
 	if input_dir.x != 0:
 		dash_dir.x = input_dir.x
 	
-	if dash_available and Input.is_action_just_pressed(\"dash\") and can_dash:
+	if dash_available and Input.is_action_just_pressed(\"dash\") and can_dash and !is_hanging:
 		var final_dash_dir: Vector2 = input_dir
 		if input_dir.y != 0 and input_dir.x == 0:
 			final_dash_dir.x = 0
@@ -280,6 +304,11 @@ func dash_logic(delta: float) -> void:
 		
 		velocity.x = final_dash_dir.x * dash_amt/1.2
 		velocity.y = final_dash_dir.y * dash_amt/1.5
+	elif is_hanging and Input.is_action_just_pressed(\"dash\"):
+		is_hanging = false
+		collision_shape_2d_2.disabled = true
+		
+		
 	
 		
 	
@@ -634,14 +663,48 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yxn1k"]
 size = Vector2(22, 0)
 
-[sub_resource type="Curve" id="Curve_yxn1k"]
-_limits = [-360.0, 360.0, 0.0, 1.0]
-_data = [Vector2(0, -230.56177), 0.0, 0.0, 0, 0, Vector2(1, -360), 0.0, 0.0, 0, 0]
-point_count = 2
+[sub_resource type="AtlasTexture" id="AtlasTexture_vioxa"]
+atlas = ExtResource("5_swya4")
+region = Rect2(0, 0, 16, 16)
 
-[sub_resource type="Curve" id="Curve_swya4"]
-_data = [Vector2(0.0116279125, 0.97752815), 0.0, -3.5890849, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ga58"]
+atlas = ExtResource("5_swya4")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sn3o6"]
+atlas = ExtResource("5_swya4")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_la45q"]
+atlas = ExtResource("5_swya4")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pcb8e"]
+atlas = ExtResource("5_swya4")
+region = Rect2(0, 0, 32, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vy1vx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vioxa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ga58")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sn3o6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_la45q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pcb8e")
+}],
+"loop": false,
+"name": &"default",
+"speed": 9.0
+}]
 
 [node name="Lil guy" type="CharacterBody2D"]
 top_level = true
@@ -695,34 +758,14 @@ position = Vector2(0, -3)
 target_position = Vector2(11, 0)
 hit_from_inside = true
 
-[node name="GPUParticles2D" type="CPUParticles2D" parent="."]
+[node name="dust" type="AnimatedSprite2D" parent="."]
 z_index = -1
-position = Vector2(-1, 25)
-scale = Vector2(2.36, 2.36)
-emitting = false
-amount = 70
-lifetime = 1.41
-one_shot = true
-speed_scale = 2.98
-explosiveness = 1.0
-randomness = 0.13
-emission_shape = 4
-emission_points = PackedVector2Array()
-emission_colors = PackedColorArray()
-direction = Vector2(30.3, -83.4)
-spread = 180.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 13.35
-initial_velocity_max = 13.35
-angular_velocity_curve = SubResource("Curve_yxn1k")
-tangential_accel_min = -100.0
-tangential_accel_max = 100.0
-angle_min = -720.0
-angle_max = 720.0
-scale_amount_min = 0.0
-scale_amount_max = 10.0
-scale_amount_curve = SubResource("Curve_swya4")
-color = Color(0.50140655, 0.5014065, 0.5014065, 1)
+texture_filter = 1
+position = Vector2(0, 15)
+scale = Vector2(1.86, 1.36)
+sprite_frames = SubResource("SpriteFrames_vy1vx")
+frame = 4
+frame_progress = 1.0
 
 [connection signal="screen_exited" from="move cam when player leave" to="." method="when_player_leave_screen"]
 [connection signal="timeout" from="dash timer" to="." method="_on_dash_timer_timeout"]

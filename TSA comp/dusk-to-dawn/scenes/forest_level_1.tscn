@@ -400,7 +400,7 @@ sources/0 = SubResource("TileSetAtlasSource_j7wrs")
 [node name="world" type="Node2D"]
 
 [node name="Lil guy" parent="." instance=ExtResource("1_g51ju")]
-position = Vector2(-593, -180)
+position = Vector2(96, -221)
 can_dash = false
 walk_SPEED = 125
 ghost_scene = ExtResource("2_li3v2")

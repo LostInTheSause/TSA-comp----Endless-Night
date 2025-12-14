@@ -28,7 +28,8 @@ directories/dch_directory={
 "unit_test_character": "res://Tests/Resources/unit_test_character.dch"
 }
 directories/dtl_directory={
-"opening_imeline": "res://opening_imeline.dtl"
+"opening_imeline": "res://opening_imeline.dtl",
+"opening_timeline_part2": "res://opening_timeline_part2.dtl"
 }
 layout/style_directory={
 "": "res://Dialogue_style.tres",

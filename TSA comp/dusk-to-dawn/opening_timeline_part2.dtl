@@ -1,0 +1,9 @@
+Watson: So  much for morning hike - Wheres the sun at?
+Watson: At least the stars are nice
+[wait time="1.0"]
+[signal arg="realization"]
+Watson: My wish...
+Watson: Did it come true?
+[wait time="1.5"]
+Watson: Oh gosh, i have to fix this. Maybe theres a solution out there
+[signal arg="start_gameplay"]
