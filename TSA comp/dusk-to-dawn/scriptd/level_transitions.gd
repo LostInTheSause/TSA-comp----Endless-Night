@@ -12,8 +12,8 @@ func change_scene_to(scene_path: String) -> void:
 
 	scene_to_load = scene_path
 	color_rect_tween = create_tween().set_trans(Tween.TRANS_SINE)
-	color_rect_tween.tween_property(color_rect, "modulate:a", 1.0, 0.2).connect("finished", _load_new_scene)
-	color_rect_tween.chain().tween_property(color_rect, "modulate:a", 0.0, 0.4)
+	color_rect_tween.tween_property(color_rect, "modulate:a", 1.0, 0.4).connect("finished", _load_new_scene)
+	color_rect_tween.chain().tween_property(color_rect, "modulate:a", 0.0, 0.8)
 	
 
 func _load_new_scene() -> void:

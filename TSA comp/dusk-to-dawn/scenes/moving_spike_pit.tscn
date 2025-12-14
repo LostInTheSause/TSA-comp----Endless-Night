@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dq4moitg7apr0"]
+
+[ext_resource type="Script" uid="uid://c7tqfe88m2ofn" path="res://scriptd/moving_spike_pit.gd" id="1_gotrj"]
+[ext_resource type="PackedScene" uid="uid://d2wy2yc8f5v67" path="res://scenes/moving_spikes.tscn" id="1_i8rwe"]
+
+[node name="moving_spike pit" type="Node2D"]
+script = ExtResource("1_gotrj")
+
+[node name="moving_spikes" parent="." instance=ExtResource("1_i8rwe")]
+
+[editable path="moving_spikes"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://damyxouc062qa"]
+[gd_scene load_steps=57 format=3 uid="uid://damyxouc062qa"]
 
 [ext_resource type="Texture2D" uid="uid://ble8it5h5gxu2" path="res://sprites/player animations/Player V3 jump.png" id="2_swya4"]
 [ext_resource type="Texture2D" uid="uid://kms33bi03rub" path="res://sprites/player animations/Player V3 idol RIGHT.png" id="2_u4ydx"]
@@ -11,6 +11,7 @@ script/source = "extends CharacterBody2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var camera_2d: Camera2D = $\"../Camera2D\"
 
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 @onready var checkpoint: Area2D = $\"../checkpoints/checkpoint\"
 @onready var kill_zone: Area2D = $\"../death areas/kill_zone\"
@@ -109,6 +110,7 @@ func _physics_process(delta: float) -> void:
 	if !if_on_floor_ray.is_colliding() and if_wall_ray.is_colliding() and !dead:
 		is_hanging = true
 		animated_sprite_2d.play(\"ledge hang\")
+		time_falling = 0
 		if Input.is_action_just_pressed(\"jump\"):
 			jump()
 			velocity.x = -(200 * hanging_direction)
@@ -148,6 +150,7 @@ func _physics_process(delta: float) -> void:
 		dust.play(\"default\")
 		show_dust = false
 		time_falling = 0.0
+		animation_player.play(\"fall\")
 	
 	#handles coyote time
 	if not is_on_floor(): 
@@ -349,10 +352,39 @@ height = 41.27591
 
 [sub_resource type="Animation" id="Animation_beeat"]
 resource_name = "idle"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06666667, 0.14, 0.2),
+"transitions": PackedFloat32Array(1, 1.0352651, 1.4640855, 1),
+"update": 0,
+"values": [Vector2(2.035, 2.035), Vector2(2.35, 2.416), Vector2(2.042, 1.72), Vector2(2.035, 2.035)]
+}
+
+[sub_resource type="Animation" id="Animation_swya4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2.035, 2.035)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_53pyr"]
 _data = {
-&"idle": SubResource("Animation_beeat")
+&"RESET": SubResource("Animation_swya4"),
+&"fall": SubResource("Animation_beeat")
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lo1kp"]
@@ -759,13 +791,26 @@ target_position = Vector2(11, 0)
 hit_from_inside = true
 
 [node name="dust" type="AnimatedSprite2D" parent="."]
+visible = false
 z_index = -1
 texture_filter = 1
-position = Vector2(0, 15)
+position = Vector2(0, 19)
 scale = Vector2(1.86, 1.36)
 sprite_frames = SubResource("SpriteFrames_vy1vx")
+autoplay = "default"
 frame = 4
 frame_progress = 1.0
+
+[node name="GPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 15
+draw_order = 1
+emission_shape = 3
+emission_rect_extents = Vector2(400, 321.75)
+direction = Vector2(4.53, -22.1)
+gravity = Vector2(-330.091, 578.12)
+scale_amount_min = 0.0
+scale_amount_max = 3.0
+color = Color(0.3309577, 0.14904994, 0.1994605, 1)
 
 [connection signal="screen_exited" from="move cam when player leave" to="." method="when_player_leave_screen"]
 [connection signal="timeout" from="dash timer" to="." method="_on_dash_timer_timeout"]

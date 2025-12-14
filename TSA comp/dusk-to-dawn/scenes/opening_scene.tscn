@@ -1,12 +1,14 @@
-[gd_scene load_steps=43 format=3 uid="uid://bc8ohnaqvtvpt"]
+[gd_scene load_steps=47 format=3 uid="uid://bc8ohnaqvtvpt"]
 
 [ext_resource type="Texture2D" uid="uid://bwp7580e0r747" path="res://sprites/background sprites/Fall Background EXTENDED-6.png.png" id="1_3cuo6"]
 [ext_resource type="Script" uid="uid://cw6tpvebw0hlh" path="res://scriptd/opening_scene.gd" id="1_k6lw7"]
 [ext_resource type="Texture2D" uid="uid://c7nh4etjo482n" path="res://sprites/background sprites/Fall Background EXTENDED-4.png.png" id="2_k6lw7"]
 [ext_resource type="Texture2D" uid="uid://chbg53v4y3308" path="res://sprites/background sprites/Fall Background EXTENDED-3.png.png" id="3_7igwe"]
 [ext_resource type="Texture2D" uid="uid://boks80c2ui2iq" path="res://sprites/background sprites/Fall Background-2.png.png" id="4_0iuqt"]
+[ext_resource type="Texture2D" uid="uid://m1uvnhrl6fw1" path="res://sprites/cutscene/FIre (cutscene) (1) (1).png" id="4_5ejm5"]
 [ext_resource type="Texture2D" uid="uid://bctjm8s7qiv72" path="res://sprites/cutscene/FIre (cutscene) (1).png" id="5_wpum6"]
 [ext_resource type="Texture2D" uid="uid://8itr22vuygt0" path="res://sprites/cutscene/Player On Log (cutscene).png" id="6_akv2y"]
+[ext_resource type="Texture2D" uid="uid://kms33bi03rub" path="res://sprites/player animations/Player V3 idol RIGHT.png" id="6_lwios"]
 [ext_resource type="Texture2D" uid="uid://cqxqktxxertef" path="res://sprites/cutscene/ENDLESS NIGHT LOGO.png" id="7_3ixmc"]
 [ext_resource type="Texture2D" uid="uid://bruqndmp1mxsv" path="res://sprites/cutscene/Shooting Star.png" id="9_7igwe"]
 [ext_resource type="Texture2D" uid="uid://dbd7owvc144c7" path="res://sprites/cutscene/New Piskel (5).png" id="9_akv2y"]
@@ -42,6 +44,10 @@ region = Rect2(64, 32, 32, 32)
 atlas = ExtResource("5_wpum6")
 region = Rect2(0, 64, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_0akce"]
+atlas = ExtResource("4_5ejm5")
+region = Rect2(0, 0, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_0akce"]
 animations = [{
 "frames": [{
@@ -68,6 +74,14 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0akce")
+}],
+"loop": true,
+"name": &"fire_out",
 "speed": 5.0
 }]
 
@@ -218,6 +232,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [-0.4886922]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("floor/PlayerV3IdolRight:flip_h")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_y5rry"]
 resource_name = "flying_star"
@@ -246,10 +272,27 @@ tracks/1/keys = {
 "values": [-0.4886922, 0.4223697]
 }
 
+[sub_resource type="Animation" id="Animation_lwios"]
+resource_name = "lookaround"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("floor/PlayerV3IdolRight:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.73, 1.47),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lwios"]
 _data = {
 &"RESET": SubResource("Animation_5ejm5"),
-&"flying_star": SubResource("Animation_y5rry")
+&"flying_star": SubResource("Animation_y5rry"),
+&"lookaround": SubResource("Animation_lwios")
 }
 
 [sub_resource type="Theme" id="Theme_y5rry"]
@@ -283,17 +326,23 @@ texture = ExtResource("4_0iuqt")
 position = Vector2(214.2857, 171.42856)
 scale = Vector2(8.89, 8.89)
 sprite_frames = SubResource("SpriteFrames_0akce")
+animation = &"fire_out"
 autoplay = "default"
-frame = 1
-frame_progress = 0.08699399
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Node2D/floor"]
 position = Vector2(-228.57143, 114.28571)
 scale = Vector2(13.02, 13.02)
 sprite_frames = SubResource("SpriteFrames_82m7v")
 autoplay = "default"
-frame_progress = 0.29038265
 flip_h = true
+
+[node name="PlayerV3IdolRight" type="Sprite2D" parent="Node2D/floor"]
+visible = false
+position = Vector2(-105.26315, 136.84212)
+scale = Vector2(14.842105, 14.842105)
+texture = ExtResource("6_lwios")
+region_enabled = true
+region_rect = Rect2(9.688072, 5.5577106, 13.493004, 26.768381)
 
 [node name="back trees2" type="Sprite2D" parent="Node2D"]
 z_index = -2
@@ -404,27 +453,30 @@ texture = ExtResource("1_3cuo6")
 region_enabled = true
 region_rect = Rect2(0, 0, 120, 22.230762)
 
-[node name="NewPiskel(5)" type="Sprite2D" parent="Node2D"]
+[node name="cloud1" type="Sprite2D" parent="Node2D"]
 position = Vector2(122, -165)
 scale = Vector2(2.375, 2.03125)
 texture = ExtResource("9_akv2y")
 
-[node name="NewPiskel(6)2" type="Sprite2D" parent="Node2D"]
+[node name="cloud2" type="Sprite2D" parent="Node2D"]
 position = Vector2(102, -241.00003)
 scale = Vector2(2.625, 2.84375)
 texture = ExtResource("10_3ixmc")
 flip_v = true
 
-[node name="NewPiskel(5)2" type="Sprite2D" parent="Node2D"]
-position = Vector2(-97, -227)
+[node name="cloud3" type="Sprite2D" parent="Node2D"]
+position = Vector2(-90, -227)
 scale = Vector2(2.25, 1.96875)
 texture = ExtResource("9_akv2y")
 flip_h = true
 
-[node name="NewPiskel(6)" type="Sprite2D" parent="Node2D"]
+[node name="cloud4" type="Sprite2D" parent="Node2D"]
 position = Vector2(-139, -145.00002)
 scale = Vector2(2.4375, 2.5)
 texture = ExtResource("10_3ixmc")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Node2D/cloud4"]
+rect = Rect2(-10, -10, 20, 14.435)
 
 [node name="Node2D" type="Node2D" parent="Node2D"]
 visible = false
@@ -450,6 +502,7 @@ zoom = Vector2(2.56, 2.56)
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("10_0iuqt")
+parameters/looping = true
 
 [node name="Button" type="Button" parent="."]
 visible = false
@@ -463,4 +516,5 @@ theme_override_colors/font_hover_color = Color(0.9490196, 0.9490196, 0, 1)
 theme_override_fonts/font = ExtResource("13_3ixmc")
 text = "Begin the night"
 
+[connection signal="screen_exited" from="Node2D/cloud4/VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

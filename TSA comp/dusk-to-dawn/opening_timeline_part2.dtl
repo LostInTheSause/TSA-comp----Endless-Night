@@ -5,5 +5,6 @@ Watson: At least the stars are nice
 Watson: My wish...
 Watson: Did it come true?
 [wait time="1.5"]
+[signal arg="look_around"]
 Watson: Oh gosh, i have to fix this. Maybe theres a solution out there
 [signal arg="start_gameplay"]
