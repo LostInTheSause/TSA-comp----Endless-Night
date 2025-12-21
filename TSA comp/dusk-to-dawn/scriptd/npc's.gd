@@ -7,7 +7,7 @@ extends Node2D
 @onready var npc_charecter_body: CharacterBody2D = $"Npc charecter Body"
 
 
-@onready var lil_guy: CharacterBody2D = $"../Lil guy"
+
 @onready var camera_2d: Camera2D = %Camera2D
 
 
@@ -15,7 +15,8 @@ extends Node2D
 @export var NPC_idle_animation: SpriteFrames 
 @export var NPC_talking_animation: bool = false
 var can_talk = false
-
+var talkIonce = false
+var player: Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	prespeak_label.hide()
@@ -27,8 +28,13 @@ func _process(delta: float) -> void:
 		if Input.is_action_pressed("talk"):
 				
 
-				lil_guy.is_talking = true
-				Dialogic.start("opening_imeline")
+				player.is_talking = true
+				prespeak_label.visible = false
+				if talkIonce:
+					Dialogic.start("gradma_timeline2")
+				else:
+					talkIonce = true
+					Dialogic.start("Grandma_timeline")
 				
 				Dialogic.timeline_ended.connect(done_talking)
 				
@@ -38,6 +44,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		can_talk = true
 		prespeak_label.show()
+		player = body
 		#body.is_talking = true
 			
 			
@@ -45,9 +52,10 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
-	if body == lil_guy:
+	if body.is_in_group("Player"):
 		prespeak_label.hide()
 		can_talk = false
 
 func done_talking() -> void:
-	lil_guy.is_talking = false
+	player.is_talking = false
+	prespeak_label.visible = true

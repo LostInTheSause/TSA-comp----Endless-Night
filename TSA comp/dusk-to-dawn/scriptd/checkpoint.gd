@@ -3,7 +3,6 @@ extends Node2D
 
 
 
-@onready var lil_guy: CharacterBody2D = $"../Lil guy"
 
 signal respawn(is_true)
 var checkpoint_activated = false

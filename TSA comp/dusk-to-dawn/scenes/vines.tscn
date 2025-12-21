@@ -1,0 +1,110 @@
+[gd_scene load_steps=8 format=3 uid="uid://cfgua0ewgudyv"]
+
+[ext_resource type="Script" uid="uid://dsxirx8gwhdn7" path="res://scriptd/vines.gd" id="1_22hlj"]
+[ext_resource type="Texture2D" uid="uid://badlekhq0gpp8" path="res://sprites/objects/Vine.png" id="1_tfq28"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_22hlj"]
+size = Vector2(5, 31)
+
+[sub_resource type="Animation" id="Animation_kckem"]
+resource_name = "vine_swing"
+length = 0.5
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.87266463, -0.87266463]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../Marker2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.24, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-12.999999, 11.000001), Vector2(-7.450581e-09, 17), Vector2(13.999999, 11)]
+}
+
+[sub_resource type="Animation" id="Animation_h0vb5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.87266463]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../Marker2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-12.999999, 11.000001)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_thmsl"]
+_data = {
+&"RESET": SubResource("Animation_h0vb5"),
+&"vine_swing": SubResource("Animation_kckem")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kckem"]
+size = Vector2(13.951741, 0.010931015)
+
+[node name="Vines" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_22hlj")
+
+[node name="Node2D" type="Node2D" parent="."]
+rotation = 0.87266463
+
+[node name="AnimatedSprite2D" type="Sprite2D" parent="Node2D"]
+position = Vector2(2, 17)
+texture = ExtResource("1_tfq28")
+
+[node name="Area2D" type="Area2D" parent="Node2D/AnimatedSprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/AnimatedSprite2D/Area2D"]
+position = Vector2(-2, -2)
+shape = SubResource("RectangleShape2D_22hlj")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/AnimatedSprite2D"]
+libraries = {
+&"": SubResource("AnimationLibrary_thmsl")
+}
+autoplay = "vine_swing"
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Node2D"]
+position = Vector2(-0.3026985, 30.010464)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/StaticBody2D"]
+position = Vector2(4.172325e-07, -1.9073486e-06)
+shape = SubResource("RectangleShape2D_kckem")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+z_index = -5
+position = Vector2(-12.999999, 11.000001)
+rotation = 1.3767203
+scale = Vector2(1.0000001, 1.0000001)
+
+[connection signal="body_entered" from="Node2D/AnimatedSprite2D/Area2D" to="." method="_on_area_2d_body_entered"]

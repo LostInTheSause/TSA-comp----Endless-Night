@@ -1,7 +1,7 @@
 extends Area2D
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-@onready var lil_guy: CharacterBody2D = $"../Lil guy"
+
 
 
 const bounce_velocity: int = 600

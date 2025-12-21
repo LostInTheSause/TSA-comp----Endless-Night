@@ -17,6 +17,7 @@ extends Node2D
 @onready var cloud_4: Sprite2D = $Node2D/cloud4
 @onready var player_v_3_idol_right: Sprite2D = $Node2D/floor/PlayerV3IdolRight
 
+@onready var label: Label = $Label
 
 const looped_soundtrack = preload("res://everything else/INTRO LOOP.mp3")
 
@@ -34,6 +35,10 @@ var clouds_move = true
 var up_clouds_move_amt = 30
 var down_clouds_move_amt = 45
 
+const hold_to_skip_time = 1.5
+var hold_time = 0
+
+var label_disaper = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -45,6 +50,16 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
+	if Input.is_action_pressed("Skip_cutscene"):
+		hold_time += delta
+		if hold_time >= hold_to_skip_time:
+			LevelTransitions.change_scene_to("uid://dani6j2n6nwad")
+			Dialogic.end_timeline()
+	
+	if Input.is_action_just_released("Skip_cutscene"):
+		hold_time = 0.0
+	
 	if pan_up:
 		camera_2d.position = starting_pos
 		starting_pos.y -= 10 * delta
@@ -65,6 +80,10 @@ func _process(delta: float) -> void:
 			if starting_pos.y >= -43:
 				pan_down = false
 				Dialogic.start("opening_timeline_part2")
+	if label_disaper:
+		label.visible_ratio -= 2*delta
+		if label.visible_characters == 0:
+			label_disaper = false
 
 
 
@@ -82,6 +101,8 @@ func  on_dialogic_signal(argument: String) -> void:
 		animation_player.play("lookaround")
 	elif argument == "start_gameplay":
 		LevelTransitions.change_scene_to("uid://dani6j2n6nwad")
+	elif argument == "Timeline_started":
+		label_disaper = true
 		
 func star_shooting_done() -> void:
 	node_2d.visible = false
@@ -93,6 +114,7 @@ func _on_button_pressed() -> void:
 	fire.play("fire_out")
 	player_v_3_idol_right.visible = true
 	pan_down= true
+	button.visible = false
 	
 
 

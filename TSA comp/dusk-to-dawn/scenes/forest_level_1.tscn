@@ -1,8 +1,7 @@
-[gd_scene load_steps=19 format=4 uid="uid://dani6j2n6nwad"]
+[gd_scene load_steps=26 format=4 uid="uid://dani6j2n6nwad"]
 
 [ext_resource type="Script" uid="uid://cuu6i7tnnbfdf" path="res://scriptd/forest_level_1.gd" id="1_6xay0"]
 [ext_resource type="PackedScene" uid="uid://damyxouc062qa" path="res://scenes/lil_guy.tscn" id="1_g51ju"]
-[ext_resource type="PackedScene" uid="uid://dvvm2ydy7xq0r" path="res://scenes/dashing_ghost.tscn" id="2_li3v2"]
 [ext_resource type="Texture2D" uid="uid://wac3x4sprdcm" path="res://sprites/tileset_frthistime/tileset_tileset_frthistime.png" id="3_7hfs4"]
 [ext_resource type="AudioStream" uid="uid://c1tn64s5jijoa" path="res://everything else/Level Song 1 Demo.mp3" id="4_fpgwt"]
 [ext_resource type="Texture2D" uid="uid://c7nh4etjo482n" path="res://sprites/background sprites/Fall Background EXTENDED-4.png.png" id="4_g4cfp"]
@@ -15,7 +14,14 @@
 [ext_resource type="PackedScene" uid="uid://tsux35fq77df" path="res://scenes/spike_pit.tscn" id="10_g51ju"]
 [ext_resource type="PackedScene" uid="uid://n3rbghsmd0bs" path="res://scenes/spikes.tscn" id="13_0cl46"]
 [ext_resource type="PackedScene" uid="uid://d2wy2yc8f5v67" path="res://scenes/moving_spikes.tscn" id="14_g4cfp"]
+[ext_resource type="Texture2D" uid="uid://8igpvexlw5xt" path="res://sprites/objects/Sign.png" id="15_f3w1p"]
+[ext_resource type="Script" uid="uid://currh8hbba742" path="res://scriptd/1to2change.gd" id="15_m4wt4"]
 [ext_resource type="PackedScene" uid="uid://dq4moitg7apr0" path="res://scenes/moving_spike_pit.tscn" id="16_fpgwt"]
+[ext_resource type="Texture2D" uid="uid://dctyvxrhrww8e" path="res://sprites/objects/spike sign info.png" id="16_m4wt4"]
+[ext_resource type="Texture2D" uid="uid://bphc8q5ejde4p" path="res://sprites/objects/arrow_keys.png" id="17_dy6wm"]
+[ext_resource type="Texture2D" uid="uid://brbxph7t61hli" path="res://sprites/objects/mushroom sign info.png" id="17_m4wt4"]
+[ext_resource type="FontFile" uid="uid://cbhl7de5qjlqo" path="res://everything else/Oleaguid/Oleaguid.ttf" id="17_n6o5y"]
+[ext_resource type="Texture2D" uid="uid://b7ufs73lsdgug" path="res://sprites/objects/WASD.png" id="18_wsiti"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j7wrs"]
 texture = ExtResource("3_7hfs4")
@@ -400,29 +406,12 @@ terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 sources/0 = SubResource("TileSetAtlasSource_j7wrs")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m4wt4"]
+size = Vector2(155.5, 275.5)
+
 [node name="world" type="Node2D"]
+texture_filter = 1
 script = ExtResource("1_6xay0")
-
-[node name="Lil guy" parent="." instance=ExtResource("1_g51ju")]
-position = Vector2(-1971, -39)
-walk_SPEED = 125
-ghost_scene = ExtResource("2_li3v2")
-jump_buffer_timer = 0.64
-
-[node name="Camera2D" type="Camera2D" parent="Lil guy"]
-position = Vector2(-1, 19)
-zoom = Vector2(2.303, 2.232)
-limit_left = -10000053
-limit_top = -415
-limit_right = 9999947
-limit_bottom = 176
-position_smoothing_enabled = true
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Lil guy"]
-position = Vector2(-2, -2)
-stream = ExtResource("4_fpgwt")
-max_distance = 4096.0
-parameters/looping = true
 
 [node name="TileMap" type="TileMap" parent="."]
 texture_filter = 1
@@ -498,8 +487,8 @@ speed_scale = 0.8
 position = Vector2(33, -113)
 
 [node name="bouncy mushroom" parent="TileMap/other" instance=ExtResource("9_7hfs4")]
-position = Vector2(1170, 118)
-scale = Vector2(1.43, 1.43)
+position = Vector2(1167.0001, 110)
+scale = Vector2(1.91, 1.91)
 
 [node name="bouncy mushroom2" parent="TileMap/other" instance=ExtResource("9_7hfs4")]
 position = Vector2(1127, 124)
@@ -518,6 +507,68 @@ disabled = true
 [node name="bouncy mushroom4" parent="TileMap/other" instance=ExtResource("9_7hfs4")]
 position = Vector2(3185, 81)
 scale = Vector2(3.675, 3.675)
+
+[node name="GUI" type="Node2D" parent="TileMap"]
+position = Vector2(27, -73)
+scale = Vector2(1.545, 1.545)
+
+[node name="Sprite2D" type="Sprite2D" parent="TileMap/GUI"]
+modulate = Color(1, 1, 1, 0.5882353)
+texture_filter = 1
+position = Vector2(-45.954834, -5.825245)
+scale = Vector2(1.288026, 1.288026)
+texture = ExtResource("17_dy6wm")
+
+[node name="Wasd" type="Sprite2D" parent="TileMap/GUI"]
+modulate = Color(1, 1, 1, 0.5254902)
+texture_filter = 1
+position = Vector2(57.605103, -4.5307426)
+scale = Vector2(1.2944984, 1.2944984)
+texture = ExtResource("18_wsiti")
+
+[node name="Label" type="Label" parent="TileMap/GUI"]
+modulate = Color(1, 1, 1, 0.5686275)
+texture_filter = 1
+offset_right = 40.0
+offset_bottom = 23.0
+scale = Vector2(1.545, 1.545)
+theme_override_fonts/font = ExtResource("17_n6o5y")
+text = "or"
+
+[node name="Sign" type="Sprite2D" parent="TileMap/GUI"]
+position = Vector2(231.71518, -10.355989)
+scale = Vector2(0.6472492, 0.6472492)
+skew = -0.029670598
+texture = ExtResource("15_f3w1p")
+
+[node name="SpikeSignInfo" type="Sprite2D" parent="TileMap/GUI/Sign"]
+position = Vector2(-0.8218994, -6.00264)
+rotation = -0.12178688
+scale = Vector2(1.2869622, 1.2788541)
+skew = 0.028989792
+texture = ExtResource("16_m4wt4")
+
+[node name="Sign2" type="Sprite2D" parent="TileMap/GUI"]
+position = Vector2(661.48865, -1.2944984)
+scale = Vector2(0.697, 0.697)
+skew = 0.061086524
+texture = ExtResource("15_f3w1p")
+
+[node name="MushroomSignInfo" type="Sprite2D" parent="TileMap/GUI/Sign2"]
+position = Vector2(6.1035156e-05, -10.214813)
+rotation = 0.13962635
+scale = Vector2(0.8321377, 0.8321377)
+texture = ExtResource("17_m4wt4")
+
+[node name="Area2D" type="Area2D" parent="TileMap"]
+position = Vector2(3368, -264)
+disable_mode = 2
+priority = 3
+script = ExtResource("15_m4wt4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TileMap/Area2D"]
+position = Vector2(1, 5)
+shape = SubResource("RectangleShape2D_m4wt4")
 
 [node name="background" type="Node2D" parent="."]
 texture_filter = 1
@@ -557,7 +608,7 @@ texture = ExtResource("5_g4cfp")
 [node name="Parallax2D3" type="Parallax2D" parent="background"]
 texture_filter = 1
 scroll_scale = Vector2(0.645, 0)
-scroll_offset = Vector2(-118.5185, 240.74072)
+scroll_offset = Vector2(-125.92592, 170.37036)
 repeat_size = Vector2(1898.97, 0)
 repeat_times = 8
 
@@ -582,7 +633,7 @@ texture = ExtResource("7_fpgwt")
 
 [node name="ParallaxLayer" type="Parallax2D" parent="background"]
 scroll_scale = Vector2(0, 0)
-scroll_offset = Vector2(-159.25925, 518.5185)
+scroll_offset = Vector2(-111.1111, 122.2222)
 repeat_size = Vector2(1898.97, 0)
 repeat_times = 8
 
@@ -592,6 +643,24 @@ z_index = -4
 position = Vector2(-81.481476, -477.77777)
 scale = Vector2(16.09, 16.09)
 texture = ExtResource("8_6xay0")
+
+[node name="Lil guy" parent="." instance=ExtResource("1_g51ju")]
+position = Vector2(1061, -240)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Lil guy"]
+stream = ExtResource("4_fpgwt")
+max_distance = 4096.0
+parameters/looping = true
+
+[node name="Camera2D" type="Camera2D" parent="Lil guy"]
+zoom = Vector2(2.303, 2.232)
+limit_left = -10000053
+limit_top = -415
+limit_right = 9999947
+limit_bottom = 176
+position_smoothing_enabled = true
+
+[connection signal="body_entered" from="TileMap/Area2D" to="TileMap/Area2D" method="_on_body_entered"]
 
 [editable path="TileMap/Death areas/moving_spike pit"]
 [editable path="TileMap/Death areas/moving_spike pit/moving_spikes"]
