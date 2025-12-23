@@ -35,7 +35,7 @@ var SPEED = 0
 const run_speed = 220
 @export var walk_SPEED = 100
 
-const dash_amt := 400
+const dash_amt := 800
 const dash_time := 0.15
 
 var is_dashing = false
@@ -79,6 +79,9 @@ var is_talking = false
 
 var on_rope = false
 
+var hit_berry = false
+
+var playerz_index = self.z_index
 
 func _ready() -> void:
 	respawn_point = self.global_position
@@ -278,7 +281,7 @@ func respawn() -> void:
 	dead = false
 	#respawn_point.y += 20
 	self.position = respawn_point
-	self.z_index = 0
+	self.z_index = playerz_index
 	animated_sprite_2d.play(\"idle\")
 	set_collision_mask_value(1, true) # Re-enable collision
 	#camera_2d.position = self.position
@@ -294,10 +297,10 @@ func dash_logic(delta: float) -> void:
 	if input_dir.x != 0:
 		dash_dir.x = input_dir.x
 	
-	if dash_available and Input.is_action_just_pressed(\"dash\") and can_dash and !is_hanging:
+	if (dash_available and Input.is_action_just_pressed(\"dash\") and can_dash and !is_hanging) or hit_berry:
 		var final_dash_dir: Vector2 = input_dir
-		if input_dir.y != 0 and input_dir.x == 0:
-			final_dash_dir.x = 0
+		if  input_dir.x == 0:
+			final_dash_dir.x = dash_dir.x
 		
 		final_dash_dir.y =  input_dir.y
 		
@@ -305,10 +308,10 @@ func dash_logic(delta: float) -> void:
 		is_dashing = true
 		dashen_time = dash_time
 		
-		
+		hit_berry = false
 		
 		velocity.x = final_dash_dir.x * dash_amt/1.2
-		velocity.y = final_dash_dir.y * dash_amt/1.5
+		velocity.y = final_dash_dir.y * dash_amt/1.5 *0
 	elif is_hanging and Input.is_action_just_pressed(\"dash\"):
 		is_hanging = false
 		collision_shape_2d_2.disabled = true
@@ -792,10 +795,11 @@ rect = Rect2(1.08, -11.999999, 8.92, 19.829998)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
+modulate = Color(0.74509805, 0.74509805, 0.74509805, 1)
 texture_filter = 1
 scale = Vector2(2.035, 2.035)
 sprite_frames = SubResource("SpriteFrames_41qoe")
-animation = &"on_vine"
+animation = &"idle"
 
 [node name="dash timer" type="Timer" parent="."]
 wait_time = 0.25
@@ -816,7 +820,7 @@ target_position = Vector2(0, 31)
 hit_from_inside = true
 
 [node name="if wall_ray" type="RayCast2D" parent="."]
-position = Vector2(0, -3)
+position = Vector2(1, -7)
 target_position = Vector2(11, 0)
 hit_from_inside = true
 

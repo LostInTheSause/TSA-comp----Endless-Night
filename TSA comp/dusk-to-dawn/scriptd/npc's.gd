@@ -35,6 +35,7 @@ func _process(delta: float) -> void:
 				else:
 					talkIonce = true
 					Dialogic.start("Grandma_timeline")
+					player.respawn_point = self.position
 				
 				Dialogic.timeline_ended.connect(done_talking)
 				

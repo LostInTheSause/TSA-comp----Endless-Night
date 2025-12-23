@@ -645,7 +645,8 @@ scale = Vector2(16.09, 16.09)
 texture = ExtResource("8_6xay0")
 
 [node name="Lil guy" parent="." instance=ExtResource("1_g51ju")]
-position = Vector2(1061, -240)
+position = Vector2(-1971, -34)
+can_dash = false
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Lil guy"]
 stream = ExtResource("4_fpgwt")

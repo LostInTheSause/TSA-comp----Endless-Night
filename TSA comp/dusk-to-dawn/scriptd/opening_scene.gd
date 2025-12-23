@@ -101,6 +101,7 @@ func  on_dialogic_signal(argument: String) -> void:
 		animation_player.play("lookaround")
 	elif argument == "start_gameplay":
 		LevelTransitions.change_scene_to("uid://dani6j2n6nwad")
+		self.queue_free()
 	elif argument == "Timeline_started":
 		label_disaper = true
 		
