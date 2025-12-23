@@ -1,29 +1,24 @@
 extends Node2D
 
-@onready var animated_sprite_2d: Sprite2D = $Node2D/AnimatedSprite2D
-
-@onready var marker_2d: Marker2D = $Marker2D
-
-@onready var node_2d: Node2D = $Node2D
-
-# Called when the node enters the scene tree for the first time.
-var player = CharacterBody2D
-var on_vine = false
 
 func _ready() -> void:
-	pass # Replace with function body.
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if on_vine:
-		player.position = marker_2d.position
-		player.rotation = node_2d.rotation
+	pass
 
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	print("hi")
-	if body.is_in_group("Player"):
-		on_vine = true
-		#marker_2d.position = body.position
-		body.visible = true
-		player = body
+func get_rope_position(body):
+	var newPositon: Vector2 
+	var shortestDistance = false
+	for child in get_children():
+		if not child is Sprite2D: continue
+		
+		var distance = body.global_position.distance_to(child.global_position)
+		
+		if not shortestDistance or distance < shortestDistance:
+			newPositon = child.global_position
+			shortestDistance = distance
+			
+	return newPositon

@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://damyxouc062qa"]
+[gd_scene load_steps=60 format=3 uid="uid://damyxouc062qa"]
 
 [ext_resource type="Texture2D" uid="uid://ble8it5h5gxu2" path="res://sprites/player animations/Player V3 jump.png" id="2_swya4"]
 [ext_resource type="Texture2D" uid="uid://kms33bi03rub" path="res://sprites/player animations/Player V3 idol RIGHT.png" id="2_u4ydx"]
@@ -76,6 +76,9 @@ var time_needed_for_dust = 1.0
 var show_dust = false
 
 var is_talking = false
+
+var on_rope = false
+
 
 func _ready() -> void:
 	respawn_point = self.global_position
@@ -157,7 +160,7 @@ func _physics_process(delta: float) -> void:
 		if jump_availabel:
 			get_tree().create_timer(coyote_time).timeout.connect(coyote_timeout)
 			
-		if !is_dashing:
+		if !is_dashing and not on_rope:
 		
 			velocity += get_gravity() * delta
 		
@@ -341,8 +344,21 @@ func create_ghost(direction) -> void:
 			
 	
 
-	
-	
+func enter_rope(area) -> void:
+	on_rope = true
+	reparent(area)
+	global_position = area.get_rope_position(self)
+	velocity = Vector2.ZERO
+	rotation = 0
+
+func _on_vine_detection_area_exited(area: Area2D) -> void:
+	print(\"hi\")
+	if area.is_in_group(\"Vines\") and on_rope:
+		on_rope = false
+
+func _on_vine_detection_area_entered(area: Area2D) -> void:
+	if area.is_in_group(\"Vines\") and !on_rope:
+		call_deferred(\"enter_rope\", area)
 "
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i2avw"]
@@ -749,6 +765,9 @@ animations = [{
 "speed": 9.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u4ydx"]
+size = Vector2(18, 39)
+
 [node name="Lil guy" type="CharacterBody2D"]
 top_level = true
 wall_min_slide_angle = 1.5097098
@@ -831,5 +850,13 @@ angle_max = 178.2
 scale_amount_min = 0.0
 color = Color(0.6378432, 0.6378432, 0.63784313, 1)
 
+[node name="vine_detection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="vine_detection"]
+position = Vector2(1, 7.5)
+shape = SubResource("RectangleShape2D_u4ydx")
+
 [connection signal="screen_exited" from="move cam when player leave" to="." method="when_player_leave_screen"]
 [connection signal="timeout" from="dash timer" to="." method="_on_dash_timer_timeout"]
+[connection signal="area_entered" from="vine_detection" to="." method="_on_vine_detection_area_entered"]
+[connection signal="area_exited" from="vine_detection" to="." method="_on_vine_detection_area_exited"]
