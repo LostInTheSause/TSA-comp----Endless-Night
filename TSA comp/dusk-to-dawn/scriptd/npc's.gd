@@ -30,12 +30,12 @@ func _process(delta: float) -> void:
 
 				player.is_talking = true
 				prespeak_label.visible = false
-				if talkIonce:
-					Dialogic.start("gradma_timeline2")
-				else:
-					talkIonce = true
+				if !talkIonce:
+					
 					Dialogic.start("Grandma_timeline")
 					player.respawn_point = self.position
+				else:
+					Dialogic.start("gradma_timeline2")
 				
 				Dialogic.timeline_ended.connect(done_talking)
 				
@@ -60,3 +60,4 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 func done_talking() -> void:
 	player.is_talking = false
 	prespeak_label.visible = true
+	talkIonce = true

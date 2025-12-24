@@ -264,7 +264,7 @@ func _on_checkpoint_body_entered(_checkpoint_position) :
 		
 func _on_death(_thingy) -> void:
 	print(\"you ded\")
-	velocity.x = 0
+	velocity = Vector2.ZERO
 	set_collision_mask_value(1, false) # Example: disable collision with layer 1
 	self.z_index = -1
 	
@@ -297,7 +297,7 @@ func dash_logic(delta: float) -> void:
 	if input_dir.x != 0:
 		dash_dir.x = input_dir.x
 	
-	if (dash_available and Input.is_action_just_pressed(\"dash\") and can_dash and !is_hanging) or hit_berry:
+	if ((dash_available and Input.is_action_just_pressed(\"dash\") and can_dash and !is_hanging) or hit_berry) and !dead:
 		var final_dash_dir: Vector2 = input_dir
 		if  input_dir.x == 0:
 			final_dash_dir.x = dash_dir.x
@@ -364,9 +364,9 @@ func _on_vine_detection_area_entered(area: Area2D) -> void:
 		call_deferred(\"enter_rope\", area)
 "
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i2avw"]
-radius = 5.5321746
-height = 39.103493
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u4ydx"]
+radius = 7.999998
+height = 42.0
 
 [sub_resource type="Animation" id="Animation_swya4"]
 length = 0.001
@@ -779,9 +779,8 @@ jump_buffer_timer = 0.57
 coyote_time = 0.235
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1.1920929e-07, 6)
-scale = Vector2(1.2653248, 0.92063385)
-shape = SubResource("CapsuleShape2D_i2avw")
+position = Vector2(1.0000019, 7)
+shape = SubResource("CapsuleShape2D_u4ydx")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

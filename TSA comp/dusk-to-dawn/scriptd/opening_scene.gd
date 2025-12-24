@@ -19,6 +19,8 @@ extends Node2D
 
 @onready var label: Label = $Label
 
+@onready var label_2: RichTextLabel = $Label2
+
 const looped_soundtrack = preload("res://everything else/INTRO LOOP.mp3")
 
 var first_audio_time = true
@@ -39,6 +41,9 @@ const hold_to_skip_time = 1.5
 var hold_time = 0
 
 var label_disaper = false
+
+var help_lable_wait_time = 3.0
+var help_lable_time = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -68,6 +73,9 @@ func _process(delta: float) -> void:
 			button_in = true
 	if button_in:
 		button.visible = true
+		help_lable_time += delta
+		if help_lable_time >= help_lable_wait_time:
+			label_2.visible = true
 	if first_half_done:
 		if clouds_move:
 			cloud_1.position.x -= down_clouds_move_amt * delta
@@ -116,6 +124,7 @@ func _on_button_pressed() -> void:
 	player_v_3_idol_right.visible = true
 	pan_down= true
 	button.visible = false
+	label_2.visible = false
 	
 
 

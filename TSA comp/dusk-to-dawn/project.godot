@@ -10,9 +10,12 @@ config_version=5
 
 [application]
 
-config/name="Endless Night TSA comp"
+config/name="Endless Night"
 run/main_scene="uid://bc8ohnaqvtvpt"
 config/features=PackedStringArray("4.5", "Forward Plus")
+boot_splash/bg_color=Color(0.12383027, 0.034642037, 0.31898198, 1)
+boot_splash/use_filter=false
+boot_splash/image="uid://cqxqktxxertef"
 config/icon="res://icon.svg"
 
 [autoload]

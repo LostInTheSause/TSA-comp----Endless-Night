@@ -198,16 +198,16 @@ how_many_spikes_in_pit = 1
 
 [node name="Dashing berry" parent="Tilemap_props/props_and boosts" instance=ExtResource("5_mtoan")]
 z_index = -1
-position = Vector2(-2619.0002, -266)
+position = Vector2(-2596, -288)
 scale = Vector2(0.45, 0.45)
 
 [node name="bouncy mushroom" parent="Tilemap_props/props_and boosts" instance=ExtResource("9_0wp7d")]
-position = Vector2(-1812, -288)
-scale = Vector2(1.4, 1.4)
+position = Vector2(-1813.9999, -291.99997)
+scale = Vector2(1.62, 1.62)
 
 [node name="bouncy mushroom2" parent="Tilemap_props/props_and boosts" instance=ExtResource("9_0wp7d")]
-position = Vector2(-1687.0001, -304.00003)
-scale = Vector2(1.45, 1.45)
+position = Vector2(-1686.9999, -309)
+scale = Vector2(1.685, 1.685)
 
 [node name="bouncy mushroom3" parent="Tilemap_props/props_and boosts" instance=ExtResource("9_0wp7d")]
 position = Vector2(-967.00006, -274.00003)
