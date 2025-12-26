@@ -74,6 +74,7 @@ func _process(delta: float) -> void:
 	if button_in:
 		button.visible = true
 		help_lable_time += delta
+		
 		if help_lable_time >= help_lable_wait_time:
 			label_2.visible = true
 	if first_half_done:
@@ -118,6 +119,7 @@ func star_shooting_done() -> void:
 
 
 func _on_button_pressed() -> void:
+	button_in = false
 	first_half_done = true
 	animated_sprite_2d.visible = false
 	fire.play("fire_out")
