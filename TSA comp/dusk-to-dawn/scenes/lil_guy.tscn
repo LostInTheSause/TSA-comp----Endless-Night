@@ -773,7 +773,9 @@ size = Vector2(18, 39)
 
 [node name="Lil guy" type="CharacterBody2D"]
 top_level = true
+z_index = 130
 wall_min_slide_angle = 1.5097098
+safe_margin = 0.955
 script = SubResource("GDScript_6a63v")
 jump_buffer_timer = 0.57
 coyote_time = 0.235

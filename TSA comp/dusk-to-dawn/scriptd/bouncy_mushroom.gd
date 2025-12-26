@@ -18,12 +18,12 @@ func _process(delta: float) -> void:
 	
 
 func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player"):
+	if body.is_in_group("Player") and body.get("dead") != true:
 		animated_sprite_2d.play("bounce_animation")
 	
 
 func _on_body_exited(body: Node2D) -> void:
-	if body.is_in_group("Player"):
+	if body.is_in_group("Player") and body.get("dead") != true:
 		while !animated_sprite_2d.animation_finished:
 			pass
 		animated_sprite_2d.stop()
@@ -32,6 +32,6 @@ func _on_body_exited(body: Node2D) -> void:
 
 
 func _on_bounce_player_body_entered(body: Node2D) -> void:
-	if body.get("Mushroom_jump_amt"):
+	if body.get("Mushroom_jump_amt") and body.get("dead") != true:
 		body.velocity.y = -body.Mushroom_jump_amt
 		body.show_dust = false

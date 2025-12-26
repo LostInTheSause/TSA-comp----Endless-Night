@@ -52,7 +52,7 @@ texture = ExtResource("1_1iqhf")
 
 [node name="kill_zone" parent="AnimationTree/Thorn" instance=ExtResource("2_sn5tw")]
 position = Vector2(-2, -2)
-scale = Vector2(0.22, 1.52)
+scale = Vector2(0.321, 1.86)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AnimationTree/Thorn/kill_zone"]
 libraries = {
