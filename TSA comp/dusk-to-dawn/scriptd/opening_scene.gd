@@ -25,7 +25,7 @@ const looped_soundtrack = preload("res://everything else/INTRO LOOP.mp3")
 
 var first_audio_time = true
 
-var starting_pos = Vector2(0.0, -43.0)
+var starting_pos = Vector2(0.0, -53.0)
 var pan_up = false
 var button_in = false
 var button_amt = 0.1

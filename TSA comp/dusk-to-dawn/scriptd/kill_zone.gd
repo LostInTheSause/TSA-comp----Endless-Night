@@ -25,6 +25,5 @@ func _on_body_entered(body: Node2D) -> void:
 		if not is_dtead:
 			is_dtead = true
 			body._on_death(is_dtead)
-		else:
-			await get_tree().create_timer(0.5).timeout
+			await get_tree().create_timer(1.0).timeout
 			is_dtead = false

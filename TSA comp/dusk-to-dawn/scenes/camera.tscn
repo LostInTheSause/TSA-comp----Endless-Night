@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bryr58m0feb66"]
+
+[ext_resource type="Script" uid="uid://nrrmhd32q41g" path="res://scriptd/camera_dead_zone.gd" id="1_cvpoc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kod1s"]
+size = Vector2(38.0625, 35.25)
+
+[node name="Camera" type="Camera2D"]
+zoom = Vector2(3.95, 3.95)
+position_smoothing_enabled = true
+position_smoothing_speed = 4.0
+script = ExtResource("1_cvpoc")
+
+[node name="camera_dead_zone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="camera_dead_zone"]
+shape = SubResource("RectangleShape2D_kod1s")
+
+[connection signal="body_exited" from="camera_dead_zone" to="." method="_on_camera_dead_zone_body_exited"]

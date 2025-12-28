@@ -6,9 +6,9 @@ var tween = create_tween()
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func set_properties( player_frame, player_scale, player_modulate, show_behind=false):
+func set_properties(player_scale, player_modulate, show_behind=false):
 	
-	sprite.frame = player_frame
+	#sprite.frame = player_frame
 	sprite.scale = player_scale
 	sprite.modulate = player_modulate
 	sprite.show_behind_parent = show_behind

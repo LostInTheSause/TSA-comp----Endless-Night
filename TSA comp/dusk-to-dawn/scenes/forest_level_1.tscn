@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://dani6j2n6nwad"]
+[gd_scene load_steps=28 format=4 uid="uid://dani6j2n6nwad"]
 
 [ext_resource type="Script" uid="uid://cuu6i7tnnbfdf" path="res://scriptd/forest_level_1.gd" id="1_6xay0"]
 [ext_resource type="PackedScene" uid="uid://damyxouc062qa" path="res://scenes/lil_guy.tscn" id="1_g51ju"]
@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://brbxph7t61hli" path="res://sprites/objects/mushroom sign info.png" id="17_m4wt4"]
 [ext_resource type="FontFile" uid="uid://cbhl7de5qjlqo" path="res://everything else/Oleaguid/Oleaguid.ttf" id="17_n6o5y"]
 [ext_resource type="Texture2D" uid="uid://b7ufs73lsdgug" path="res://sprites/objects/WASD.png" id="18_wsiti"]
+[ext_resource type="PackedScene" uid="uid://bryr58m0feb66" path="res://scenes/camera.tscn" id="24_b8t11"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j7wrs"]
 texture = ExtResource("3_7hfs4")
@@ -666,13 +667,10 @@ stream = ExtResource("4_fpgwt")
 max_distance = 4096.0
 parameters/looping = true
 
-[node name="Camera2D" type="Camera2D" parent="Lil guy"]
-zoom = Vector2(2.303, 2.232)
-limit_left = -10000053
-limit_top = -415
-limit_right = 9999947
-limit_bottom = 176
-position_smoothing_enabled = true
+[node name="Camera" parent="." instance=ExtResource("24_b8t11")]
+position = Vector2(-1971, -34)
+limit_bottom = 125
+limit_smoothed = true
 
 [connection signal="body_entered" from="TileMap/Area2D" to="TileMap/Area2D" method="_on_body_entered"]
 
