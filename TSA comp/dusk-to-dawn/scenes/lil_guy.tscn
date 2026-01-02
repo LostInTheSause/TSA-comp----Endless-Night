@@ -1,8 +1,12 @@
-[gd_scene load_steps=60 format=3 uid="uid://damyxouc062qa"]
+[gd_scene load_steps=81 format=3 uid="uid://damyxouc062qa"]
 
+[ext_resource type="Texture2D" uid="uid://b5biv2xekos3d" path="res://sprites/player animations/Dead_player/1000046817.png" id="2_pxxx8"]
 [ext_resource type="Texture2D" uid="uid://ble8it5h5gxu2" path="res://sprites/player animations/Player V3 jump.png" id="2_swya4"]
 [ext_resource type="Texture2D" uid="uid://kms33bi03rub" path="res://sprites/player animations/Player V3 idol RIGHT.png" id="2_u4ydx"]
+[ext_resource type="Texture2D" uid="uid://dixnobtth3s31" path="res://sprites/player animations/Dead_player/1000046814.png" id="3_gk7be"]
 [ext_resource type="Texture2D" uid="uid://qehdsf5jp33q" path="res://sprites/player animations/Player V3 climb2.png" id="4_gd6mk"]
+[ext_resource type="Texture2D" uid="uid://bneov6wy7w2tt" path="res://sprites/player animations/Dead_player/1000046815.png" id="4_xigon"]
+[ext_resource type="Texture2D" uid="uid://b1m8meaa23w2q" path="res://sprites/player animations/Dead_player/1000046816.png" id="5_da5f2"]
 [ext_resource type="Texture2D" uid="uid://cyoar287ccqeq" path="res://sprites/player animations/Player V3 walk.png" id="5_gd6mk"]
 [ext_resource type="Texture2D" uid="uid://cumjs5daqfkid" path="res://sprites/player animations/dust1 (1).png" id="5_swya4"]
 [ext_resource type="Texture2D" uid="uid://c8e4k72cacluu" path="res://sprites/background sprites/New Piskel (7).png" id="6_u4ydx"]
@@ -84,6 +88,8 @@ var hit_berry = false
 
 var playerz_index = self.z_index
 
+var is_ghost = true
+
 func _ready() -> void:
 	respawn_point = self.global_position
 	
@@ -96,10 +102,16 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	
+	
+		
+	
 	var direction := Input.get_axis(\"left\", \"right\")
 	
 	if is_talking:
-		animated_sprite_2d.play(\"idle\")
+		if !is_ghost:
+			animated_sprite_2d.play(\"idle\")
+		elif is_ghost:
+			animated_sprite_2d.play(\"dead_idle\")
 		return
 	
 	
@@ -115,12 +127,19 @@ func _physics_process(delta: float) -> void:
 	
 	if !if_on_floor_ray.is_colliding() and if_wall_ray.is_colliding() and !dead:
 		is_hanging = true
-		animated_sprite_2d.play(\"ledge hang\")
+		
+		if !is_ghost:
+			animated_sprite_2d.play(\"ledge hang\")
+		elif is_ghost:
+			animated_sprite_2d.play(\"dead_ledge_hang\")
 		time_falling = 0
 		if Input.is_action_just_pressed(\"jump\"):
 			jump()
 			velocity.x = -(200 * hanging_direction)
-			animated_sprite_2d.play(\"jumping(temp)\")
+			if !is_ghost:
+				animated_sprite_2d.play(\"jumping(temp)\")
+			elif is_ghost:
+				animated_sprite_2d.play(\"dead_jump\")
 	else:
 		is_hanging = false
 		collision_shape_2d_2.disabled = false
@@ -214,7 +233,10 @@ func _physics_process(delta: float) -> void:
 						animated_sprite_2d.play(\"runniing\")
 					else:
 						velocity.x = direction * SPEED
-						animated_sprite_2d.play(\"walking\")
+						if !is_ghost:
+							animated_sprite_2d.play(\"walking\")
+						elif is_ghost:
+							animated_sprite_2d.play(\"dead_walk\")
 				else:
 					pass
 	else:
@@ -222,7 +244,10 @@ func _physics_process(delta: float) -> void:
 		if not is_hanging:
 			if !jumping:
 				moving = false
-				animated_sprite_2d.play(\"idle\")
+				if !is_ghost:
+					animated_sprite_2d.play(\"idle\")
+				elif is_ghost:
+					animated_sprite_2d.play(\"dead_idle\")
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 		
 	if is_dashing and ghost_timer.is_stopped():
@@ -246,7 +271,10 @@ func coyote_timeout():
 func jump() -> void:
 	jumping = true
 	velocity.y = Jump_velo
-	animated_sprite_2d.play(\"jumping(temp)\")
+	if !is_ghost:
+		animated_sprite_2d.play(\"jumping(temp)\")
+	elif is_ghost:
+		animated_sprite_2d.play(\"dead_jump\")
 	time_needed_for_dust = 1
 	jump_availabel = false
 	cur_hearts -= 1
@@ -283,7 +311,10 @@ func respawn() -> void:
 	#respawn_point.y += 20
 	self.position = respawn_point
 	self.z_index = playerz_index
-	animated_sprite_2d.play(\"idle\")
+	if !is_ghost:
+		animated_sprite_2d.play(\"idle\")
+	elif !is_ghost:
+		animated_sprite_2d.play(\"dead_idle\")
 	set_collision_mask_value(1, true) # Re-enable collision
 	#camera_2d.position = self.position
 
@@ -444,6 +475,74 @@ region = Rect2(0, 64, 32, 32)
 atlas = ExtResource("4_gd6mk")
 region = Rect2(32, 64, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_jdehg"]
+atlas = ExtResource("2_pxxx8")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0m1d"]
+atlas = ExtResource("2_pxxx8")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_60pi4"]
+atlas = ExtResource("3_gk7be")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bd2bi"]
+atlas = ExtResource("3_gk7be")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u4k4v"]
+atlas = ExtResource("3_gk7be")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ujvkf"]
+atlas = ExtResource("3_gk7be")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_udr0v"]
+atlas = ExtResource("3_gk7be")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5kfdk"]
+atlas = ExtResource("3_gk7be")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svj8m"]
+atlas = ExtResource("3_gk7be")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k4l3e"]
+atlas = ExtResource("4_xigon")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_71cjy"]
+atlas = ExtResource("5_da5f2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_md37a"]
+atlas = ExtResource("5_da5f2")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c78ep"]
+atlas = ExtResource("5_da5f2")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_th21s"]
+atlas = ExtResource("5_da5f2")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bqhta"]
+atlas = ExtResource("5_da5f2")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gibii"]
+atlas = ExtResource("5_da5f2")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pwksa"]
+atlas = ExtResource("5_da5f2")
+region = Rect2(0, 64, 32, 32)
+
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yxn1k"]
 load_path = "res://.godot/imported/idle (1).png-fb9abd4c852c48fe55a82d8c5caa53dc.ctex"
 
@@ -596,6 +695,77 @@ animations = [{
 }],
 "loop": true,
 "name": &"climbing",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jdehg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d0m1d")
+}],
+"loop": true,
+"name": &"dead_idle",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_60pi4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bd2bi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u4k4v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ujvkf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_udr0v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5kfdk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svj8m")
+}],
+"loop": true,
+"name": &"dead_jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k4l3e")
+}],
+"loop": true,
+"name": &"dead_ledge_hang",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_71cjy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_md37a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c78ep")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_th21s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bqhta")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gibii")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pwksa")
+}],
+"loop": true,
+"name": &"dead_walk",
 "speed": 5.0
 }, {
 "frames": [{
@@ -807,7 +977,9 @@ modulate = Color(0.74509805, 0.74509805, 0.74509805, 1)
 texture_filter = 1
 scale = Vector2(2.035, 2.035)
 sprite_frames = SubResource("SpriteFrames_41qoe")
-animation = &"idle"
+animation = &"dead_jump"
+frame = 2
+frame_progress = 0.8862135
 
 [node name="dash timer" type="Timer" parent="."]
 wait_time = 0.25
