@@ -1,4 +1,4 @@
-[gd_scene load_steps=81 format=3 uid="uid://damyxouc062qa"]
+[gd_scene load_steps=85 format=3 uid="uid://damyxouc062qa"]
 
 [ext_resource type="Texture2D" uid="uid://b5biv2xekos3d" path="res://sprites/player animations/Dead_player/1000046817.png" id="2_pxxx8"]
 [ext_resource type="Texture2D" uid="uid://ble8it5h5gxu2" path="res://sprites/player animations/Player V3 jump.png" id="2_swya4"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://b1m8meaa23w2q" path="res://sprites/player animations/Dead_player/1000046816.png" id="5_da5f2"]
 [ext_resource type="Texture2D" uid="uid://cyoar287ccqeq" path="res://sprites/player animations/Player V3 walk.png" id="5_gd6mk"]
 [ext_resource type="Texture2D" uid="uid://cumjs5daqfkid" path="res://sprites/player animations/dust1 (1).png" id="5_swya4"]
+[ext_resource type="Texture2D" uid="uid://c43bsh1ltm6g3" path="res://sprites/player animations/player fall.png" id="6_gk7be"]
 [ext_resource type="Texture2D" uid="uid://c8e4k72cacluu" path="res://sprites/background sprites/New Piskel (7).png" id="6_u4ydx"]
 
 [sub_resource type="GDScript" id="GDScript_6a63v"]
@@ -29,6 +30,9 @@ script/source = "extends CharacterBody2D
 @onready var if_wall_ray: RayCast2D = $\"if wall_ray\"
 
 @onready var collision_shape_2d_2: CollisionShape2D = $CollisionShape2D2
+
+@onready var gpu_particles_2d: CPUParticles2D = $GPUParticles2D
+
 
 @export var can_dash = true
 
@@ -102,6 +106,9 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	
+	if is_ghost:
+		gpu_particles_2d.texture = null
+		gpu_particles_2d.scale_amount_max = 3.0
 	
 		
 	
@@ -303,17 +310,18 @@ func _on_death(_thingy) -> void:
 	await get_tree().create_timer(1.0).timeout
 	if dead:
 		respawn()
-		dead = false
+		
 	
 	
 func respawn() -> void:
-	dead = false
+	
 	#respawn_point.y += 20
 	self.position = respawn_point
 	self.z_index = playerz_index
+	dead = false
 	if !is_ghost:
 		animated_sprite_2d.play(\"idle\")
-	elif !is_ghost:
+	elif is_ghost:
 		animated_sprite_2d.play(\"dead_idle\")
 	set_collision_mask_value(1, true) # Re-enable collision
 	#camera_2d.position = self.position
@@ -563,8 +571,20 @@ atlas = SubResource("CompressedTexture2D_yxn1k")
 region = Rect2(160, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wpydh"]
-atlas = ExtResource("2_swya4")
-region = Rect2(0, 64, 32, 32)
+atlas = ExtResource("6_gk7be")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yuux7"]
+atlas = ExtResource("6_gk7be")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jjhxy"]
+atlas = ExtResource("6_gk7be")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dis1m"]
+atlas = ExtResource("6_gk7be")
+region = Rect2(32, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pxxx8"]
 atlas = ExtResource("2_u4ydx")
@@ -788,10 +808,19 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wpydh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yuux7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jjhxy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dis1m")
 }],
 "loop": true,
 "name": &"falling",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -837,6 +866,11 @@ animations = [{
 "loop": true,
 "name": &"ledge hang",
 "speed": 1.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -977,9 +1011,8 @@ modulate = Color(0.74509805, 0.74509805, 0.74509805, 1)
 texture_filter = 1
 scale = Vector2(2.035, 2.035)
 sprite_frames = SubResource("SpriteFrames_41qoe")
-animation = &"dead_jump"
-frame = 2
-frame_progress = 0.8862135
+animation = &"falling"
+frame_progress = 0.31292322
 
 [node name="dash timer" type="Timer" parent="."]
 wait_time = 0.25

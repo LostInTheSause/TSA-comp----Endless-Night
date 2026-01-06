@@ -1,0 +1,161 @@
+[gd_scene load_steps=18 format=4 uid="uid://blyvg1iaki8vh"]
+
+[ext_resource type="TileSet" uid="uid://dqetfmftodabk" path="res://sprites/tileset_frthistime/cave_tileset/cave_tileset/tileset_cave_tileset.tres" id="1_sfygl"]
+[ext_resource type="Texture2D" uid="uid://bajx7s5vdbdpl" path="res://sprites/background sprites/Cave Background (1) (1).png" id="2_m2ful"]
+[ext_resource type="PackedScene" uid="uid://bryr58m0feb66" path="res://scenes/camera.tscn" id="3_hs0xw"]
+[ext_resource type="PackedScene" uid="uid://damyxouc062qa" path="res://scenes/lil_guy.tscn" id="4_260ue"]
+[ext_resource type="Texture2D" uid="uid://b3i1uavh8te5h" path="res://sprites/background sprites/torch.png" id="5_s8piq"]
+[ext_resource type="Script" uid="uid://letcv2dfy5s5" path="res://scriptd/torch_flicker.gd" id="6_vwl33"]
+
+[sub_resource type="Gradient" id="Gradient_260ue"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_s8piq"]
+gradient = SubResource("Gradient_260ue")
+width = 39
+height = 49
+fill = 1
+fill_from = Vector2(0.46261683, 0.45794392)
+fill_to = Vector2(0.47249615, 0.7692308)
+
+[sub_resource type="Gradient" id="Gradient_hs0xw"]
+offsets = PackedFloat32Array(0, 0.26666668, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.54896253, 0.54896265, 0.54896235, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_260ue"]
+gradient = SubResource("Gradient_hs0xw")
+fill = 1
+fill_from = Vector2(0.52803737, 0.004672897)
+fill_to = Vector2(0.53271025, 0.57476634)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hs0xw"]
+size = Vector2(2218, 576.49994)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e2lr5"]
+atlas = ExtResource("5_s8piq")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bpqvn"]
+atlas = ExtResource("5_s8piq")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_noho6"]
+atlas = ExtResource("5_s8piq")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8smr8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e2lr5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bpqvn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_noho6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_hoouh"]
+colors = PackedColorArray(0.7023461, 0.40990454, 0.19753009, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_oj4nb"]
+gradient = SubResource("Gradient_hoouh")
+fill = 1
+fill_from = Vector2(0.42056075, 0.5186916)
+fill_to = Vector2(0.85046726, 0.8317757)
+
+[node name="Cave level" type="Node2D"]
+texture_filter = 1
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("1_sfygl")
+format = 2
+
+[node name="TileMapLayer" type="TileMapLayer" parent="TileMap"]
+tile_map_data = PackedByteArray("AAD1/wAAAAACAAEAAAD2/wAAAAACAAEAAAD3/wAAAAACAAEAAAD4/wAAAAACAAEAAAD5/wAAAAACAAEAAAD6/wAAAAACAAEAAAD7/wAAAAACAAEAAAD8/wAAAAACAAEAAAD9/wAAAAACAAEAAAD+/wAAAAACAAEAAAD//wAAAAACAAEAAAAAAAAAAAACAAEAAAABAAAAAAACAAEAAAACAAAAAAACAAEAAAADAAAAAAACAAEAAAAEAAAAAAACAAEAAAAFAAAAAAACAAEAAAAGAAAAAAACAAEAAAAHAAAAAAACAAEAAAAIAAAAAAACAAEAAAAJAAAAAAACAAEAAAAKAAAAAAACAAEAAAALAAAAAAACAAEAAAAMAAAAAAACAAEAAAANAAAAAAACAAEAAAAOAAAAAAACAAEAAAAPAAAAAAACAAEAAAAQAAAAAAACAAEAAAARAAAAAAACAAEAAAASAAAAAAACAAEAAAATAAAAAAACAAEAAAAUAAAAAAACAAEAAAAVAAAAAAACAAEAAAAWAAAAAAACAAEAAAAXAAAAAAACAAEAAAAYAAAAAAACAAEAAAAZAAAAAAACAAEAAAAaAAAAAAACAAEAAAAbAAAAAAACAAEAAAD0/wAAAAACAAEAAADz/wAAAAACAAEAAADy/wAAAAACAAEAAADx////AAACAAEAAADw////AAACAAEAAADv////AAACAAEAAADu////AAACAAEAAADt////AAACAAEAAADs////AAACAAEAAADr////AAACAAEAAADq////AAACAAEAAADp////AAACAAEAAADo////AAACAAEAAADn////AAACAAEAAADm////AAACAAEAAADl////AAACAAEAAADk////AAACAAEAAADj////AAACAAEAAADi////AAACAAEAAADh////AAACAAEAAADh//7/AAACAAEAAADg//7/AAACAAEAAADf//7/AAACAAEAAADe//7/AAACAAEAAADd//7/AAACAAEAAADw/wAAAAACAAEAAADx/wAAAAACAAEAAAA=")
+tile_set = ExtResource("1_sfygl")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(3.0000002, -862.9905)
+rotation = 1.5707964
+scale = Vector2(7.139505, 3.758)
+texture = ExtResource("2_m2ful")
+offset = Vector2(60.54, 0)
+region_enabled = true
+region_rect = Rect2(-2.454422, 1.3636627, 121.81825, 133.63643)
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(3, -1726)
+rotation = 1.5707964
+scale = Vector2(7.0940003, 3.758)
+texture = ExtResource("2_m2ful")
+offset = Vector2(60.54, 0)
+region_enabled = true
+region_rect = Rect2(-2.454422, 1.3636627, 121.81825, 133.63643)
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+position = Vector2(3, -2590.0002)
+rotation = 1.5707964
+scale = Vector2(7.0940003, 3.758)
+texture = ExtResource("2_m2ful")
+offset = Vector2(60.54, 0)
+region_enabled = true
+region_rect = Rect2(-2.454422, 1.3636627, 121.81825, 133.63643)
+
+[node name="Lil guy" parent="." instance=ExtResource("4_260ue")]
+position = Vector2(7, -2543)
+
+[node name="Camera" parent="Lil guy" instance=ExtResource("3_hs0xw")]
+position = Vector2(5, 1)
+position_smoothing_speed = 18.08
+script = null
+
+[node name="PointLight2D" type="PointLight2D" parent="Lil guy"]
+position = Vector2(1, 5)
+energy = 0.32
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_s8piq")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(0.9999962, -1302.5)
+scale = Vector2(7.59375, 40.140625)
+texture = SubResource("GradientTexture2D_260ue")
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+energy = 0.75
+blend_mode = 1
+
+[node name="area 2ds" type="Node2D" parent="."]
+
+[node name="falling_animaiton" type="Area2D" parent="area 2ds"]
+
+[node name="Lower grvaity" type="Area2D" parent="area 2ds"]
+position = Vector2(7, -564)
+gravity_space_override = 3
+gravity_point = true
+gravity = 350.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="area 2ds/Lower grvaity"]
+position = Vector2(8.106232e-06, -917)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_hs0xw")
+
+[node name="torch" type="AnimatedSprite2D" parent="."]
+position = Vector2(-93.00001, -32)
+scale = Vector2(1.955, 1.955)
+sprite_frames = SubResource("SpriteFrames_8smr8")
+autoplay = "default"
+frame_progress = 0.1809159
+
+[node name="PointLight2D2" type="PointLight2D" parent="torch"]
+position = Vector2(19.437357, -7.4488487)
+scale = Vector2(4.076087, 3.3797555)
+energy = 3.33
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_oj4nb")
+script = ExtResource("6_vwl33")
