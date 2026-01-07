@@ -1,0 +1,13 @@
+dead_watson: Wh-what happened?
+dead_watson: Did I do it? Is it over?
+[signal arg="show_charles"]
+[wait time="2.0"]
+"sir charles": It appears you have fallen a great height, son.
+dead_watson: ...Who are you? And where am I?
+dead_watson: Is this heaven?
+"sir charles": Not far from it I'm afraid.
+dead_watson: Wait, what do you mean?
+"sir charles": Don't you see, your dead.
+[wait time="1.5" hide_text="false"]
+[signal arg="close"]
+[wait time="1.5" hide_text="false"]

@@ -92,7 +92,9 @@ var hit_berry = false
 
 var playerz_index = self.z_index
 
-var is_ghost = true
+var is_ghost = false
+var emit_particles = true
+var falling = false
 
 func _ready() -> void:
 	respawn_point = self.global_position
@@ -106,9 +108,11 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	
-	if is_ghost:
+	if !emit_particles:
 		gpu_particles_2d.texture = null
 		gpu_particles_2d.scale_amount_max = 3.0
+	
+
 	
 		
 	
@@ -211,7 +215,10 @@ func _physics_process(delta: float) -> void:
 			jump()
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	
+	if falling:
+		animated_sprite_2d.play(\"falling\")
+		move_and_slide()
+		return
 	
 	if !is_hanging:
 		#flips the sprite to face the direction it is moving
@@ -1012,7 +1019,7 @@ texture_filter = 1
 scale = Vector2(2.035, 2.035)
 sprite_frames = SubResource("SpriteFrames_41qoe")
 animation = &"falling"
-frame_progress = 0.31292322
+frame_progress = 0.16354097
 
 [node name="dash timer" type="Timer" parent="."]
 wait_time = 0.25

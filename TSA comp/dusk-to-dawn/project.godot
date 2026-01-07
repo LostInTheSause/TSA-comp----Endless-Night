@@ -27,11 +27,14 @@ LevelTransitions="*res://scenes/level_transitions.tscn"
 
 directories/dch_directory={
 "Watson": "res://Watson.dch",
+"dead_watson": "res://dead_watson.dch",
 "gramdma jenkins": "res://gramdma jenkins.dch",
+"sir charles": "res://sir charles.dch",
 "unit_test_character": "res://Tests/Resources/unit_test_character.dch"
 }
 directories/dtl_directory={
 "Grandma_timeline": "res://Grandma_timeline.dtl",
+"cavetimeline": "res://cavetimeline.dtl",
 "gradma_timeline2": "res://gradma_timeline2.dtl",
 "opening_imeline": "res://opening_imeline.dtl",
 "opening_timeline_part2": "res://opening_timeline_part2.dtl"

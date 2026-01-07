@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=4 uid="uid://bguqgq5hmp3td"]
+[gd_scene load_steps=40 format=4 uid="uid://bguqgq5hmp3td"]
 
 [ext_resource type="PackedScene" uid="uid://damyxouc062qa" path="res://scenes/lil_guy.tscn" id="1_mnau6"]
 [ext_resource type="PackedScene" uid="uid://dvvm2ydy7xq0r" path="res://scenes/dashing_ghost.tscn" id="2_2pcn7"]
@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://c86n1wd5r4ful" path="res://sprites/cutscene/rocks.png" id="16_cjvyv"]
 [ext_resource type="Texture2D" uid="uid://cnf3e1b2nw0xg" path="res://sprites/background sprites/New Piskel (18).png" id="20_nngwt"]
 [ext_resource type="PackedScene" uid="uid://bryr58m0feb66" path="res://scenes/camera.tscn" id="21_fsjpw"]
+[ext_resource type="Script" uid="uid://dv4m7hj153x2j" path="res://scriptd/area_2d.gd" id="21_hfh3r"]
 [ext_resource type="Texture2D" uid="uid://dboiut7ns1aqm" path="res://sprites/cutscene/Cave Hole.png" id="23_cv7wr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7jumh"]
@@ -99,6 +100,9 @@ b = Vector2(-12, 111)
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_nngwt"]
 blend_mode = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mtg0o"]
+size = Vector2(132, 82)
 
 [node name="Forest_level_2" type="Node2D"]
 texture_filter = 1
@@ -200,7 +204,7 @@ how_many_spikes_in_pit = 12
 position = Vector2(-640, -442)
 
 [node name="Thorns3" parent="Tilemap_props/kill areas" instance=ExtResource("6_njafy")]
-position = Vector2(-312, -526)
+position = Vector2(-311, -526)
 scale = Vector2(2.73, 2.73)
 
 [node name="Spike_pit4" parent="Tilemap_props/kill areas" instance=ExtResource("3_5n1c5")]
@@ -408,6 +412,14 @@ rotation = 0.2443461
 scale = Vector2(10.07, 14.665)
 texture = ExtResource("20_nngwt")
 
+[node name="Area2D" type="Area2D" parent="Tilemap_props"]
+position = Vector2(1465, -86)
+script = ExtResource("21_hfh3r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tilemap_props/Area2D"]
+position = Vector2(54, 60)
+shape = SubResource("RectangleShape2D_mtg0o")
+
 [node name="Background" type="Node2D" parent="."]
 modulate = Color(0.41981313, 0.41981313, 0.4198131, 1)
 z_index = -4
@@ -466,6 +478,7 @@ energy = 0.27
 blend_mode = 1
 
 [connection signal="body_entered" from="Tilemap_props/NPC and other/Area2D" to="Tilemap_props/NPC and other/Area2D" method="_on_body_entered"]
+[connection signal="body_entered" from="Tilemap_props/Area2D" to="Tilemap_props/Area2D" method="_on_body_entered"]
 
 [editable path="Tilemap_props/kill areas/Thorns2"]
 [editable path="Tilemap_props/kill areas/Thorns2/AnimationTree/Thorn/kill_zone"]
