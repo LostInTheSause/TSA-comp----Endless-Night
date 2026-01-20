@@ -1,8 +1,13 @@
-[gd_scene load_steps=27 format=3 uid="uid://biy3uke8cc1mg"]
+[gd_scene load_steps=29 format=3 uid="uid://biy3uke8cc1mg"]
 
+[ext_resource type="Script" uid="uid://b4dfx4826ufsh" path="res://scriptd/ghost_player.gd" id="1_72glb"]
 [ext_resource type="Texture2D" uid="uid://bl3sx6vsa5xpi" path="res://sprites/player animations/Dead_player/ghost_floating.png" id="1_142sn"]
 [ext_resource type="Texture2D" uid="uid://bjsu3i8xx5vkk" path="res://sprites/player animations/Dead_player/ghost_end_floating.png" id="1_jp5f1"]
 [ext_resource type="Texture2D" uid="uid://br0uy8wl8my47" path="res://sprites/player animations/Dead_player/ghost_floating (1).png" id="2_jp5f1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aokyr"]
+atlas = ExtResource("2_jp5f1")
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b3ju6"]
 atlas = ExtResource("1_jp5f1")
@@ -92,6 +97,14 @@ region = Rect2(64, 32, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_aokyr")
+}],
+"loop": true,
+"name": &"brefore_move",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_b3ju6")
 }, {
 "duration": 1.0,
@@ -118,9 +131,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bneqf")
 }],
-"loop": true,
+"loop": false,
 "name": &"end_float",
-"speed": 10.0
+"speed": 19.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -164,7 +177,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wgowb")
 }],
-"loop": true,
+"loop": false,
 "name": &"start_float",
 "speed": 6.0
 }]
@@ -175,11 +188,16 @@ height = 20.0
 
 [node name="ghost_player" type="CharacterBody2D"]
 texture_filter = 1
+collision_layer = 2
+collision_mask = 2
+motion_mode = 1
+script = ExtResource("1_72glb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_b3ju6")
-animation = &"end_float"
-frame_progress = 0.001466122
+animation = &"start_float"
+frame = 5
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(2, 2)

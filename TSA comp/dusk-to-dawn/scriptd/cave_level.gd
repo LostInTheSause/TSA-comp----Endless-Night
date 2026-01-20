@@ -26,6 +26,7 @@ func _on_start_texttrunghost_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		body.falling = false
 		body.is_ghost = true 
+		body.is_talking = true
 		Dialogic.start("cavetimeline")
 
 

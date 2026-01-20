@@ -11,7 +11,9 @@ func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player") and scene_name == "world" :
 		
 		LevelTransitions.change_scene_to("uid://bguqgq5hmp3td")
+		await get_tree().create_timer(1.5).timeout
 		get_tree().get_current_scene().queue_free()
 	elif body.is_in_group("Player") and scene_name == "Forest_level_2":
 		LevelTransitions.change_scene_to("uid://dani6j2n6nwad")
+		await get_tree().create_timer(1.5).timeout
 		get_tree().get_current_scene().queue_free()

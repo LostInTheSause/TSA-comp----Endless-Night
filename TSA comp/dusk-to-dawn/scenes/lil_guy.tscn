@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=3 uid="uid://damyxouc062qa"]
+[gd_scene load_steps=87 format=3 uid="uid://damyxouc062qa"]
 
 [ext_resource type="Texture2D" uid="uid://b5biv2xekos3d" path="res://sprites/player animations/Dead_player/1000046817.png" id="2_pxxx8"]
 [ext_resource type="Texture2D" uid="uid://ble8it5h5gxu2" path="res://sprites/player animations/Player V3 jump.png" id="2_swya4"]
@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://cumjs5daqfkid" path="res://sprites/player animations/dust1 (1).png" id="5_swya4"]
 [ext_resource type="Texture2D" uid="uid://c43bsh1ltm6g3" path="res://sprites/player animations/player fall.png" id="6_gk7be"]
 [ext_resource type="Texture2D" uid="uid://c8e4k72cacluu" path="res://sprites/background sprites/New Piskel (7).png" id="6_u4ydx"]
+[ext_resource type="PackedScene" uid="uid://biy3uke8cc1mg" path="res://scenes/ghost_player.tscn" id="12_xigon"]
+[ext_resource type="PackedScene" uid="uid://c7ypfsxpl7hnx" path="res://scenes/ghost_rope_segment.tscn" id="13_da5f2"]
 
 [sub_resource type="GDScript" id="GDScript_6a63v"]
 script/source = "extends CharacterBody2D
@@ -21,7 +23,9 @@ script/source = "extends CharacterBody2D
 
 
 @onready var dust: AnimatedSprite2D = $dust
+@onready var ghost_player: CharacterBody2D = $ghost_player
 
+@onready var ghost_rope_segment: Node2D = $ghost_rope_segment
 
 @onready var dash_timer: Timer = $\"dash timer\"
 @onready var ghost_timer: Timer = $ghost_timer
@@ -33,8 +37,10 @@ script/source = "extends CharacterBody2D
 
 @onready var gpu_particles_2d: CPUParticles2D = $GPUParticles2D
 
+@onready var vine_detection: Area2D = $vine_detection
 
 @export var can_dash = true
+@onready var camera: Camera2D = $Camera
 
 var moving = false
 
@@ -43,6 +49,8 @@ var horizontal_movment = 0
 var SPEED = 0
 const run_speed = 220
 @export var walk_SPEED = 100
+
+
 
 const dash_amt := 750
 const dash_time := 0.15
@@ -92,10 +100,13 @@ var hit_berry = false
 
 var playerz_index = self.z_index
 
+var is_floating = false
 var is_ghost = false
 var emit_particles = true
 var falling = false
 
+var camera_zoom_out = false
+var add_camera = false
 func _ready() -> void:
 	respawn_point = self.global_position
 	
@@ -112,17 +123,47 @@ func _physics_process(delta: float) -> void:
 		gpu_particles_2d.texture = null
 		gpu_particles_2d.scale_amount_max = 3.0
 	
-
-	
+	if is_ghost:
+		if !ghost_player.get(\"show_ghost\"):
+			ghost_player.position = Vector2.ZERO
+			ghost_rope_segment.visible = false
+			if Input.is_action_just_pressed(\"dash\"):
+				ghost_player.show_ghost = true
+				is_floating = true
+				camera_zoom_out = true
+		else:
+			ghost_rope_segment.visible = true
+			ghost_rope_segment.set_start(ghost_player.position)
+			ghost_rope_segment.set_last(Vector2.ZERO)
+						
+		if camera_zoom_out:
+			camera.zoom -= Vector2(0.05,0.05)
+			if camera.zoom.x < 2.5:
+				camera_zoom_out = false
+		elif !camera_zoom_out and !is_floating and camera.zoom.x <= 4.0:
+			camera.zoom += Vector2(0.1,0.1)
+				
+		if ghost_player.get(\"float_end\") and is_floating:
+			ghost_rope_segment.visible = false
+			position = ghost_player.global_position
+			ghost_player.position = Vector2.ZERO
+			is_floating = false
 		
 	
+
+		
 	var direction := Input.get_axis(\"left\", \"right\")
 	
-	if is_talking:
+	if is_talking || is_floating:
 		if !is_ghost:
 			animated_sprite_2d.play(\"idle\")
+			velocity += get_gravity() * delta
 		elif is_ghost:
 			animated_sprite_2d.play(\"dead_idle\")
+			velocity += get_gravity() * delta
+		
+		move_and_slide()
+		velocity = Vector2.ZERO
 		return
 	
 	
@@ -204,7 +245,7 @@ func _physics_process(delta: float) -> void:
 		time_falling = 0
 	# Handle jump.
 	if Input.is_action_just_pressed(\"jump\"):
-		if is_on_floor() or jump_availabel: 
+		if (is_on_floor() or jump_availabel) and !ghost_player.get(\"show_ghost\"): 
 			jump()
 		
 	elif Input.is_action_just_pressed(\"jump\"):
@@ -230,16 +271,16 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		if !is_dashing and !dash_available:
 			dash_available = true
-		
-	dash_logic(delta)
-	
+	if not is_ghost:
+		dash_logic(delta)
+
 	
 		
 	
 	
 	if direction:
 		if not is_hanging:
-			if not dead:
+			if not dead :
 				if not is_dashing:
 					moving = true
 					if running:
@@ -271,7 +312,8 @@ func _physics_process(delta: float) -> void:
 	
 
 	move_and_slide()
-
+	
+	
 
 func when_player_leave_screen() -> void:
 	pass
@@ -399,22 +441,6 @@ func create_ghost(direction) -> void:
 			
 			
 	
-
-func enter_rope(area) -> void:
-	on_rope = true
-	reparent(area)
-	global_position = area.get_rope_position(self)
-	velocity = Vector2.ZERO
-	rotation = 0
-
-func _on_vine_detection_area_exited(area: Area2D) -> void:
-	print(\"hi\")
-	if area.is_in_group(\"Vines\") and on_rope:
-		on_rope = false
-
-func _on_vine_detection_area_entered(area: Area2D) -> void:
-	if area.is_in_group(\"Vines\") and !on_rope:
-		call_deferred(\"enter_rope\", area)
 "
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u4ydx"]
@@ -987,7 +1013,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u4ydx"]
-size = Vector2(18, 39)
+size = Vector2(42, 61)
 
 [node name="Lil guy" type="CharacterBody2D"]
 top_level = true
@@ -995,6 +1021,7 @@ z_index = 130
 wall_min_slide_angle = 1.5097098
 safe_margin = 0.955
 script = SubResource("GDScript_6a63v")
+walk_SPEED = 125
 jump_buffer_timer = 0.57
 coyote_time = 0.235
 
@@ -1019,7 +1046,7 @@ texture_filter = 1
 scale = Vector2(2.035, 2.035)
 sprite_frames = SubResource("SpriteFrames_41qoe")
 animation = &"falling"
-frame_progress = 0.16354097
+frame_progress = 0.92523617
 
 [node name="dash timer" type="Timer" parent="."]
 wait_time = 0.25
@@ -1075,12 +1102,22 @@ scale_amount_min = 0.0
 color = Color(0.6378432, 0.6378432, 0.63784313, 1)
 
 [node name="vine_detection" type="Area2D" parent="."]
+monitoring = false
+gravity = 20.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="vine_detection"]
-position = Vector2(1, 7.5)
 shape = SubResource("RectangleShape2D_u4ydx")
+disabled = true
+
+[node name="ghost_player" parent="." instance=ExtResource("12_xigon")]
+visible = false
+position = Vector2(-5.0000076, 1)
+scale = Vector2(2.035, 2.035)
+
+[node name="ghost_rope_segment" parent="." instance=ExtResource("13_da5f2")]
+visible = false
+z_index = -1
+position = Vector2(1, 4)
 
 [connection signal="screen_exited" from="move cam when player leave" to="." method="when_player_leave_screen"]
 [connection signal="timeout" from="dash timer" to="." method="_on_dash_timer_timeout"]
-[connection signal="area_entered" from="vine_detection" to="." method="_on_vine_detection_area_entered"]
-[connection signal="area_exited" from="vine_detection" to="." method="_on_vine_detection_area_exited"]

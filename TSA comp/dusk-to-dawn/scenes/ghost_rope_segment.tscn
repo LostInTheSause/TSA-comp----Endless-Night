@@ -1,5 +1,17 @@
-[gd_scene format=3 uid="uid://c7ypfsxpl7hnx"]
+[gd_scene load_steps=3 format=3 uid="uid://c7ypfsxpl7hnx"]
+
+[ext_resource type="Script" uid="uid://ckqbx3gryfy1b" path="res://scenes/ghost_rope.gd" id="1_81vyf"]
+[ext_resource type="Texture2D" uid="uid://cl3jltfqmpxfy" path="res://sprites/player animations/Dead_player/Ghost_moon_trail (5).png" id="2_4a5ej"]
 
 [node name="ghost_rope_segment" type="Node2D"]
+script = ExtResource("1_81vyf")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Line2D" parent="."]
+texture_filter = 1
+texture_repeat = 2
+points = PackedVector2Array(0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0, 12, 0, 13, 0, 14, 0, 15, 0, 16, 0, 17, 0, 18, 0, 19, 0, 20, 0, 21, 0, 22, 0, 23, 0, 24, 0, 25, 0, 26, 0, 27, 0, 28, 0, 29, 0, 30, 0)
+width = 4.655
+texture = ExtResource("2_4a5ej")
+texture_mode = 1
+begin_cap_mode = 1
+end_cap_mode = 1

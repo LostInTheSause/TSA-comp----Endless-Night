@@ -1,10 +1,72 @@
-[gd_scene load_steps=4 format=3 uid="uid://ubby0fyhcpyd"]
+[gd_scene load_steps=8 format=3 uid="uid://ubby0fyhcpyd"]
 
 [ext_resource type="Script" uid="uid://o34k2rhahco2" path="res://scriptd/checkpoint.gd" id="1_ywqth"]
 [ext_resource type="Texture2D" uid="uid://llpaqmu2ns5i" path="res://sprites/objects/new_checkpoint.png" id="2_ywqth"]
+[ext_resource type="FontFile" uid="uid://cbhl7de5qjlqo" path="res://everything else/Oleaguid/Oleaguid.ttf" id="3_vsimk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yyywg"]
 size = Vector2(42, 49)
+
+[sub_resource type="Animation" id="Animation_yqsag"]
+resource_name = "checkpoint_reached"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RichTextLabel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.36666667),
+"transitions": PackedFloat32Array(1, 1.0000004),
+"update": 0,
+"values": [Vector2(-63, -12), Vector2(-64, -59)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RichTextLabel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.46666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_c45tw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RichTextLabel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-64, -59)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RichTextLabel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_55jpe"]
+_data = {
+&"RESET": SubResource("Animation_c45tw"),
+&"checkpoint_reached": SubResource("Animation_yqsag")
+}
 
 [node name="checkpoint" type="Area2D"]
 z_index = 290
@@ -20,5 +82,23 @@ texture_filter = 1
 position = Vector2(-1, -8.999999)
 scale = Vector2(1.6, 1.6)
 texture = ExtResource("2_ywqth")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+modulate = Color(1, 1, 1, 0)
+texture_filter = 1
+offset_left = -63.0
+offset_top = -12.0
+offset_right = 64.62999
+offset_bottom = 5.16
+theme_override_colors/default_color = Color(0.9253379, 0.9253379, 3.080368e-06, 1)
+theme_override_fonts/normal_font = ExtResource("3_vsimk")
+bbcode_enabled = true
+text = "[pulse]Checkpoint Reached!"
+scroll_active = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_55jpe")
+}
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

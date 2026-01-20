@@ -110,6 +110,7 @@ func  on_dialogic_signal(argument: String) -> void:
 		animation_player.play("lookaround")
 	elif argument == "start_gameplay":
 		LevelTransitions.change_scene_to("uid://dani6j2n6nwad")
+		await get_tree().create_timer(1.5).timeout
 		self.queue_free()
 	elif argument == "Timeline_started":
 		label_disaper = true
@@ -137,5 +138,6 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 func _on_audio_stream_player_2d_finished() -> void:
 	if first_audio_time:
 		audio_stream_player_2d.stream = looped_soundtrack
+		audio_stream_player_2d.play()
 		first_audio_time = false
 	

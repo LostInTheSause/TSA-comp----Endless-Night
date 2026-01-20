@@ -7,8 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://damyxouc062qa" path="res://scenes/lil_guy.tscn" id="4_260ue"]
 [ext_resource type="AudioStream" uid="uid://b4a13m4q5i3s1" path="res://everything else/Level 3 Shortened.mp3" id="5_bpqvn"]
 [ext_resource type="Texture2D" uid="uid://b3i1uavh8te5h" path="res://sprites/background sprites/torch.png" id="5_s8piq"]
-[ext_resource type="Script" uid="uid://ddic4fgoacqq8" path="res://scriptd/falling_animaiton.gd" id="6_noho6"]
 [ext_resource type="Script" uid="uid://letcv2dfy5s5" path="res://scriptd/torch_flicker.gd" id="6_vwl33"]
+[ext_resource type="PackedScene" uid="uid://btgkphqgem3ex" path="res://scenes/rubble.tscn" id="10_noho6"]
 [ext_resource type="Texture2D" uid="uid://cf0s3fh0y84yn" path="res://sprites/npc art and animation/Ghost Spite.png" id="11_8smr8"]
 
 [sub_resource type="Gradient" id="Gradient_260ue"]
@@ -28,15 +28,15 @@ colors = PackedColorArray(1, 1, 1, 1, 0.54896253, 0.54896265, 0.54896235, 1, 0, 
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_260ue"]
 gradient = SubResource("Gradient_hs0xw")
+width = 6
+height = 1
 fill = 1
-fill_from = Vector2(0.52803737, 0.004672897)
-fill_to = Vector2(0.53271025, 0.57476634)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hoouh"]
 size = Vector2(473, 19)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hs0xw"]
-size = Vector2(2218, 576.49994)
+size = Vector2(2145, 576.49994)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e2lr5"]
 atlas = ExtResource("5_s8piq")
@@ -98,7 +98,7 @@ animations = [{
 "speed": 1.0
 }]
 
-[node name="Cave level" type="Node2D"]
+[node name="Cave level cutscene" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_noho6")
 
@@ -114,16 +114,16 @@ tile_set = ExtResource("1_sfygl")
 z_index = -1
 position = Vector2(3.0000002, -862.9905)
 rotation = 1.5707964
-scale = Vector2(7.139505, 3.758)
+scale = Vector2(7.14, 4.058)
 texture = ExtResource("2_m2ful")
 offset = Vector2(60.54, 0)
 region_enabled = true
-region_rect = Rect2(-2.454422, 1.3636627, 121.81825, 133.63643)
+region_rect = Rect2(-2.454, 1.364, 121.818, 133.636)
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
 position = Vector2(3, -1726)
 rotation = 1.5707964
-scale = Vector2(7.0940003, 3.758)
+scale = Vector2(7.094, 4)
 texture = ExtResource("2_m2ful")
 offset = Vector2(60.54, 0)
 region_enabled = true
@@ -132,19 +132,16 @@ region_rect = Rect2(-2.454422, 1.3636627, 121.81825, 133.63643)
 [node name="Sprite2D3" type="Sprite2D" parent="."]
 position = Vector2(3, -2590.0002)
 rotation = 1.5707964
-scale = Vector2(7.0940003, 3.758)
+scale = Vector2(7.094, 4)
 texture = ExtResource("2_m2ful")
 offset = Vector2(60.54, 0)
 region_enabled = true
 region_rect = Rect2(-2.454422, 1.3636627, 121.81825, 133.63643)
 
 [node name="Lil guy" parent="." instance=ExtResource("4_260ue")]
-position = Vector2(-3, -2458)
-
-[node name="Camera" parent="Lil guy" instance=ExtResource("3_hs0xw")]
-position = Vector2(5, 1)
-position_smoothing_speed = 18.08
-script = null
+position = Vector2(-14, -2525)
+can_dash = false
+jump_buffer_timer = 0.805
 
 [node name="PointLight2D" type="PointLight2D" parent="Lil guy"]
 position = Vector2(1, 5)
@@ -156,6 +153,10 @@ texture = SubResource("GradientTexture2D_s8piq")
 stream = ExtResource("5_bpqvn")
 autoplay = true
 max_distance = 4096.0
+
+[node name="Camera" parent="Lil guy" instance=ExtResource("3_hs0xw")]
+position_smoothing_enabled = false
+script = null
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 position = Vector2(0.9999962, -1302.5)
@@ -170,14 +171,12 @@ blend_mode = 1
 
 [node name="falling_animaiton" type="Area2D" parent="area 2ds"]
 position = Vector2(-7, -2476)
-script = ExtResource("6_noho6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="area 2ds/falling_animaiton"]
 shape = SubResource("RectangleShape2D_hoouh")
 
 [node name="start_text&trunghost" type="Area2D" parent="area 2ds"]
 position = Vector2(18, -64)
-script = ExtResource("6_noho6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="area 2ds/start_text&trunghost"]
 position = Vector2(0, 56.5)
@@ -190,7 +189,7 @@ gravity_point = true
 gravity = 350.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="area 2ds/Lower grvaity"]
-position = Vector2(8.106232e-06, -917)
+position = Vector2(1, -855)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_hs0xw")
 
@@ -229,6 +228,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="rubble" parent="." instance=ExtResource("10_noho6")]
+position = Vector2(-358, -88)
 
 [connection signal="body_entered" from="area 2ds/falling_animaiton" to="." method="_on_falling_animaiton_body_entered"]
 [connection signal="body_entered" from="area 2ds/start_text&trunghost" to="." method="_on_start_texttrunghost_body_entered"]
