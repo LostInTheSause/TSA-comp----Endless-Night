@@ -101,8 +101,8 @@ var hit_berry = false
 var playerz_index = self.z_index
 
 var is_floating = false
-var is_ghost = false
-var emit_particles = true
+@export var is_ghost = false
+@export var emit_particles = true
 var falling = false
 
 var camera_zoom_out = false

@@ -139,7 +139,7 @@ region_enabled = true
 region_rect = Rect2(-2.454422, 1.3636627, 121.81825, 133.63643)
 
 [node name="Lil guy" parent="." instance=ExtResource("4_260ue")]
-position = Vector2(-14, -2525)
+position = Vector2(-1, -2507)
 can_dash = false
 jump_buffer_timer = 0.805
 
@@ -159,6 +159,7 @@ position_smoothing_enabled = false
 script = null
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
 position = Vector2(0.9999962, -1302.5)
 scale = Vector2(7.59375, 40.140625)
 texture = SubResource("GradientTexture2D_260ue")

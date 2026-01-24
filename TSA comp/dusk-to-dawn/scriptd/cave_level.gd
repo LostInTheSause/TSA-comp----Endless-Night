@@ -42,7 +42,6 @@ func on_dialogic_signal(argument: String) -> void:
 		animated_sprite_2d.visible = true
 		await get_tree().create_timer(1.0).timeout
 		move_charles = true
-	elif argument == "close":
-		color_rect_tween = create_tween().set_trans(Tween.TRANS_SINE)
-		color_rect_tween.tween_property(color_rect, "modulate:a", 1.0, 1.5)
+	elif argument == "end":
+		LevelTransitions.change_scene_to("uid://dagf8chb87f3h")
 		
