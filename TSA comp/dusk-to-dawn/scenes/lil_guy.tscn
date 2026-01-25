@@ -1,4 +1,4 @@
-[gd_scene load_steps=87 format=3 uid="uid://damyxouc062qa"]
+[gd_scene load_steps=85 format=3 uid="uid://damyxouc062qa"]
 
 [ext_resource type="Texture2D" uid="uid://b5biv2xekos3d" path="res://sprites/player animations/Dead_player/1000046817.png" id="2_pxxx8"]
 [ext_resource type="Texture2D" uid="uid://ble8it5h5gxu2" path="res://sprites/player animations/Player V3 jump.png" id="2_swya4"]
@@ -123,7 +123,7 @@ func _physics_process(delta: float) -> void:
 		gpu_particles_2d.texture = null
 		gpu_particles_2d.scale_amount_max = 3.0
 	
-	if is_ghost:
+	if is_ghost and !dead:
 		if !ghost_player.get(\"show_ghost\"):
 			ghost_player.position = Vector2.ZERO
 			ghost_rope_segment.visible = false
@@ -524,14 +524,6 @@ region = Rect2(0, 0, 32, 32)
 atlas = ExtResource("2_pxxx8")
 region = Rect2(0, 32, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_60pi4"]
-atlas = ExtResource("3_gk7be")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bd2bi"]
-atlas = ExtResource("3_gk7be")
-region = Rect2(32, 0, 32, 32)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_u4k4v"]
 atlas = ExtResource("3_gk7be")
 region = Rect2(64, 0, 32, 32)
@@ -762,12 +754,6 @@ animations = [{
 "speed": 4.0
 }, {
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_60pi4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bd2bi")
-}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_u4k4v")
 }, {
@@ -1045,8 +1031,7 @@ modulate = Color(0.74509805, 0.74509805, 0.74509805, 1)
 texture_filter = 1
 scale = Vector2(2.035, 2.035)
 sprite_frames = SubResource("SpriteFrames_41qoe")
-animation = &"falling"
-frame_progress = 0.92523617
+animation = &"dead_jump"
 
 [node name="dash timer" type="Timer" parent="."]
 wait_time = 0.25

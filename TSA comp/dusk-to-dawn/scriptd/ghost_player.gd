@@ -7,7 +7,7 @@ extends CharacterBody2D
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
 var moving = true
-var time_to_float = 1.0
+var time_to_float = 0.5
 var time = 0.0
 var float_end = false
 const ghost_speed = 150
