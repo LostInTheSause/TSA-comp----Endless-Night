@@ -8,4 +8,8 @@ script = ExtResource("1_gotrj")
 
 [node name="moving_spikes" parent="." instance=ExtResource("1_i8rwe")]
 
+[node name="kill_zone" parent="moving_spikes" index="1"]
+position = Vector2(0, 9)
+scale = Vector2(1.2, 0.489)
+
 [editable path="moving_spikes"]
