@@ -100,6 +100,7 @@ animations = [{
 
 [node name="Cave level cutscene" type="Node2D"]
 texture_filter = 1
+position = Vector2(69, 261)
 script = ExtResource("1_noho6")
 
 [node name="TileMap" type="TileMap" parent="."]

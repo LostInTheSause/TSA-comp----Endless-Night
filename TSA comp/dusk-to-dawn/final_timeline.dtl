@@ -1,0 +1,12 @@
+dead_watson: Phew... I finally made it out.
+dead_watson: Woah, where is that light coming from?
+[signal arg="star_appear"]
+[wait time="1.0"]
+dead_watson: Is that really the star?!
+dead_watson: I guess there's only one thing left to do...
+[signal arg="break_it"]
+[wait time="13.0"]
+Watson: Ahhhhhhh....
+Watson: What a beautiful morning for a hike home.
+[signal arg="end"]
+[wait time="3.0" hide_text="false"]

@@ -549,20 +549,66 @@ scale = Vector2(1.545, 1.545)
 theme_override_fonts/font = ExtResource("17_n6o5y")
 text = "or"
 
+[node name="Label2" type="RichTextLabel" parent="TileMap/GUI"]
+modulate = Color(1, 1, 1, 0.5686275)
+texture_filter = 1
+offset_left = 220.06471
+offset_top = -40.129456
+offset_right = 354.65472
+offset_bottom = 5.8705444
+rotation = -0.13962634
+theme_override_fonts/normal_font = ExtResource("17_n6o5y")
+bbcode_enabled = true
+text = " [pulse]Avoid the spike!"
+fit_content = true
+scroll_active = false
+
+[node name="Label3" type="RichTextLabel" parent="TileMap/GUI"]
+modulate = Color(1, 1, 1, 0.5686275)
+texture_filter = 1
+offset_left = 609.70886
+offset_top = -94.4984
+offset_right = 761.27386
+offset_bottom = -55.6784
+rotation = 0.13962634
+theme_override_fonts/normal_font = ExtResource("17_n6o5y")
+bbcode_enabled = true
+text = " [pulse]These mushrooms are 
+       extra bouncy!"
+fit_content = true
+scroll_active = false
+
+[node name="Label4" type="RichTextLabel" parent="TileMap/GUI"]
+modulate = Color(1, 1, 1, 0.5686275)
+texture_filter = 1
+offset_left = 1464.0775
+offset_top = -106.79615
+offset_right = 1615.6426
+offset_bottom = -67.97615
+rotation = 0.13962634
+theme_override_fonts/normal_font = ExtResource("17_n6o5y")
+bbcode_enabled = true
+text = " [pulse]Don't stand on these
+      for too long!"
+fit_content = true
+scroll_active = false
+
 [node name="Sign" type="Sprite2D" parent="TileMap/GUI"]
+visible = false
 position = Vector2(231.71518, -10.355989)
 scale = Vector2(0.6472492, 0.6472492)
 skew = -0.029670598
 texture = ExtResource("15_f3w1p")
 
 [node name="SpikeSignInfo" type="Sprite2D" parent="TileMap/GUI/Sign"]
-position = Vector2(-0.8218994, -6.00264)
+position = Vector2(-0.7922448, -7.003082)
 rotation = -0.12178688
-scale = Vector2(1.2869622, 1.2788541)
+scale = Vector2(1.21, 1.21)
 skew = 0.028989792
 texture = ExtResource("16_m4wt4")
 
 [node name="Sign2" type="Sprite2D" parent="TileMap/GUI"]
+visible = false
 position = Vector2(661.48865, -1.2944984)
 scale = Vector2(0.697, 0.697)
 skew = 0.061086524

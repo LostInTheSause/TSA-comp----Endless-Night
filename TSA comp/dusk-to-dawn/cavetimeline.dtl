@@ -7,20 +7,20 @@ dead_watson: ...Who are you? And where am I?
 dead_watson: Is this heaven?
 "sir charles": Not far from it I'm afraid.
 dead_watson: Wait, what do you mean?
-"sir charles": Don't you see, your dead.
+"sir charles": Don't you see? You're dead.
 [wait time="1.5" hide_text="false"]
-dead_watson: but my wish... I was so close
+dead_watson: but my wish... I was so close.
 dead_watson: Sir! is there a way out of this cave?
 "sir charles": Would I still be here if I knew how to get out?
-dead_watson: Surely there's a way out of here, I can't just stop here.
+dead_watson: Surely there's a way out of here - I can't just stop here.
 dead_watson: I have to break that star.
-"sir charles": break that star..? Wait who told you that son?
-dead_watson: Uhh.. This grandma I met in the woods her name was
-"sir charles":  Jeannette... my little girl is still up there...
-"sir charles": Get out of this cave son, Go tell  Jeannette her grandpops loves her
-dead_watson: Your the Gandpa?!
+"sir charles": break a star..? Who told you this, son?
+dead_watson: Uhh.. This grandma I met in the woods. Her name was...
+"sir charles": Jeannette. My little girl is still up there...
+"sir charles": Get out of this cave son. Go tell  Jeannette her grandpops loves her.
+dead_watson: You're her Grandpa?!
 dead_watson: Will breaking the star truly reverse my wish??
 "sir charles": Yes, it will send you back to when you made the wish.
 dead_watson: So it's not over yet? not for me at least
-"sir charles": Correct. Now go save the world boy.
+"sir charles": Correct. Now go save the world, boy.
 [signal arg="end"]

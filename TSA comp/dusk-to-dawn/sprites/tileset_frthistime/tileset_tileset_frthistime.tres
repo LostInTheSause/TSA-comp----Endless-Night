@@ -1,4 +1,7 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://b8g4qds16m86a"]
+[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://b8g4qds16m86a"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_2yk5k"]
+polygon = PackedVector2Array(-8, 8, -8, -8, 8, -8, 8, 8)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2yk5k"]
 load_path = "res://.godot/imported/tileset_tileset_frthistime.png-fb10b96fe50c0d207f0895731cb6d87e.ctex"
@@ -9,6 +12,7 @@ texture = SubResource("CompressedTexture2D_2yk5k")
 1:1/0 = 0
 1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -8, 8, -8, 8, 8, -4, 8)
 2:1/0 = 0
+2:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_2yk5k")
 2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 3:1/0 = 0
 3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(4, -8, -8, -8, -8, 8, 4, 8)
@@ -80,8 +84,14 @@ texture = SubResource("CompressedTexture2D_2yk5k")
 10:2/0 = 0
 8:2/0 = 0
 8:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(4, 8, 4, -8, -8, -8, -8, 4, -4, 4, -4, 8)
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
 
 [resource]
+occlusion_layer_0/light_mask = 1
 physics_layer_0/collision_layer = 3
 physics_layer_0/collision_mask = 3
 sources/0 = SubResource("TileSetAtlasSource_5kp46")

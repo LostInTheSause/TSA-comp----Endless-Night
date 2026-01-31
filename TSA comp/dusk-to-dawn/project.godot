@@ -35,6 +35,7 @@ directories/dch_directory={
 directories/dtl_directory={
 "Grandma_timeline": "res://Grandma_timeline.dtl",
 "cavetimeline": "res://cavetimeline.dtl",
+"final_timeline": "res://final_timeline.dtl",
 "gradma_timeline2": "res://gradma_timeline2.dtl",
 "opening_imeline": "res://opening_imeline.dtl",
 "opening_timeline_part2": "res://opening_timeline_part2.dtl"

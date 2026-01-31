@@ -23,3 +23,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 func _on_death_in_ghost_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		body._on_death(12)
+
+
+func _on_end_level_body_entered(body: Node2D) -> void:
+	pass # Replace with function body.
